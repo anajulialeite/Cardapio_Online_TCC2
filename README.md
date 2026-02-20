@@ -27,6 +27,8 @@ A logomarca do cardápio e o favicon foram desenvolvidos por mim com o auxílio 
 - HTML 5
 - CSS 3
 - JavaScript
+
+Eles são responsáveis, respectivamente, pela estruturação, estilização e implementação das funcionalidades interativas da aplicação.
   
 ## Instruções pra executar
 
