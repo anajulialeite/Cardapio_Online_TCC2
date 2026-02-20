@@ -1,4 +1,4 @@
-# Cardápio Online TCC2
+# Cardápio Online TCC II
 
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-plain.svg" align="left" width="50" height="50"/>
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-plain.svg" align="left" width="50" height="50"/>
@@ -6,7 +6,7 @@
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vscode/vscode-original.svg" align="left" width="50" height="50"/>
 <img src="Logo/Gemini_Generated_Image_49hozq49hozq49ho-removebg-preview.png" alt="Logo" align="center" width="50" height="50">
 
-Este é o meu projeto de TCC Cardápio Online, aqui vai conter o meu trabalho teórico de TCC 1 e o Projeto na prática, finalizado e testado para o TCC 2.
+Este repositório refere-se ao projeto de Trabalho de Conclusão de Curso (TCC) intitulado Cardápio Online. Nele estão disponíveis tanto o desenvolvimento teórico elaborado na disciplina de TCC I quanto a aplicação prática do projeto, finalizada, implementada e testada para a etapa de TCC II.
 
 ## Projeto Cardápio Online
 
