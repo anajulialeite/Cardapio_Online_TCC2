@@ -20,6 +20,8 @@ Coloquei um modo de claro ou escuro para ajudar na visualização, melhorar o de
 
 O site também contém um barra de buscar para facilitar o usuário na hora de montar o seu pedido. No canto inferior esquerdo, coloquei um balão indicando o whatsapp para facilitar o usuário na hora de tirar alguma dúvida, facilitando o seu contato com o restaurante.
 
+Menu online é totalmente interativo, qualquer forma incorreta de fazer o pedido vai subir uma plaquinha preta com o aviso de erro, assim facilita o usuário a ter uma facilidade maior de acesso e compreensão. 
+
 A logo do cardápio e o favicon, Menu Online, foi feita por mim través do Gemini, uma criação minha que não precisou de licensa para o uso. Todos os emojis eu utilizei através do site Emojipedia.
 
 ## Tecnologias Utilizdas
