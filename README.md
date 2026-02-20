@@ -24,11 +24,7 @@ A logomarca do cardápio e o favicon foram desenvolvidos por mim com o auxílio 
 
 ## Tecnologias Utilizdas
 
-- HTML 5
-- CSS 3
-- JavaScript
-
-Eles são responsáveis, respectivamente, pela estruturação, estilização e implementação das funcionalidades interativas da aplicação.
+O projeto foi desenvolvido utilizando as tecnologias <strong>HTML5, CSS3 e JavaScript</strong>, responsáveis, respectivamente, pela estruturação, estilização e implementação das funcionalidades interativas da aplicação.
   
 ## Instruções pra executar
 
