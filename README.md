@@ -30,7 +30,7 @@ A logo do cardápio e o favicon, Menu Online, foi feita por mim través do Gemin
   
 ## Instruções pra executar
 
-Basta entrar no link do GitHub Pages e fazer o teste, todos os pedidos serão visualizados por mim. Te envio o print do pedido, para mostrar o site funcionando.
+Basta entrar no link do GitHub Pages e fazer o teste, todos os pedidos serão visualizados por mim.
 
 ## Demonstração
 
