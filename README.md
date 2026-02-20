@@ -10,19 +10,17 @@ Este é o meu projeto de TCC Cardápio Online, aqui vai conter o meu trabalho te
 
 ## Projeto Cardápio Online
 
-O projeto chamado Cardápio Online contém uma página index com os tipos de comidas e as informções sobre o restaurante: Carrinho, finalizar pedido e pedido envido.
+O projeto Cardápio Online consiste em um site desenvolvido com o objetivo de facilitar a realização de pedidos em restaurantes de maneira prática, organizada e intuitiva. A aplicação possui uma página inicial (index), na qual são apresentados os tipos de comidas disponíveis e as informações institucionais sobre o restaurante. O sistema também conta com as funcionalidades de carrinho de compras, finalização de pedido e confirmação de envio.
 
-O objetivo do site é você fazer o pedido, fazer o seu cadastro com seus dados pessoais, escolher a forma de pagamento, você escolhe se quer buscar no restaurante ou delivery, o pedido é enviado para o whatsapp do administrador da cozinha e logo é confirmado no próprio site.
+O principal objetivo do site é permitir que o usuário realize seu pedido de forma simples, efetue cadastro com seus dados pessoais, escolha a forma de pagamento e selecione entre retirada no local ou entrega (delivery). Após a finalização, o pedido é automaticamente enviado para o WhatsApp do administrador da cozinha e confirmado no próprio site.
 
-O menu de escolha da comida foi feito em uma barra de rolagem para que o usário tenha a visualização de todas as opções, o site tem uma função de aberto ou fechado referente as informações sobre os horários de funcionamento no final da página.
+O menu de seleção dos alimentos foi estruturado com barra de rolagem, possibilitando ao usuário a visualização completa das opções disponíveis. O site também apresenta um indicador de status informando se o restaurante está aberto ou fechado, com base nos horários de funcionamento exibidos ao final da página. Além disso, foi implementado o modo claro e o modo escuro, com o intuito de melhorar a visualização, aprimorar o design e atender às preferências dos usuários.
 
-Coloquei um modo de claro ou escuro para ajudar na visualização, melhorar o designer e agradar a todos os usuários.
+A plataforma dispõe ainda de uma barra de busca para facilitar a localização dos itens durante a montagem do pedido. No canto inferior esquerdo, foi inserido um ícone flutuante do WhatsApp, permitindo que o usuário entre em contato diretamente com o restaurante para esclarecimento de dúvidas.
 
-O site também contém um barra de buscar para facilitar o usuário na hora de montar o seu pedido. No canto inferior esquerdo, coloquei um balão indicando o whatsapp para facilitar o usuário na hora de tirar alguma dúvida, facilitando o seu contato com o restaurante.
+O menu online é totalmente interativo. Caso o usuário cometa algum erro durante o processo de pedido, uma notificação é exibida na tela com aviso informativo, auxiliando na correção e garantindo melhor experiência de uso.
 
-Menu online é totalmente interativo, qualquer forma incorreta de fazer o pedido vai subir uma plaquinha preta com o aviso de erro, assim facilita o usuário a ter uma facilidade maior de acesso e compreensão. 
-
-A logo do cardápio e o favicon, foi feita por mim través do Gemini, uma criação minha que não precisou de licensa para o uso. Todos os emojis eu utilizei através do site Emojipedia.
+A logomarca do cardápio e o favicon foram desenvolvidos por mim com o auxílio do Gemini, tratando-se de uma criação original que não requer licença para utilização. Os emojis utilizados no projeto foram obtidos por meio do site Emojipedia.
 
 ## Tecnologias Utilizdas
 
