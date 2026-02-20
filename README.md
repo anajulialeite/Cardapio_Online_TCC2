@@ -30,9 +30,9 @@ A logomarca do cardápio e o favicon foram desenvolvidos por mim com o auxílio 
   
 ## Instruções pra executar
 
-Basta entrar no link do Menu Online em Links Úteis, aqui no Readme ou no GitHub Pages, no link da lateral do repositório e fazer o teste, todos os pedidos serão visualizados por mim.
+Basta acessar o link do Menu Online, disponível na seção “Links Úteis” deste README ou no GitHub Pages, localizado na lateral do repositório, para realizar um teste. Todos os pedidos efetuados serão visualizados por mim.
 
-OBS: O pedido mínimo exigido é no valor de dez reais (R$ 10,00).
+Observação: O valor mínimo exigido para realização do pedido é de dez reais (R$ 10,00).
 
 ## Demonstração
 
