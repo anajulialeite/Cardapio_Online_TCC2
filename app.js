@@ -940,19 +940,18 @@ function submitOrder() {
   const total = cart.reduce((a, i) => a + (i.unitPrice * i.qty), 0);
 
   // ENVIAR MENSAGEM NO WHATSAPP
-  // Emojis definidos via Unicode para evitar problemas de codificação
   const EMOJI = {
-    cart: '\uD83D\uDED2',       // 🛒
-    person: '\uD83D\uDC64',     // 👤
-    phone: '\uD83D\uDCDE',      // 📞
-    package: '\uD83D\uDCE6',    // 📦
-    money: '\uD83D\uDCB0',      // 💰
-    bike: '\uD83D\uDEB4',       // 🚴
-    pin: '\uD83D\uDCCD',        // 📍
-    pushpin: '\uD83D\uDCCC',    // 📌
-    card: '\uD83D\uDCB3',       // 💳
-    cash: '\uD83D\uDCB5',       // 💵
-    memo: '\uD83D\uDCDD',       // 📝
+    cart: '🛒',
+    person: '👤',
+    phone: '📞',
+    package: '📦',
+    money: '💰',
+    bike: '🚴',
+    pin: '📍',
+    pushpin: '📌',
+    card: '💳',
+    cash: '💵',
+    memo: '📝',
   };
 
   let msg = `${EMOJI.cart} *NOVO PEDIDO - Menu Online*\n\n`;
@@ -974,12 +973,12 @@ function submitOrder() {
   });
 
   msg += `\n${EMOJI.money} *TOTAL: R$ ${formatPrice(total)}*\n\n`;
-  msg += `${EMOJI.bike} *Entrega:* ${deliveryType === 'delivery' ? 'Delivery' : 'Retirada no Balc\u00E3o'}\n`;
+  msg += `${EMOJI.bike} *Entrega:* ${deliveryType === 'delivery' ? 'Delivery' : 'Retirada no Balcão'}\n`;
   if (deliveryType === 'delivery' && address) {
-    msg += `${EMOJI.pin} *Endere\u00E7o:* ${address}\n`;
-    if (ref) msg += `${EMOJI.pushpin} *Refer\u00EAncia:* ${ref}\n`;
+    msg += `${EMOJI.pin} *Endereço:* ${address}\n`;
+    if (ref) msg += `${EMOJI.pushpin} *Referência:* ${ref}\n`;
   }
-  msg += `${EMOJI.card} *Pagamento:* ${payment === 'dinheiro' ? 'Dinheiro' : payment === 'debito' ? 'D\u00E9bito' : 'Cr\u00E9dito'}\n`;
+  msg += `${EMOJI.card} *Pagamento:* ${payment === 'dinheiro' ? 'Dinheiro' : payment === 'debito' ? 'Débito' : 'Crédito'}\n`;
   if (payment === 'dinheiro' && change) msg += `${EMOJI.cash} *Troco para:* ${change}\n`;
   if (obs) msg += `\n${EMOJI.memo} *Obs:* ${obs}`;
 
