@@ -940,13 +940,28 @@ function submitOrder() {
   const total = cart.reduce((a, i) => a + (i.unitPrice * i.qty), 0);
 
   // ENVIAR MENSAGEM NO WHATSAPP
-  let msg = `🛒 *NOVO PEDIDO - Menu Online*\n\n`;
-  msg += `👤 *Nome:* ${name}\n`;
-  msg += `📞 *Telefone:* ${phone}\n\n`;
+  // Emojis definidos via Unicode para evitar problemas de codificação
+  const EMOJI = {
+    cart: '\uD83D\uDED2',       // 🛒
+    person: '\uD83D\uDC64',     // 👤
+    phone: '\uD83D\uDCDE',      // 📞
+    package: '\uD83D\uDCE6',    // 📦
+    money: '\uD83D\uDCB0',      // 💰
+    bike: '\uD83D\uDEB4',       // 🚴
+    pin: '\uD83D\uDCCD',        // 📍
+    pushpin: '\uD83D\uDCCC',    // 📌
+    card: '\uD83D\uDCB3',       // 💳
+    cash: '\uD83D\uDCB5',       // 💵
+    memo: '\uD83D\uDCDD',       // 📝
+  };
 
-  msg += `📦 *ITENS:*\n`;
+  let msg = `${EMOJI.cart} *NOVO PEDIDO - Menu Online*\n\n`;
+  msg += `${EMOJI.person} *Nome:* ${name}\n`;
+  msg += `${EMOJI.phone} *Telefone:* ${phone}\n\n`;
+
+  msg += `${EMOJI.package} *ITENS:*\n`;
   cart.forEach(item => {
-    msg += `• ${item.qty}x ${item.name} - R$ ${formatPrice(item.unitPrice * item.qty)}\n`;
+    msg += `\u2022 ${item.qty}x ${item.name} - R$ ${formatPrice(item.unitPrice * item.qty)}\n`;
     if (item.complements.length > 0) {
       item.complements.forEach(c => {
         msg += `  _${c.title}: ${c.selections.join(', ')}_\n`;
@@ -958,15 +973,15 @@ function submitOrder() {
     if (item.obs) msg += `  _Obs: ${item.obs}_\n`;
   });
 
-  msg += `\n💰 *TOTAL: R$ ${formatPrice(total)}*\n\n`;
-  msg += `🚴 *Entrega:* ${deliveryType === 'delivery' ? 'Delivery' : 'Retirada no Balcão'}\n`;
+  msg += `\n${EMOJI.money} *TOTAL: R$ ${formatPrice(total)}*\n\n`;
+  msg += `${EMOJI.bike} *Entrega:* ${deliveryType === 'delivery' ? 'Delivery' : 'Retirada no Balc\u00E3o'}\n`;
   if (deliveryType === 'delivery' && address) {
-    msg += `📍 *Endereço:* ${address}\n`;
-    if (ref) msg += `📌 *Referência:* ${ref}\n`;
+    msg += `${EMOJI.pin} *Endere\u00E7o:* ${address}\n`;
+    if (ref) msg += `${EMOJI.pushpin} *Refer\u00EAncia:* ${ref}\n`;
   }
-  msg += `💳 *Pagamento:* ${payment === 'dinheiro' ? 'Dinheiro' : payment === 'debito' ? 'Débito' : 'Crédito'}\n`;
-  if (payment === 'dinheiro' && change) msg += `💵 *Troco para:* ${change}\n`;
-  if (obs) msg += `\n📝 *Obs:* ${obs}`;
+  msg += `${EMOJI.card} *Pagamento:* ${payment === 'dinheiro' ? 'Dinheiro' : payment === 'debito' ? 'D\u00E9bito' : 'Cr\u00E9dito'}\n`;
+  if (payment === 'dinheiro' && change) msg += `${EMOJI.cash} *Troco para:* ${change}\n`;
+  if (obs) msg += `\n${EMOJI.memo} *Obs:* ${obs}`;
 
   const url = `https://wa.me/5561996773513?text=${encodeURIComponent(msg)}`;
   window.open(url, '_blank');
