@@ -45,6 +45,7 @@ Em conformidade com a Lei Geral de Proteção de Dados (LGPD – Lei nº 13.709/
 <a href="https://anajulialeite.github.io/Cardapio_Online_TCC_II/" style="text-decoration:none" target="_blank" rel="noopener noreferrer">
     <img src="https://img.shields.io/static/v1?label=Menu&message=Online&color=d4a530&labelColor=000000&style=for-the-badge" alt="Menu Online"/>
 </a>
+<br></br>
 
 - [Emojipedia](https://emojipedia.org/)
 
