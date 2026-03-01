@@ -22,7 +22,7 @@ O menu online é totalmente interativo. Caso o usuário cometa algum erro durant
 
 A logomarca do cardápio e o favicon foram desenvolvidos por mim com o auxílio do Gemini, tratando-se de uma criação original que não requer licença para utilização. Os emojis utilizados no projeto foram obtidos por meio do site Emojipedia.
 
-## Tecnologias Utilizdas
+## Tecnologias Utilizadas
 
 O projeto foi desenvolvido utilizando as tecnologias <strong>HTML5, CSS3 e JavaScript</strong>, responsáveis, respectivamente, pela estruturação, estilização e implementação das funcionalidades interativas da aplicação.
   
