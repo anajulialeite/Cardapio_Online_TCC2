@@ -22,7 +22,7 @@ O menu online é totalmente interativo. Caso o usuário cometa algum erro durant
 
 A logomarca do cardápio e o favicon foram desenvolvidos por mim com o auxílio do Gemini, tratando-se de uma criação original que não requer licença para utilização. Os emojis utilizados no projeto foram obtidos por meio do site Emojipedia.
 
-## Tecnologias Utilizdas
+## Tecnologias Utilizadas
 
 O projeto foi desenvolvido utilizando as tecnologias <strong>HTML5, CSS3 e JavaScript</strong>, responsáveis, respectivamente, pela estruturação, estilização e implementação das funcionalidades interativas da aplicação.
   
@@ -42,11 +42,12 @@ Em conformidade com a Lei Geral de Proteção de Dados (LGPD – Lei nº 13.709/
 
 ## Links Úteis
 
-- [Emojipedia](https://emojipedia.org/)
-
 <a href="https://anajulialeite.github.io/Cardapio_Online_TCC_II/" style="text-decoration:none" target="_blank" rel="noopener noreferrer">
     <img src="https://img.shields.io/static/v1?label=Menu&message=Online&color=d4a530&labelColor=000000&style=for-the-badge" alt="Menu Online"/>
 </a>
+<br></br>
+
+- [Emojipedia](https://emojipedia.org/)
 
 ## Autora
 
