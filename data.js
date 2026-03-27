@@ -24,7 +24,7 @@ const STORE_INFO = {
     { name: "Dinheiro", accepted: true, icon: "💵" },
     { name: "Cartão de Débito", accepted: true, icon: "💳" },
     { name: "Cartão de Crédito", accepted: true, icon: "💳" },
-    { name: "Pix", accepted: false, icon: "📱" },
+    { name: "Pix", accepted: true, icon: "📱" },
   ],
 };
 
