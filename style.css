@@ -1443,6 +1443,275 @@ ul {
 }
 
 /* =============================================
+   PIX MODAL
+   ============================================= */
+.pix-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(6px);
+  z-index: 5000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: var(--transition);
+}
+
+.pix-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.pix-modal {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  width: 90%;
+  max-width: 440px;
+  max-height: 90vh;
+  overflow-y: auto;
+  transform: scale(0.9);
+  transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.pix-overlay.active .pix-modal {
+  transform: scale(1);
+}
+
+.pix-modal__header {
+  padding: 16px 24px;
+  background: var(--accent);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+.pix-modal__header h2 {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.pix-modal__close {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  transition: var(--transition);
+}
+
+.pix-modal__close:hover {
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.pix-modal__body {
+  padding: 16px 20px;
+}
+
+.pix-modal__status {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 30px 20px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.pix-modal__spinner {
+  width: 36px;
+  height: 36px;
+  border: 4px solid var(--border);
+  border-top: 4px solid var(--accent);
+  border-radius: 50%;
+  animation: pixSpin 1s linear infinite;
+}
+
+@keyframes pixSpin {
+  to { transform: rotate(360deg); }
+}
+
+.pix-modal__qr {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.pix-modal__instruction {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+.pix-modal__qr-img {
+  width: 160px;
+  height: 160px;
+  border-radius: var(--radius);
+  border: 2px solid var(--accent);
+  padding: 6px;
+  background: white;
+}
+
+.pix-modal__divider {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 12px;
+  color: var(--text-light);
+  font-size: 13px;
+}
+
+.pix-modal__divider::before,
+.pix-modal__divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.pix-modal__copy-area {
+  display: flex;
+  width: 100%;
+  gap: 8px;
+}
+
+.pix-modal__copy-area input {
+  flex: 1;
+  padding: 10px 14px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  background: var(--bg);
+  color: var(--text-primary);
+  min-width: 0;
+}
+
+.pix-modal__copy-btn {
+  padding: 10px 16px;
+  background: var(--accent);
+  color: white;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: var(--transition);
+}
+
+.pix-modal__copy-btn:hover {
+  background: var(--accent-dark);
+  transform: translateY(-1px);
+}
+
+.pix-modal__timer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(212, 165, 48, 0.08);
+  border-radius: 50px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--accent-dark);
+}
+
+.pix-modal__amount {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+.pix-modal__success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 32px 20px;
+  text-align: center;
+}
+
+.pix-modal__success-icon {
+  font-size: 64px;
+  animation: bounceIn 0.6s ease;
+}
+
+.pix-modal__success h3 {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--success);
+}
+
+.pix-modal__success p {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.pix-modal__success-btn {
+  margin-top: 8px;
+  padding: 14px 28px;
+  background: var(--accent);
+  color: white;
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  font-weight: 700;
+  transition: var(--transition);
+}
+
+.pix-modal__success-btn:hover {
+  background: var(--accent-dark);
+  transform: translateY(-1px);
+}
+
+.pix-modal__error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 32px 20px;
+  text-align: center;
+}
+
+.pix-modal__error-icon {
+  font-size: 64px;
+}
+
+.pix-modal__error h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #e53935;
+}
+
+.pix-modal__error p {
+  font-size: 13px;
+  color: var(--text-secondary);
+  max-width: 300px;
+}
+
+.pix-modal__error-btn {
+  padding: 12px 28px;
+  background: var(--border);
+  color: var(--text-primary);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 600;
+  transition: var(--transition);
+}
+
+.pix-modal__error-btn:hover {
+  background: var(--text-light);
+  color: white;
+}
+
+/* =============================================
    PIZZA BUILDER MODAL
    ============================================= */
 .pizza-sizes {
