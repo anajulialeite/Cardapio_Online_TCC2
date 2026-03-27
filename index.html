@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" data-theme="dark">
 
 <head>
   <meta charset="UTF-8">
@@ -157,6 +157,50 @@
   <!-- ========== CHECKOUT MODAL ========== -->
   <div class="checkout-overlay" id="checkoutOverlay">
     <div class="checkout" id="checkoutContent"></div>
+  </div>
+
+  <!-- ========== PIX MODAL ========== -->
+  <div class="pix-overlay" id="pixOverlay">
+    <div class="pix-modal">
+      <div class="pix-modal__header">
+        <h2>📱 Pagamento via PIX</h2>
+        <button class="pix-modal__close" onclick="closePixModal()">✕</button>
+      </div>
+      <div class="pix-modal__body">
+        <div class="pix-modal__status" id="pixStatus">
+          <div class="pix-modal__spinner"></div>
+          <span>Gerando QR Code...</span>
+        </div>
+        <div class="pix-modal__qr" id="pixQrContainer" style="display:none;">
+          <p class="pix-modal__instruction">Escaneie o QR Code com o app do seu banco:</p>
+          <img id="pixQrImage" class="pix-modal__qr-img" alt="QR Code PIX">
+          <div class="pix-modal__divider">
+            <span>ou copie o código</span>
+          </div>
+          <div class="pix-modal__copy-area">
+            <input type="text" id="pixCopyCode" readonly>
+            <button class="pix-modal__copy-btn" onclick="copyPixCode()">📋 Copiar</button>
+          </div>
+          <div class="pix-modal__timer" id="pixTimer">
+            <span class="pix-modal__timer-icon">⏱️</span>
+            <span id="pixTimerText">Aguardando pagamento...</span>
+          </div>
+          <div class="pix-modal__amount" id="pixAmount"></div>
+        </div>
+        <div class="pix-modal__success" id="pixSuccess" style="display:none;">
+          <div class="pix-modal__success-icon">✅</div>
+          <h3>Pagamento Confirmado!</h3>
+          <p>Seu pedido foi pago com sucesso.</p>
+          <button class="pix-modal__success-btn" onclick="finishPixOrder()">Enviar Pedido via WhatsApp</button>
+        </div>
+        <div class="pix-modal__error" id="pixError" style="display:none;">
+          <div class="pix-modal__error-icon">❌</div>
+          <h3>Erro ao gerar PIX</h3>
+          <p id="pixErrorText">Tente novamente.</p>
+          <button class="pix-modal__error-btn" onclick="closePixModal()">Fechar</button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- ========== TOAST ========== -->
