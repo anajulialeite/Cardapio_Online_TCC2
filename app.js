@@ -2,6 +2,9 @@
 // CARDÁPIO ONLINE - APP.JS
 // =============================================
 
+// URL DO SERVIDOR PIX
+const PIX_SERVER_URL = 'http://localhost:3001';
+
 // STATUS
 let cart = JSON.parse(localStorage.getItem('cart') || '[]');
 let currentProduct = null;
@@ -855,6 +858,7 @@ function openCheckout() {
             <option value="dinheiro">💵 Dinheiro</option>
             <option value="debito">💳 Cartão de Débito</option>
             <option value="credito">💳 Cartão de Crédito</option>
+            <option value="pix">📱 Pix</option>
           </select>
         </div>
         <div id="changeFields">
@@ -893,6 +897,13 @@ function openCheckout() {
   // ALTERNAR O TIPO DE PAGAMENTO
   document.getElementById('checkPayment').addEventListener('change', (e) => {
     document.getElementById('changeFields').style.display = e.target.value === 'dinheiro' ? 'block' : 'none';
+    // Alterar botão de submit quando PIX for selecionado
+    const submitBtn = document.querySelector('.checkout__submit');
+    if (e.target.value === 'pix') {
+      submitBtn.innerHTML = '📱 Pagar com PIX';
+    } else {
+      submitBtn.innerHTML = '✅ Enviar Pedido via WhatsApp';
+    }
   });
 
   document.getElementById('checkoutOverlay').classList.add('active');
@@ -939,7 +950,22 @@ function submitOrder() {
   const obs = document.getElementById('checkObs')?.value?.trim() || '';
   const total = cart.reduce((a, i) => a + (i.unitPrice * i.qty), 0);
 
-  // ENVIAR MENSAGEM NO WHATSAPP
+  // SE FOR PIX, ABRE O MODAL PIX
+  if (payment === 'pix') {
+    // Salvar dados do pedido para enviar no WhatsApp depois
+    window._pixOrderData = { name, phone, deliveryType, address, ref, obs, total };
+    createPixPayment(total, name);
+    return;
+  }
+
+  // FLUXO NORMAL - ENVIAR NO WHATSAPP
+  sendWhatsAppOrder({ name, phone, deliveryType, address, ref, payment, change, obs, total });
+}
+
+// =============================================
+// ENVIAR PEDIDO VIA WHATSAPP
+// =============================================
+function sendWhatsAppOrder({ name, phone, deliveryType, address, ref, payment, change, obs, total, pixPago }) {
   const EMOJI = {
     cart: '🛒',
     person: '👤',
@@ -952,6 +978,7 @@ function submitOrder() {
     card: '💳',
     cash: '💵',
     memo: '📝',
+    pix: '📱',
   };
 
   let msg = `${EMOJI.cart} *NOVO PEDIDO - Menu Online*\n\n`;
@@ -978,8 +1005,14 @@ function submitOrder() {
     msg += `${EMOJI.pin} *Endereço:* ${address}\n`;
     if (ref) msg += `${EMOJI.pushpin} *Referência:* ${ref}\n`;
   }
-  msg += `${EMOJI.card} *Pagamento:* ${payment === 'dinheiro' ? 'Dinheiro' : payment === 'debito' ? 'Débito' : 'Crédito'}\n`;
-  if (payment === 'dinheiro' && change) msg += `${EMOJI.cash} *Troco para:* ${change}\n`;
+
+  if (pixPago) {
+    msg += `${EMOJI.pix} *Pagamento:* PIX ✅ (Já pago)\n`;
+  } else {
+    const paymentLabel = payment === 'dinheiro' ? 'Dinheiro' : payment === 'debito' ? 'Débito' : 'Crédito';
+    msg += `${EMOJI.card} *Pagamento:* ${paymentLabel}\n`;
+    if (payment === 'dinheiro' && change) msg += `${EMOJI.cash} *Troco para:* ${change}\n`;
+  }
   if (obs) msg += `\n${EMOJI.memo} *Obs:* ${obs}`;
 
   const url = `https://wa.me/5561996773513?text=${encodeURIComponent(msg)}`;
@@ -988,6 +1021,128 @@ function submitOrder() {
   // Show success
   showOrderSuccess();
 }
+
+// =============================================
+// PIX - MERCADO PAGO
+// =============================================
+let pixPollingInterval = null;
+
+async function createPixPayment(amount, payerName) {
+  // Abrir modal PIX
+  document.getElementById('pixOverlay').classList.add('active');
+  document.getElementById('pixStatus').style.display = 'flex';
+  document.getElementById('pixQrContainer').style.display = 'none';
+  document.getElementById('pixSuccess').style.display = 'none';
+  document.getElementById('pixError').style.display = 'none';
+  document.body.style.overflow = 'hidden';
+
+  try {
+    const response = await fetch(`${PIX_SERVER_URL}/create-pix`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        amount: amount,
+        description: `Pedido - Menu Online - ${payerName}`,
+        payerEmail: 'cliente@menuonline.com',
+        payerFirstName: payerName.split(' ')[0],
+        payerLastName: payerName.split(' ').slice(1).join(' ') || 'Cliente',
+      }),
+    });
+
+    if (!response.ok) throw new Error('Erro na resposta do servidor');
+
+    const data = await response.json();
+
+    if (!data.qrCodeBase64 || !data.qrCode) {
+      throw new Error('QR Code não retornado pela API');
+    }
+
+    // Exibir QR Code
+    document.getElementById('pixStatus').style.display = 'none';
+    document.getElementById('pixQrContainer').style.display = 'flex';
+    document.getElementById('pixQrImage').src = `data:image/png;base64,${data.qrCodeBase64}`;
+    document.getElementById('pixCopyCode').value = data.qrCode;
+    document.getElementById('pixAmount').textContent = `Valor: R$ ${formatPrice(amount)}`;
+
+    // Iniciar polling do status
+    startPixPolling(data.id);
+
+  } catch (error) {
+    console.error('Erro PIX:', error);
+    document.getElementById('pixStatus').style.display = 'none';
+    document.getElementById('pixError').style.display = 'flex';
+    document.getElementById('pixErrorText').textContent = 
+      error.message.includes('Failed to fetch') 
+        ? 'Servidor PIX não encontrado. Verifique se o servidor está rodando (npm start na pasta server/).'
+        : error.message;
+  }
+}
+
+function startPixPolling(paymentId) {
+  if (pixPollingInterval) clearInterval(pixPollingInterval);
+
+  let seconds = 0;
+  pixPollingInterval = setInterval(async () => {
+    seconds += 3;
+    const minutes = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    document.getElementById('pixTimerText').textContent = 
+      `Aguardando pagamento... ${minutes}:${secs.toString().padStart(2, '0')}`;
+
+    // Timeout após 10 minutos
+    if (seconds >= 600) {
+      clearInterval(pixPollingInterval);
+      document.getElementById('pixTimerText').textContent = 'Tempo esgotado. Gere um novo QR Code.';
+      return;
+    }
+
+    try {
+      const response = await fetch(`${PIX_SERVER_URL}/payment-status/${paymentId}`);
+      const data = await response.json();
+
+      if (data.status === 'approved') {
+        clearInterval(pixPollingInterval);
+        // Mostrar sucesso
+        document.getElementById('pixQrContainer').style.display = 'none';
+        document.getElementById('pixSuccess').style.display = 'flex';
+      }
+    } catch (error) {
+      console.error('Erro ao verificar status:', error);
+    }
+  }, 3000);
+}
+
+function copyPixCode() {
+  const input = document.getElementById('pixCopyCode');
+  input.select();
+  navigator.clipboard.writeText(input.value).then(() => {
+    showToast('Código PIX copiado!', '📋');
+  }).catch(() => {
+    // Fallback para navegadores mais antigos
+    document.execCommand('copy');
+    showToast('Código PIX copiado!', '📋');
+  });
+}
+
+function closePixModal() {
+  if (pixPollingInterval) clearInterval(pixPollingInterval);
+  document.getElementById('pixOverlay').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function finishPixOrder() {
+  closePixModal();
+  // Enviar pedido via WhatsApp com indicação de que PIX já foi pago
+  const orderData = window._pixOrderData;
+  if (orderData) {
+    sendWhatsAppOrder({ ...orderData, pixPago: true });
+  }
+}
+
+// Fechar PIX modal ao clicar no overlay
+document.getElementById('pixOverlay').addEventListener('click', (e) => {
+  if (e.target.id === 'pixOverlay') closePixModal();
+});
 
 function showOrderSuccess() {
   const container = document.getElementById('checkoutContent');
