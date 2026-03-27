@@ -1081,20 +1081,27 @@ async function createPixPayment(amount, payerName) {
 function startPixPolling(paymentId) {
   if (pixPollingInterval) clearInterval(pixPollingInterval);
 
-  let seconds = 0;
-  pixPollingInterval = setInterval(async () => {
-    seconds += 3;
-    const minutes = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    document.getElementById('pixTimerText').textContent = 
-      `Aguardando pagamento... ${minutes}:${secs.toString().padStart(2, '0')}`;
+  const totalSeconds = 30 * 60; // 30 minutos
+  let elapsed = 0;
 
-    // Timeout após 10 minutos
-    if (seconds >= 600) {
+  // Mostrar tempo inicial
+  document.getElementById('pixTimerText').textContent = 'Você tem 30:00 para realizar o pagamento!';
+
+  pixPollingInterval = setInterval(async () => {
+    elapsed += 3;
+    const remaining = totalSeconds - elapsed;
+
+    if (remaining <= 0) {
       clearInterval(pixPollingInterval);
-      document.getElementById('pixTimerText').textContent = 'Tempo esgotado. Gere um novo QR Code.';
+      document.getElementById('pixTimerText').textContent = '⚠️ Tempo esgotado! Gere um novo QR Code.';
+      document.getElementById('pixTimer').style.color = '#e53935';
       return;
     }
+
+    const minutes = Math.floor(remaining / 60);
+    const secs = remaining % 60;
+    document.getElementById('pixTimerText').textContent = 
+      `Realize o pagamento em ${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
 
     try {
       const response = await fetch(`${PIX_SERVER_URL}/payment-status/${paymentId}`);
