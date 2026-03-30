@@ -963,22 +963,47 @@ function submitOrder() {
 }
 
 // =============================================
-// ENVIAR PEDIDO VIA WHATSAPP
+// ENVIAR PEDIDO VIA WHATSAPP (COM PROTEÇÃO DB)
 // =============================================
-function sendWhatsAppOrder({ name, phone, deliveryType, address, ref, payment, change, obs, total, pixPago }) {
+async function sendWhatsAppOrder({ name, phone, deliveryType, address, ref, payment, change, obs, total, pixPago }) {
+  // 1. SALVAR NO BANCO PRIMEIRO
+  let pedidoId = null;
+  try {
+    const itens = cart.map(item => ({
+      nome: item.name,
+      quantidade: item.qty,
+      preco: item.unitPrice * item.qty,
+    }));
+
+    const response = await fetch(`${PIX_SERVER_URL}/orders`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        nomeCliente: name,
+        telefone: phone,
+        endereco: deliveryType === 'delivery' ? address : 'Retirada no Balcão',
+        observacao: obs || null,
+        total: total,
+        itens: itens,
+      }),
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      pedidoId = data.id;
+      console.log(`📦 Pedido #${pedidoId} salvo no banco`);
+    } else {
+      console.warn('⚠️ Não foi possível salvar no banco, continuando com WhatsApp...');
+    }
+  } catch (err) {
+    console.warn('⚠️ Servidor indisponível, continuando com WhatsApp...', err.message);
+  }
+
+  // 2. MONTAR MENSAGEM WHATSAPP
   const EMOJI = {
-    cart: '🛒',
-    person: '👤',
-    phone: '📞',
-    package: '📦',
-    money: '💰',
-    bike: '🚴',
-    pin: '📍',
-    pushpin: '📌',
-    card: '💳',
-    cash: '💵',
-    memo: '📝',
-    pix: '📱',
+    cart: '🛒', person: '👤', phone: '📞', package: '📦',
+    money: '💰', bike: '🚴', pin: '📍', pushpin: '📌',
+    card: '💳', cash: '💵', memo: '📝', pix: '📱',
   };
 
   let msg = `${EMOJI.cart} *NOVO PEDIDO - Menu Online*\n\n`;
@@ -1015,10 +1040,25 @@ function sendWhatsAppOrder({ name, phone, deliveryType, address, ref, payment, c
   }
   if (obs) msg += `\n${EMOJI.memo} *Obs:* ${obs}`;
 
+  // 3. ABRIR WHATSAPP
   const url = `https://wa.me/5561996773513?text=${encodeURIComponent(msg)}`;
   window.open(url, '_blank');
 
-  // Show success
+  // 4. MARCAR COMO ENVIADO NO BANCO
+  if (pedidoId) {
+    try {
+      await fetch(`${PIX_SERVER_URL}/orders/${pedidoId}/status`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: 'enviado' }),
+      });
+      console.log(`✅ Pedido #${pedidoId} marcado como enviado`);
+    } catch (err) {
+      console.warn('⚠️ Não foi possível atualizar status no banco');
+    }
+  }
+
+  // 5. MOSTRAR SUCESSO
   showOrderSuccess();
 }
 
