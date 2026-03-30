@@ -10,8 +10,19 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: [
+    'https://anajulialeite.github.io',
+    'http://localhost:5500',
+    'http://127.0.0.1:5500'
+  ]
+}));
 app.use(express.json());
+
+// Health check
+app.get('/', (req, res) => {
+  res.json({ status: 'ok', message: 'Servidor PIX ativo!' });
+});
 
 // Configurar Mercado Pago
 const client = new MercadoPagoConfig({
