@@ -103,7 +103,11 @@ app.get('/payment-status/:id', async (req, res) => {
 // =============================================
 app.post('/orders', async (req, res) => {
   try {
-    const { nomeCliente, telefone, endereco, observacao, total, itens } = req.body;
+    const {
+      nomeCliente, telefone, endereco, referencia,
+      observacao, total, itens,
+      formaPagamento, tipoEntrega, trocoPara, pixPago
+    } = req.body;
 
     // Validações
     if (!nomeCliente || !telefone) {
@@ -115,14 +119,22 @@ app.post('/orders', async (req, res) => {
     if (!total || total <= 0) {
       return res.status(400).json({ error: 'Total inválido' });
     }
+    if (total < 10) {
+      return res.status(400).json({ error: 'Pedido mínimo de R$ 10,00' });
+    }
 
     const pedidoId = await db.salvarPedido({
       nomeCliente,
       telefone,
       endereco,
+      referencia,
       observacao,
       total,
       itens,
+      formaPagamento,
+      tipoEntrega,
+      trocoPara,
+      pixPago,
     });
 
     res.status(201).json({
