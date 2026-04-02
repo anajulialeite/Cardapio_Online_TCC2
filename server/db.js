@@ -1,17 +1,43 @@
 // =============================================
 // CONEXÃO COM SQL SERVER
 // =============================================
-const sql = require('mssql/msnodesqlv8');
 
-const dbConfig = {
-  connectionString: `Driver={ODBC Driver 17 for SQL Server};Server=${process.env.DB_SERVER || 'localhost\\SQLEXPRESS'};Database=${process.env.DB_DATABASE || 'CardapioOnline'};Trusted_Connection=yes;`,
-  pool: {
-    max: 10,
-    min: 0,
-    idleTimeoutMillis: 30000,
-  },
-};
+let sql, dbConfig, useNativeDriver;
 
+// Tentar usar driver nativo (Windows) primeiro, senão usar tedious (Linux/Nuvem)
+try {
+  sql = require('mssql/msnodesqlv8');
+  useNativeDriver = true;
+  dbConfig = {
+    connectionString: `Driver={ODBC Driver 17 for SQL Server};Server=${process.env.DB_SERVER || 'localhost\\SQLEXPRESS'};Database=${process.env.DB_DATABASE || 'CardapioOnline'};Trusted_Connection=yes;`,
+    pool: {
+      max: 10,
+      min: 0,
+      idleTimeoutMillis: 30000,
+    },
+  };
+  console.log('📦 Driver nativo (msnodesqlv8) detectado');
+} catch (e) {
+  sql = require('mssql');
+  useNativeDriver = false;
+  dbConfig = {
+    server: process.env.DB_SERVER || 'localhost',
+    database: process.env.DB_DATABASE || 'CardapioOnline',
+    user: process.env.DB_USER || '',
+    password: process.env.DB_PASSWORD || '',
+    port: parseInt(process.env.DB_PORT || '1433'),
+    options: {
+      encrypt: true,
+      trustServerCertificate: true,
+    },
+    pool: {
+      max: 10,
+      min: 0,
+      idleTimeoutMillis: 30000,
+    },
+  };
+  console.log('📦 Usando driver tedious (compatível com nuvem)');
+}
 
 let pool = null;
 
@@ -45,12 +71,17 @@ async function salvarPedido(pedido) {
       .input('NomeCliente', sql.NVarChar(100), pedido.nomeCliente)
       .input('Telefone', sql.NVarChar(20), pedido.telefone)
       .input('Endereco', sql.NVarChar(255), pedido.endereco || null)
-      .input('Observacao', sql.NVarChar(255), pedido.observacao || null)
+      .input('Referencia', sql.NVarChar(255), pedido.referencia || null)
+      .input('Observacao', sql.NVarChar(500), pedido.observacao || null)
       .input('Total', sql.Decimal(10, 2), pedido.total)
+      .input('FormaPagamento', sql.NVarChar(20), pedido.formaPagamento || 'dinheiro')
+      .input('TipoEntrega', sql.NVarChar(20), pedido.tipoEntrega || 'delivery')
+      .input('TrocoPara', sql.NVarChar(20), pedido.trocoPara || null)
+      .input('PixPago', sql.Bit, pedido.pixPago ? 1 : 0)
       .query(`
-        INSERT INTO Pedidos (NomeCliente, Telefone, Endereco, Observacao, Total)
+        INSERT INTO Pedidos (NomeCliente, Telefone, Endereco, Referencia, Observacao, Total, FormaPagamento, TipoEntrega, TrocoPara, PixPago)
         OUTPUT INSERTED.Id
-        VALUES (@NomeCliente, @Telefone, @Endereco, @Observacao, @Total)
+        VALUES (@NomeCliente, @Telefone, @Endereco, @Referencia, @Observacao, @Total, @FormaPagamento, @TipoEntrega, @TrocoPara, @PixPago)
       `);
 
     const pedidoId = result.recordset[0].Id;
@@ -62,9 +93,12 @@ async function salvarPedido(pedido) {
         .input('NomeProduto', sql.NVarChar(100), item.nome)
         .input('Quantidade', sql.Int, item.quantidade)
         .input('Preco', sql.Decimal(10, 2), item.preco)
+        .input('Complementos', sql.NVarChar(500), item.complementos || null)
+        .input('Extras', sql.NVarChar(500), item.extras || null)
+        .input('Observacao', sql.NVarChar(255), item.observacao || null)
         .query(`
-          INSERT INTO ItensPedido (PedidoId, NomeProduto, Quantidade, Preco)
-          VALUES (@PedidoId, @NomeProduto, @Quantidade, @Preco)
+          INSERT INTO ItensPedido (PedidoId, NomeProduto, Quantidade, Preco, Complementos, Extras, Observacao)
+          VALUES (@PedidoId, @NomeProduto, @Quantidade, @Preco, @Complementos, @Extras, @Observacao)
         `);
     }
 
@@ -95,7 +129,7 @@ async function buscarPendentes() {
   const result = await db.request()
     .query(`
       SELECT p.*, 
-        (SELECT i.NomeProduto, i.Quantidade, i.Preco
+        (SELECT i.NomeProduto, i.Quantidade, i.Preco, i.Complementos, i.Extras, i.Observacao
          FROM ItensPedido i WHERE i.PedidoId = p.Id
          FOR JSON PATH) AS Itens
       FROM Pedidos p
