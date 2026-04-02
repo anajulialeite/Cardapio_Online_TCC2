@@ -59,4 +59,4 @@ Ana Júlia de Lima Aguiar Leite
 
 ## License
 
-[![MIT License](https://img.shields.io/badge/License-MIT-%231C003F.svg)](./LICENSE)
+[![License: Proprietary](https://img.shields.io/badge/License-Proprietary-%231C003F.svg)](./LICENSE)
