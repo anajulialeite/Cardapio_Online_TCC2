@@ -59,4 +59,4 @@ Ana Júlia de Lima Aguiar Leite
 
 ## License
 
-[![AJ - Criar e Desenvolver](https://img.shields.io/badge/AJ%20Criar%20e%20Desenvolver-Licença%20Proprietária-%231C003F.svg)](./LICENSE)
+[![AJ - Criar e Desenvolver](https://img.shields.io/badge/AJ%20Criar%20e%20Desenvolver-Licença%20Proprietária-FF1493?labelColor=6A0DAD)](./LICENSE)
