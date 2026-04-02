@@ -34,7 +34,7 @@ Observação: O valor mínimo exigido para realização do pedido é de dez reai
 
 ## Observação
 
-Em conformidade com a Lei Geral de Proteção de Dados (LGPD – Lei nº 13.709/2018), todos os usuários que testarem o site terão seus dados protegidos e tratados com responsabilidade. As informações fornecidas não serão utilizadas de má-fé nem compartilhadas com terceiros. Os dados coletados destinam-se exclusivamente à demonstração do funcionamento do sistema, podendo ser utilizados apenas para comprovação, por meio de captura de tela (print), de que o site está operando corretamente.
+Em conformidade com a Lei Geral de Proteção de Dados (LGPD – Lei nº 13.709/2018), todos os usuários que testarem o site terão seus dados protegidos e tratados com responsabilidade. As informações fornecidas não serão utilizadas de má-fé nem compartilhadas com terceiros. Os dados coletados destinam-se exclusivamente à demonstração do funcionamento do sistema, podendo ser utilizados apenas para comprovação de que o site está operando corretamente.
 
 ## Demonstração
 
