@@ -4,7 +4,8 @@
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-plain.svg" align="left" width="50" height="50"/>
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-plain.svg" align="left" width="50" height="50"/>
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vscode/vscode-original.svg" align="left" width="50" height="50"/>
-<img src="Logo/Gemini_Generated_Image_49hozq49hozq49ho-removebg-preview.png" alt="Logo" align="center" width="50" height="50">
+<img src="Logo/Gemini_Generated_Image_49hozq49hozq49ho-removebg-preview.png" alt="Logo" align="left" width="50" height="50">
+<img src="AJ - Criar e desenvolver (sem símbolo do Gemini).png" alt="Logo" align="center" width="65" height="65">
 
 Este repositório refere-se ao projeto de Trabalho de Conclusão de Curso (TCC) intitulado Cardápio Online. Nele estão disponíveis tanto o desenvolvimento teórico elaborado na disciplina de TCC I quanto a aplicação prática do projeto, finalizada, implementada e testada para a etapa de TCC II.
 
