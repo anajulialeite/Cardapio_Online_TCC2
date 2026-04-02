@@ -973,6 +973,13 @@ async function sendWhatsAppOrder({ name, phone, deliveryType, address, ref, paym
       nome: item.name,
       quantidade: item.qty,
       preco: item.unitPrice * item.qty,
+      complementos: item.complements.length > 0
+        ? item.complements.map(c => `${c.title}: ${c.selections.join(', ')}`).join(' | ')
+        : null,
+      extras: item.extras.length > 0
+        ? item.extras.map(e => e.name).join(', ')
+        : null,
+      observacao: item.obs || null,
     }));
 
     const response = await fetch(`${PIX_SERVER_URL}/orders`, {
@@ -982,9 +989,14 @@ async function sendWhatsAppOrder({ name, phone, deliveryType, address, ref, paym
         nomeCliente: name,
         telefone: phone,
         endereco: deliveryType === 'delivery' ? address : 'Retirada no Balcão',
+        referencia: deliveryType === 'delivery' ? (ref || null) : null,
         observacao: obs || null,
         total: total,
         itens: itens,
+        formaPagamento: pixPago ? 'pix' : (payment || 'dinheiro'),
+        tipoEntrega: deliveryType || 'delivery',
+        trocoPara: payment === 'dinheiro' ? (change || null) : null,
+        pixPago: pixPago || false,
       }),
     });
 
