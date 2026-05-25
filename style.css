@@ -33,6 +33,7 @@
 
 /* ---- Dark Mode ---- */
 [data-theme="dark"] {
+  color-scheme: dark;
   --bg: #121212;
   --surface: #1e1e1e;
   --text-primary: #e0e0e0;
@@ -70,6 +71,45 @@
 [data-theme="dark"] .checkout__input-group select:focus {
   background: #000000;
   color: #ffffff;
+}
+
+/* Autofill overrides for all screen sizes and dark mode inputs */
+[data-theme="dark"] input:-webkit-autofill,
+[data-theme="dark"] textarea:-webkit-autofill,
+[data-theme="dark"] select:-webkit-autofill,
+[data-theme="dark"] input:-webkit-autofill:hover,
+[data-theme="dark"] textarea:-webkit-autofill:hover,
+[data-theme="dark"] select:-webkit-autofill:hover,
+[data-theme="dark"] input:-webkit-autofill:focus,
+[data-theme="dark"] textarea:-webkit-autofill:focus,
+[data-theme="dark"] select:-webkit-autofill:focus,
+[data-theme="dark"] input:-webkit-autofill:active,
+[data-theme="dark"] textarea:-webkit-autofill:active,
+[data-theme="dark"] select:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px #000000 inset !important;
+  -webkit-text-fill-color: #ffffff !important;
+  box-shadow: 0 0 0 1000px #000000 inset !important;
+  transition: background-color 99999s ease-in-out 0s !important;
+  caret-color: #ffffff !important;
+}
+
+[data-theme="dark"] input:autofill,
+[data-theme="dark"] textarea:autofill,
+[data-theme="dark"] select:autofill,
+[data-theme="dark"] input:autofill:hover,
+[data-theme="dark"] textarea:autofill:hover,
+[data-theme="dark"] select:autofill:hover,
+[data-theme="dark"] input:autofill:focus,
+[data-theme="dark"] textarea:autofill:focus,
+[data-theme="dark"] select:autofill:focus,
+[data-theme="dark"] input:autofill:active,
+[data-theme="dark"] textarea:autofill:active,
+[data-theme="dark"] select:autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px #000000 inset !important;
+  -webkit-text-fill-color: #ffffff !important;
+  box-shadow: 0 0 0 1000px #000000 inset !important;
+  transition: background-color 99999s ease-in-out 0s !important;
+  caret-color: #ffffff !important;
 }
 
 [data-theme="dark"] .footer {
