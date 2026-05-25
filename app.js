@@ -3,7 +3,7 @@
 // =============================================
 
 // URL DO SERVIDOR PIX
-const PIX_SERVER_URL = 'http://localhost:3001';
+const PIX_SERVER_URL = 'https://cardapio-online-tcc-ii.onrender.com';
 
 // STATUS
 let cart = JSON.parse(localStorage.getItem('cart') || '[]');
@@ -369,7 +369,7 @@ function openProductModal(productId, categoryId) {
       <span class="complement-group__badge complement-group__badge--optional">Opcional</span>
     </div>
     <textarea id="modalObs" placeholder="Ex: Sem cebola, bem passado..." 
-      style="width:100%;padding:12px;border:2px solid var(--border);border-radius:8px;font-size:14px;resize:vertical;min-height:60px;background:var(--bg);"></textarea>
+      style="width:100%;padding:12px;border:2px solid var(--border);border-radius:8px;font-size:14px;resize:vertical;min-height:60px;background:var(--bg);color:#ffffff;"></textarea>
   `;
   body.appendChild(obsDiv);
 
