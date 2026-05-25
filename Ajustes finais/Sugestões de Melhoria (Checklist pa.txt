@@ -1,0 +1,88 @@
+Sugestões de Melhoria (Checklist para o TCC)
+Embora o banco esteja correto, para um projeto de TCC, você pode considerar estes ajustes finos:
+
+Tabela de Produtos: Atualmente, os nomes e preços dos produtos são inseridos diretamente em ItensPedido. Em um cenário real, você teria uma tabela Produtos (Id, Nome, Preço, Categoria) para que o administrador possa alterar o preço de um item uma única vez, em vez de digitar o preço manualmente a cada pedido.
+
+Campo de Cupom: Se o seu sistema tiver descontos, a tabela Pedidos precisaria de um campo ValorDesconto.
+
+Geolocalização: Se o site for calcular a taxa de entrega automaticamente, talvez falte um campo para Bairro ou TaxaEntrega separado do total dos produtos.
+
+como incluir, o SDK do Mercado Pago, por exemplo, no seu site. Assim não fica com falha de segurança e você não corre o risco de alguém alterar o valor do pagamento via navegador.
+
+-> Para garantir que ninguém altere o valor do pagamento pelo navegador (inspecionando o elemento ou via console), o segredo é nunca confiar no que vem do Frontend. O valor deve ser definido e processado exclusivamente no seu Backend.
+
+Como você está trabalhando com o ecossistema .NET para o seu TCC, a implementação segura do SDK do Mercado Pago segue este fluxo:
+
+1. Arquitetura de Segurança (O Fluxo Correto)
+A falha de segurança ocorre quando o site envia o "Preço" para o Mercado Pago via JavaScript. A forma correta é:
+
+O usuário clica em "Pagar" no seu site.
+
+Seu site envia apenas o ID do Pedido para o seu servidor (C#/.NET).
+
+O servidor busca o valor real no seu Banco de Dados SQL Server (usando o Id da tabela Pedidos).
+
+O servidor cria a "Preferência de Pagamento" usando o SDK do Mercado Pago e devolve um link seguro ou ID para o usuário.
+
+2. Passo a Passo Técnico
+A. Instalação do SDK no Backend
+No seu projeto .NET (ASP.NET Core ou Minimal API), instale o pacote oficial:
+
+Bash
+dotnet add package mercadopago
+B. Configuração Segura (C#)
+No seu controlador ou serviço de pagamentos, você deve configurar suas credenciais (AccessToken). Dica de ouro: Nunca deixe o token exposto no código; use variáveis de ambiente ou o arquivo appsettings.json.
+
+C#
+using MercadoPago.Config;
+using MercadoPago.Client.Preference;
+using MercadoPago.Resource.Preference;
+
+// Configure sua credencial (busque do ambiente)
+MercadoPagoConfig.AccessToken = "SEU_ACCESS_TOKEN_REAL";
+
+public async Task<string> CriarPagamento(int pedidoId)
+{
+    // 1. BUSCA O VALOR NO BANCO (Proteção contra alteração no browser)
+    // Aqui você faria um SELECT na sua tabela 'Pedidos' filtrando pelo Id
+    var pedido = _repository.ObterPedidoPorId(pedidoId); 
+
+    // 2. MONTA A PREFERÊNCIA COM DADOS DO BANCO
+    var request = new PreferenceRequest
+    {
+        Items = new List<PreferenceItemRequest>
+        {
+            new PreferenceItemRequest
+            {
+                Title = $"Pedido #{pedido.Id}",
+                Quantity = 1,
+                CurrencyId = "BRL",
+                UnitPrice = pedido.Total // Valor vindo direto do SQL Server
+            }
+        },
+        // URL para onde o MP avisa que o pagamento foi aprovado
+        NotificationUrl = "https://seusite.com/api/webhook/mercadopago"
+    };
+
+    var client = new PreferenceClient();
+    Preference preference = await client.CreateAsync(request);
+
+    // 3. RETORNA O ID PARA O FRONTEND
+    return preference.Id; 
+}
+3. O Webhook: Atualizando seu Banco de Dados
+Para atualizar o campo PixPago e o Status que você criou no script SQL, você precisa de um endpoint (Webhook).
+
+O Mercado Pago enviará uma requisição POST para o seu servidor quando o status mudar.
+
+Seu código recebe o aviso, valida se é real, e executa o UPDATE no banco de dados.
+
+4. Resumo das Regras de Segurança
+Chaves Secretas: O AccessToken (começa com APP_USR-...) nunca deve aparecer no seu código HTML ou JavaScript.
+
+Validação de Preço: O preço final enviado para a API de pagamento deve vir de uma consulta ao seu banco de dados no lado do servidor, nunca de um campo input ou variável global do JS.
+
+HTTPS: Certifique-se de que seu site (mesmo o GitHub Pages) e seu backend usem SSL (HTTPS).
+
+jeito certo de testar no banco de dados:
+Certo: INSERT INTO Pedidos (NomeCliente) VALUES (N'Ana Júlia 🍕')
