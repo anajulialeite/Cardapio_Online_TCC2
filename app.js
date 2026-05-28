@@ -1089,11 +1089,30 @@ async function createPixPayment(amount, payerName) {
   document.body.style.overflow = 'hidden';
 
   try {
+    // ---- PASSO 1: SOLICITAR TOKEN DE SEGURANÇA ----
+    const tokenResponse = await fetch(`${PIX_SERVER_URL}/generate-token`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ amount: amount }),
+    });
+
+    if (!tokenResponse.ok) {
+      const tokenError = await tokenResponse.json().catch(() => ({}));
+      throw new Error(tokenError.error || 'Erro ao gerar token de segurança');
+    }
+
+    const tokenData = await tokenResponse.json();
+    const securityToken = tokenData.token;
+
+    console.log('🔐 Token de segurança obtido');
+
+    // ---- PASSO 2: CRIAR PIX COM TOKEN ----
     const response = await fetch(`${PIX_SERVER_URL}/create-pix`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         amount: amount,
+        token: securityToken,
         description: `Pedido - Menu Online - ${payerName}`,
         payerEmail: 'cliente@menuonline.com',
         payerFirstName: payerName.split(' ')[0],
@@ -1101,7 +1120,13 @@ async function createPixPayment(amount, payerName) {
       }),
     });
 
-    if (!response.ok) throw new Error('Erro na resposta do servidor');
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      if (response.status === 403) {
+        throw new Error(errorData.details || 'Transação recusada pelo servidor');
+      }
+      throw new Error('Erro na resposta do servidor');
+    }
 
     const data = await response.json();
 
@@ -1129,6 +1154,7 @@ async function createPixPayment(amount, payerName) {
         : error.message;
   }
 }
+
 
 function startPixPolling(paymentId) {
   if (pixPollingInterval) clearInterval(pixPollingInterval);
