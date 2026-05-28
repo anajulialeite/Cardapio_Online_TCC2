@@ -7,6 +7,7 @@ const cors = require('cors');
 const { MercadoPagoConfig, Payment } = require('mercadopago');
 const db = require('./db');
 const { iniciarFilaDeReenvio } = require('./queue');
+const { gerarToken, validarToken } = require('./token');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -33,11 +34,68 @@ const client = new MercadoPagoConfig({
 const payment = new Payment(client);
 
 // =============================================
+// POST /generate-token - Gerar token de segurança
+// =============================================
+// O front-end chama este endpoint ANTES de criar o PIX.
+// O servidor gera um token HMAC assinado com o valor.
+// Na volta (/create-pix), o token é validado.
+// Se o valor foi adulterado, a transação é recusada.
+// =============================================
+app.post('/generate-token', async (req, res) => {
+  try {
+    const { amount } = req.body;
+
+    if (!amount || amount <= 0) {
+      return res.status(400).json({ error: 'Valor inválido' });
+    }
+
+    // Gerar token assinado com o valor
+    const { token } = gerarToken(Number(amount));
+
+    console.log(`🔐 Token gerado para R$ ${Number(amount).toFixed(2)}`);
+
+    res.json({
+      token,
+      amount: Number(amount),
+    });
+  } catch (error) {
+    console.error('Erro ao gerar token:', error);
+    res.status(500).json({
+      error: 'Erro ao gerar token de segurança',
+      details: error.message,
+    });
+  }
+});
+
+// =============================================
 // POST /create-pix - Criar cobrança PIX
+// =============================================
+// AGORA EXIGE TOKEN VÁLIDO para criar a cobrança.
+// Se o token for inválido ou o valor foi adulterado,
+// a transação é automaticamente recusada.
 // =============================================
 app.post('/create-pix', async (req, res) => {
   try {
-    const { amount, description, payerEmail, payerFirstName, payerLastName, payerCPF } = req.body;
+    const { amount, token, description, payerEmail, payerFirstName, payerLastName, payerCPF } = req.body;
+
+    // ---- VALIDAÇÃO DO TOKEN ----
+    if (!token) {
+      console.warn('⚠️  Tentativa de criar PIX sem token!');
+      return res.status(403).json({ error: 'Token de segurança obrigatório' });
+    }
+
+    const validacao = validarToken(token, Number(amount));
+    if (!validacao.valid) {
+      console.error(`🚫 TOKEN INVÁLIDO: ${validacao.error}`);
+      console.error(`   Amount recebido: R$ ${Number(amount).toFixed(2)}`);
+      return res.status(403).json({
+        error: 'Transação recusada',
+        details: validacao.error,
+      });
+    }
+
+    console.log(`✅ Token validado para R$ ${Number(amount).toFixed(2)}`);
+    // ---- FIM VALIDAÇÃO ----
 
     if (!amount || amount <= 0) {
       return res.status(400).json({ error: 'Valor inválido' });
@@ -218,6 +276,7 @@ app.get('/orders/pending', async (req, res) => {
 // =============================================
 app.listen(PORT, async () => {
   console.log(`✅ Servidor rodando em http://localhost:${PORT}`);
+  console.log(`🔐 Token: POST http://localhost:${PORT}/generate-token`);
   console.log(`📱 Endpoint PIX: POST http://localhost:${PORT}/create-pix`);
   console.log(`🔍 Status: GET http://localhost:${PORT}/payment-status/:id`);
   console.log(`📦 Pedidos: POST http://localhost:${PORT}/orders`);
