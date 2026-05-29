@@ -153,10 +153,108 @@ async function incrementarTentativa(pedidoId) {
   return result.recordset[0]?.TentativasEnvio || 0;
 }
 
+// Buscar administrador por usuário
+async function buscarAdminPorUsuario(usuario) {
+  const db = await getPool();
+  const result = await db.request()
+    .input('Usuario', sql.NVarChar(50), usuario)
+    .query('SELECT * FROM Admins WHERE Usuario = @Usuario');
+  return result.recordset[0] || null;
+}
+
+// Buscar todos os pedidos (com itens)
+async function buscarTodosPedidos() {
+  const db = await getPool();
+  const result = await db.request()
+    .query(`
+      SELECT p.*, 
+        (SELECT i.NomeProduto, i.Quantidade, i.Preco, i.Complementos, i.Extras, i.Observacao
+         FROM ItensPedido i WHERE i.PedidoId = p.Id
+         FOR JSON PATH) AS Itens
+      FROM Pedidos p
+      ORDER BY p.DataCriacao DESC
+    `);
+  return result.recordset;
+}
+
+// Obter menu completo do banco
+async function obterMenuCompleto() {
+  const db = await getPool();
+  const productsResult = await db.request().query('SELECT * FROM Produtos');
+  const pizzasResult = await db.request().query('SELECT * FROM PizzaSabores');
+  return {
+    produtos: productsResult.recordset,
+    pizzas: pizzasResult.recordset
+  };
+}
+
+// Atualizar produto geral
+async function atualizarProduto(id, dados) {
+  const db = await getPool();
+  await db.request()
+    .input('Id', sql.NVarChar(50), id)
+    .input('Nome', sql.NVarChar(100), dados.nome)
+    .input('Descricao', sql.NVarChar(255), dados.descricao || null)
+    .input('Preco', sql.Decimal(10, 2), dados.preco)
+    .input('Disponivel', sql.Bit, dados.disponivel ? 1 : 0)
+    .query(`
+      UPDATE Produtos 
+      SET Nome = @Nome, Descricao = @Descricao, Preco = @Preco, Disponivel = @Disponivel 
+      WHERE Id = @Id
+    `);
+}
+
+// Atualizar sabor de pizza
+async function atualizarPizzaSabor(nome, dados) {
+  const db = await getPool();
+  await db.request()
+    .input('Nome', sql.NVarChar(100), nome)
+    .input('Descricao', sql.NVarChar(255), dados.descricao || null)
+    .input('PrecoBrotinho', sql.Decimal(10, 2), dados.precoBrotinho)
+    .input('PrecoGrande', sql.Decimal(10, 2), dados.precoGrande)
+    .input('Disponivel', sql.Bit, dados.disponivel ? 1 : 0)
+    .query(`
+      UPDATE PizzaSabores 
+      SET Descricao = @Descricao, PrecoBrotinho = @PrecoBrotinho, PrecoGrande = @PrecoGrande, Disponivel = @Disponivel 
+      WHERE Nome = @Nome
+    `);
+}
+
+// Obter estatísticas para o painel admin
+async function obterEstatisticasDashboard() {
+  const db = await getPool();
+  const stats = await db.request().query(`
+    SELECT 
+      COUNT(*) as TotalPedidos,
+      ISNULL(SUM(CASE WHEN Status = 'pendente' THEN 1 ELSE 0 END), 0) as Pendentes,
+      ISNULL(SUM(CASE WHEN Status = 'enviado' THEN 1 ELSE 0 END), 0) as Enviados,
+      ISNULL(SUM(CASE WHEN Status = 'erro' THEN 1 ELSE 0 END), 0) as Erros,
+      ISNULL(SUM(Total), 0) as FaturamentoTotal,
+      ISNULL(SUM(CASE WHEN CAST(DataCriacao AS DATE) = CAST(GETDATE() AS DATE) THEN Total ELSE 0 END), 0) as FaturamentoHoje
+    FROM Pedidos
+  `);
+  return stats.recordset[0] || {
+    TotalPedidos: 0,
+    Pendentes: 0,
+    Enviados: 0,
+    Erros: 0,
+    FaturamentoTotal: 0,
+    FaturamentoHoje: 0
+  };
+}
+
 module.exports = {
   getPool,
+  sql,
   salvarPedido,
   atualizarStatus,
   buscarPendentes,
   incrementarTentativa,
+  buscarAdminPorUsuario,
+  buscarTodosPedidos,
+  obterMenuCompleto,
+  atualizarProduto,
+  atualizarPizzaSabor,
+  obterEstatisticasDashboard,
 };
+
