@@ -8,6 +8,9 @@ const { MercadoPagoConfig, Payment } = require('mercadopago');
 const db = require('./db');
 const { iniciarFilaDeReenvio } = require('./queue');
 const { gerarToken, validarToken } = require('./token');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+const { authMiddleware, JWT_SECRET } = require('./auth');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -268,6 +271,248 @@ app.get('/orders/pending', async (req, res) => {
       error: 'Erro ao buscar pedidos pendentes',
       details: error.message,
     });
+  }
+});
+
+// =============================================
+// GET /menu - Obter cardápio completo do banco (com fallback)
+// =============================================
+app.get('/menu', async (req, res) => {
+  try {
+    const dbMenu = await db.obterMenuCompleto();
+    
+    // Ler data.js do frontend usando vm
+    const vm = require('vm');
+    const fs = require('fs');
+    const path = require('path');
+    const dataJsContent = fs.readFileSync(path.join(__dirname, '../data.js'), 'utf8');
+    const context = vm.createContext({});
+    const scriptToRun = dataJsContent + '\nglobalThis.CATEGORIES = CATEGORIES; globalThis.PIZZAS = PIZZAS;';
+    vm.runInContext(scriptToRun, context);
+    const { CATEGORIES, PIZZAS } = context;
+
+    // Mesclar produtos normais do banco de dados
+    const mergedCategories = CATEGORIES.map(cat => {
+      const mergedProducts = cat.products.map(prod => {
+        const dbProd = dbMenu.produtos.find(p => p.Id === prod.id);
+        if (dbProd) {
+          return {
+            ...prod,
+            name: dbProd.Nome,
+            desc: dbProd.Descricao,
+            price: Number(dbProd.Preco),
+            available: dbProd.Disponivel === true || dbProd.Disponivel === 1,
+          };
+        }
+        return prod;
+      });
+      return {
+        ...cat,
+        products: mergedProducts
+      };
+    });
+
+    // Mesclar sabores de pizza do banco de dados
+    const mergedPizzas = {
+      ...PIZZAS,
+      flavors: PIZZAS.flavors.map(flavor => {
+        const dbPizza = dbMenu.pizzas.find(p => p.Nome === flavor.name);
+        if (dbPizza) {
+          return {
+            ...flavor,
+            desc: dbPizza.Descricao,
+            prices: {
+              brotinho: Number(dbPizza.PrecoBrotinho),
+              grande: Number(dbPizza.PrecoGrande),
+            },
+            available: dbPizza.Disponivel === true || dbPizza.Disponivel === 1,
+          };
+        }
+        return flavor;
+      })
+    };
+
+    res.json({
+      categories: mergedCategories,
+      pizzas: mergedPizzas
+    });
+  } catch (error) {
+    console.warn('⚠️ Erro ao carregar cardápio do banco, usando fallback local...');
+    // Se der qualquer erro (ex: banco offline), o controller retorna erro
+    // O frontend tratará isso carregando o data.js local como fallback.
+    res.status(500).json({ error: 'Erro ao carregar cardápio', details: error.message });
+  }
+});
+
+// =============================================
+// POST /admin/login - Login administrativo
+// =============================================
+app.post('/admin/login', async (req, res) => {
+  try {
+    const { usuario, senha } = req.body;
+    if (!usuario || !senha) {
+      return res.status(400).json({ error: 'Usuário e senha são obrigatórios' });
+    }
+
+    const admin = await db.buscarAdminPorUsuario(usuario);
+    if (!admin) {
+      return res.status(401).json({ error: 'Usuário ou senha incorretos' });
+    }
+
+    const senhaValida = bcrypt.compareSync(senha, admin.SenhaHash);
+    if (!senhaValida) {
+      return res.status(401).json({ error: 'Usuário ou senha incorretos' });
+    }
+
+    // Gerar token válido por 8 horas
+    const token = jwt.sign(
+      { id: admin.Id, usuario: admin.Usuario, nome: admin.Nome },
+      JWT_SECRET,
+      { expiresIn: '8h' }
+    );
+
+    res.json({
+      token,
+      admin: { usuario: admin.Usuario, nome: admin.Nome }
+    });
+  } catch (error) {
+    console.error('Erro no login admin:', error);
+    res.status(500).json({ error: 'Erro interno no servidor' });
+  }
+});
+
+// =============================================
+// GET /admin/orders - Listar todos os pedidos
+// =============================================
+app.get('/admin/orders', authMiddleware, async (req, res) => {
+  try {
+    const pedidos = await db.buscarTodosPedidos();
+    const resultado = pedidos.map(p => ({
+      id: p.Id,
+      nomeCliente: p.NomeCliente,
+      telefone: p.Telefone,
+      endereco: p.Endereco,
+      referencia: p.Referencia,
+      observacao: p.Observacao,
+      total: p.Total,
+      formaPagamento: p.FormaPagamento,
+      tipoEntrega: p.TipoEntrega,
+      trocoPara: p.TrocoPara,
+      pixPago: p.PixPago,
+      status: p.Status,
+      tentativasEnvio: p.TentativasEnvio,
+      dataCriacao: p.DataCriacao,
+      itens: p.Itens ? JSON.parse(p.Itens) : [],
+    }));
+
+    res.json(resultado);
+  } catch (error) {
+    console.error('Erro ao buscar todos os pedidos:', error);
+    res.status(500).json({ error: 'Erro ao buscar pedidos', details: error.message });
+  }
+});
+
+// =============================================
+// PUT /admin/orders/:id/status - Atualizar status do pedido
+// =============================================
+app.put('/admin/orders/:id/status', authMiddleware, async (req, res) => {
+  try {
+    const { status } = req.body;
+    const pedidoId = parseInt(req.params.id);
+
+    if (!['pendente', 'enviado', 'erro'].includes(status)) {
+      return res.status(400).json({ error: 'Status inválido' });
+    }
+
+    await db.atualizarStatus(pedidoId, status);
+
+    res.json({
+      id: pedidoId,
+      status,
+      message: 'Status atualizado com sucesso',
+    });
+  } catch (error) {
+    console.error('Erro ao atualizar status do pedido (admin):', error);
+    res.status(500).json({ error: 'Erro ao atualizar status', details: error.message });
+  }
+});
+
+// =============================================
+// GET /admin/dashboard - Estatísticas do painel
+// =============================================
+app.get('/admin/dashboard', authMiddleware, async (req, res) => {
+  try {
+    const stats = await db.obterEstatisticasDashboard();
+    res.json(stats);
+  } catch (error) {
+    console.error('Erro ao buscar estatísticas do dashboard:', error);
+    res.status(500).json({ error: 'Erro ao buscar estatísticas', details: error.message });
+  }
+});
+
+// =============================================
+// GET /admin/products - Listar produtos gerais
+// =============================================
+app.get('/admin/products', authMiddleware, async (req, res) => {
+  try {
+    const dbMenu = await db.obterMenuCompleto();
+    res.json(dbMenu.produtos);
+  } catch (error) {
+    console.error('Erro ao listar produtos admin:', error);
+    res.status(500).json({ error: 'Erro ao listar produtos', details: error.message });
+  }
+});
+
+// =============================================
+// PUT /admin/products/:id - Editar produto
+// =============================================
+app.put('/admin/products/:id', authMiddleware, async (req, res) => {
+  try {
+    const { nome, descricao, preco, disponivel } = req.body;
+    const id = req.params.id;
+
+    if (!nome || preco === undefined) {
+      return res.status(400).json({ error: 'Nome e preço são obrigatórios' });
+    }
+
+    await db.atualizarProduto(id, { nome, descricao, preco, disponivel });
+    res.json({ id, message: 'Produto atualizado com sucesso' });
+  } catch (error) {
+    console.error('Erro ao atualizar produto (admin):', error);
+    res.status(500).json({ error: 'Erro ao atualizar produto', details: error.message });
+  }
+});
+
+// =============================================
+// GET /admin/pizzas - Listar sabores de pizza
+// =============================================
+app.get('/admin/pizzas', authMiddleware, async (req, res) => {
+  try {
+    const dbMenu = await db.obterMenuCompleto();
+    res.json(dbMenu.pizzas);
+  } catch (error) {
+    console.error('Erro ao listar pizzas admin:', error);
+    res.status(500).json({ error: 'Erro ao listar pizzas', details: error.message });
+  }
+});
+
+// =============================================
+// PUT /admin/pizzas/:name - Editar sabor de pizza
+// =============================================
+app.put('/admin/pizzas/:name', authMiddleware, async (req, res) => {
+  try {
+    const { descricao, precoBrotinho, precoGrande, disponivel } = req.body;
+    const name = req.params.name;
+
+    if (precoBrotinho === undefined || precoGrande === undefined) {
+      return res.status(400).json({ error: 'Preços são obrigatórios' });
+    }
+
+    await db.atualizarPizzaSabor(name, { descricao, precoBrotinho, precoGrande, disponivel });
+    res.json({ name, message: 'Sabor de pizza atualizado com sucesso' });
+  } catch (error) {
+    console.error('Erro ao atualizar sabor de pizza (admin):', error);
+    res.status(500).json({ error: 'Erro ao atualizar sabor de pizza', details: error.message });
   }
 });
 
