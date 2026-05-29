@@ -3,7 +3,9 @@
 // =============================================
 
 // URL DO SERVIDOR PIX
-const PIX_SERVER_URL = 'https://cardapio-online-tcc-ii.onrender.com';
+const PIX_SERVER_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+  ? 'http://localhost:3001'
+  : 'https://cardapio-online-tcc-ii.onrender.com';
 
 // STATUS
 let cart = JSON.parse(localStorage.getItem('cart') || '[]');
@@ -16,7 +18,22 @@ let searchQuery = '';
 // =============================================
 // INICIALIZAÇÃO
 // =============================================
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+  // Tentar carregar cardápio dinâmico do servidor
+  try {
+    const response = await fetch(`${PIX_SERVER_URL}/menu`);
+    if (response.ok) {
+      const data = await response.json();
+      if (data.categories && data.pizzas) {
+        CATEGORIES = data.categories;
+        PIZZAS = data.pizzas;
+        console.log('✅ Cardápio dinâmico carregado do servidor!');
+      }
+    }
+  } catch (error) {
+    console.warn('⚠️ Não foi possível carregar o cardápio do servidor, usando fallback estático:', error);
+  }
+
   renderStoreInfo();
   checkStoreStatus();
   renderCategoriesNav();
@@ -552,7 +569,7 @@ function renderPizzaModal() {
 
     const types = [...new Set(PIZZAS.flavors.map(f => f.type))];
     types.forEach(type => {
-      const flavorsOfType = PIZZAS.flavors.filter(f => f.type === type);
+      const flavorsOfType = PIZZAS.flavors.filter(f => f.type === type && (f.available === undefined || f.available === true || f.available === 1));
       html += `
         <div class="pizza-flavor-type">
           <div class="pizza-flavor-type__title">${type}</div>
