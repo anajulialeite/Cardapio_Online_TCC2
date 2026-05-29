@@ -10,10 +10,13 @@
     "node": ">=18"
   },
   "dependencies": {
+    "bcryptjs": "^3.0.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.0",
+    "jsonwebtoken": "^9.0.3",
     "mercadopago": "^2.0.15",
+    "msnodesqlv8": "^5.2.0",
     "mssql": "^12.2.1",
     "node-cron": "^4.2.1"
   }
