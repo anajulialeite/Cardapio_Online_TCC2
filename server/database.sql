@@ -83,3 +83,39 @@ GO
 CREATE NONCLUSTERED INDEX IX_ItensPedido_PedidoId
     ON ItensPedido (PedidoId);
 GO
+
+-- =============================================
+-- TABELAS ADMINISTRATIVAS E GESTÃO DE CARDÁPIO
+-- =============================================
+
+CREATE TABLE Admins (
+    Id          INT           IDENTITY(1,1) PRIMARY KEY,
+    Usuario     NVARCHAR(50)  NOT NULL UNIQUE,
+    SenhaHash   NVARCHAR(255) NOT NULL,
+    Nome        NVARCHAR(100) NOT NULL,
+    DataCriacao DATETIME      NOT NULL DEFAULT GETDATE()
+);
+GO
+
+CREATE TABLE Produtos (
+    Id            NVARCHAR(50)   PRIMARY KEY,
+    CategoriaId   NVARCHAR(50)   NOT NULL,
+    Nome          NVARCHAR(100)  NOT NULL,
+    Descricao     NVARCHAR(255)  NULL,
+    Preco         DECIMAL(10,2)  NOT NULL,
+    Disponivel    BIT            NOT NULL DEFAULT 1,
+    Tag           NVARCHAR(50)   NULL,
+    Complements   NVARCHAR(MAX)  NULL
+);
+GO
+
+CREATE TABLE PizzaSabores (
+    Nome          NVARCHAR(100)  PRIMARY KEY,
+    Descricao     NVARCHAR(255)  NULL,
+    Tipo          NVARCHAR(50)   NOT NULL,
+    PrecoBrotinho DECIMAL(10,2)  NOT NULL,
+    PrecoGrande   DECIMAL(10,2)  NOT NULL,
+    Disponivel    BIT            NOT NULL DEFAULT 1
+);
+GO
+
