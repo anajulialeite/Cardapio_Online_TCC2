@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="pt-br" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel Administrativo - Menu Online</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+  <!-- ========== TOAST ========== -->
+  <div class="toast" id="toast">
+    <span class="toast__icon">✅</span>
+    <span class="toast__text" id="toastText">Operação realizada com sucesso!</span>
+  </div>
+
+  <!-- ========== TELA DE LOGIN ========== -->
+  <div class="login-wrapper" id="loginWrapper">
+    <div class="login-card">
+      <div class="login-card__logo">
+        <img src="logo.png" alt="Menu Online" class="login-logo-img">
+        <h2>Menu <span>Online</span></h2>
+        <p>Painel Administrativo</p>
+      </div>
+      <form id="loginForm" onsubmit="handleLogin(event)">
+        <div class="input-group">
+          <label for="username">Usuário</label>
+          <input type="text" id="username" placeholder="Digite seu usuário" required autocomplete="username">
+        </div>
+        <div class="input-group">
+          <label for="password">Senha</label>
+          <input type="password" id="password" placeholder="Digite sua senha" required autocomplete="current-password">
+        </div>
+        <button type="submit" class="btn-primary" id="loginSubmitBtn">
+          Entrar no Painel
+        </button>
+      </form>
+      <div class="login-footer">
+        <a href="index.html">← Voltar para o Cardápio Público</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== DASHBOARD PRINCIPAL ========== -->
+  <div class="admin-layout" id="adminLayout" style="display: none;">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar__brand">
+        <img src="logo.png" alt="Menu Online" class="sidebar-logo-img">
+        <h3>Menu <span>Online</span></h3>
+      </div>
+      <div class="sidebar__user">
+        <div class="avatar">👨‍💼</div>
+        <div class="user-info">
+          <span class="user-name" id="adminUserName">Administrador</span>
+          <span class="user-role">Painel Admin</span>
+        </div>
+      </div>
+      <nav class="sidebar__nav">
+        <button class="nav-item active" onclick="switchTab('dashboard')" id="tabBtn-dashboard">
+          📊 Visão Geral
+        </button>
+        <button class="nav-item" onclick="switchTab('orders')" id="tabBtn-orders">
+          📦 Pedidos
+        </button>
+        <button class="nav-item" onclick="switchTab('menu')" id="tabBtn-menu">
+          🍕 Gerenciar Cardápio
+        </button>
+      </nav>
+      <div class="sidebar__footer">
+        <button class="btn-logout" onclick="handleLogout()">
+          🚪 Sair do Painel
+        </button>
+      </div>
+    </aside>
+
+    <!-- CONTENT AREA -->
+    <main class="main-content-admin">
+      <header class="admin-header">
+        <h1 id="pageTitle">Visão Geral</h1>
+        <button class="btn-public-menu" onclick="window.open('index.html', '_blank')">
+          🌐 Ver Cardápio Público
+        </button>
+      </header>
+
+      <!-- SEÇÃO: DASHBOARD -->
+      <section class="admin-section" id="section-dashboard">
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-card__icon">💰</div>
+            <div class="metric-card__info">
+              <span class="metric-label">Vendas Totais</span>
+              <span class="metric-value" id="statTotalSales">R$ 0,00</span>
+            </div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-card__icon">📦</div>
+            <div class="metric-card__info">
+              <span class="metric-label">Total de Pedidos</span>
+              <span class="metric-value" id="statTotalOrders">0</span>
+            </div>
+          </div>
+          <div class="metric-card warning">
+            <div class="metric-card__icon">⏱️</div>
+            <div class="metric-card__info">
+              <span class="metric-label">Pedidos Pendentes</span>
+              <span class="metric-value" id="statPendingOrders">0</span>
+            </div>
+          </div>
+          <div class="metric-card success">
+            <div class="metric-card__icon">✅</div>
+            <div class="metric-card__info">
+              <span class="metric-label">Pedidos Enviados</span>
+              <span class="metric-value" id="statDeliveredOrders">0</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="dashboard-details">
+          <div class="card">
+            <div class="card-header">
+              <h3>Últimos Pedidos</h3>
+              <button class="btn-link" onclick="switchTab('orders')">Ver todos →</button>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Cliente</th>
+                    <th>Forma Pagamento</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                    <th>Ações</th>
+                  </tr>
+                </thead>
+                <tbody id="dashboardRecentOrders">
+                  <tr>
+                    <td colspan="6" class="text-center">Carregando dados...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SEÇÃO: PEDIDOS -->
+      <section class="admin-section" id="section-orders" style="display: none;">
+        <div class="filters-bar">
+          <div class="filter-group">
+            <button class="filter-btn active" onclick="filterOrders('all')">Todos</button>
+            <button class="filter-btn" onclick="filterOrders('pendente')">Pendentes</button>
+            <button class="filter-btn" onclick="filterOrders('enviado')">Enviados</button>
+            <button class="filter-btn" onclick="filterOrders('erro')">Erro</button>
+          </div>
+          <button class="btn-refresh" onclick="loadOrdersData()">🔄 Atualizar</button>
+        </div>
+
+        <div class="card">
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Data/Hora</th>
+                  <th>Cliente</th>
+                  <th>Telefone</th>
+                  <th>Tipo Entrega</th>
+                  <th>Total</th>
+                  <th>Status</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody id="ordersTableBody">
+                <tr>
+                  <td colspan="8" class="text-center">Carregando pedidos...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- SEÇÃO: GERENCIAR CARDÁPIO -->
+      <section class="admin-section" id="section-menu" style="display: none;">
+        <div class="menu-tabs">
+          <button class="menu-tab-btn active" onclick="switchMenuTab('products')" id="menuTabBtn-products">
+            🍔 Produtos Gerais
+          </button>
+          <button class="menu-tab-btn" onclick="switchMenuTab('pizzas')" id="menuTabBtn-pizzas">
+            🍕 Sabores de Pizza
+          </button>
+        </div>
+
+        <!-- ABA PRODUTOS -->
+        <div class="menu-tab-content" id="menuContent-products">
+          <div class="search-menu-bar">
+            <input type="text" id="productSearchInput" oninput="filterProductsList()" placeholder="Buscar produto por nome ou categoria...">
+          </div>
+          <div class="card">
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Categoria</th>
+                    <th>Nome</th>
+                    <th>Descrição</th>
+                    <th>Preço</th>
+                    <th>Disponibilidade</th>
+                    <th>Ações</th>
+                  </tr>
+                </thead>
+                <tbody id="productsTableBody">
+                  <tr>
+                    <td colspan="6" class="text-center">Carregando produtos...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ABA PIZZAS -->
+        <div class="menu-tab-content" id="menuContent-pizzas" style="display: none;">
+          <div class="search-menu-bar">
+            <input type="text" id="pizzaSearchInput" oninput="filterPizzasList()" placeholder="Buscar sabor de pizza...">
+          </div>
+          <div class="card">
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Tipo</th>
+                    <th>Sabor</th>
+                    <th>Descrição</th>
+                    <th>Preço Brotinho</th>
+                    <th>Preço Grande</th>
+                    <th>Disponibilidade</th>
+                    <th>Ações</th>
+                  </tr>
+                </thead>
+                <tbody id="pizzasTableBody">
+                  <tr>
+                    <td colspan="7" class="text-center">Carregando sabores...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- ========== MODAL: DETALHES DO PEDIDO ========== -->
+  <div class="modal-overlay-admin" id="orderDetailModal">
+    <div class="modal-admin">
+      <div class="modal-admin__header">
+        <h2>Detalhes do Pedido <span id="modalOrderId">#0</span></h2>
+        <button class="modal-admin__close" onclick="closeOrderModal()">✕</button>
+      </div>
+      <div class="modal-admin__body" id="orderModalBody">
+        <!-- Preenchido via JS -->
+      </div>
+      <div class="modal-admin__footer">
+        <button class="btn-secondary" onclick="closeOrderModal()">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== MODAL: EDITAR PRODUTO ========== -->
+  <div class="modal-overlay-admin" id="editProductModal">
+    <div class="modal-admin">
+      <div class="modal-admin__header">
+        <h2>Editar Produto</h2>
+        <button class="modal-admin__close" onclick="closeEditProductModal()">✕</button>
+      </div>
+      <form id="editProductForm" onsubmit="saveProductChanges(event)">
+        <div class="modal-admin__body">
+          <input type="hidden" id="editProdId">
+          <div class="input-group">
+            <label for="editProdName">Nome</label>
+            <input type="text" id="editProdName" required>
+          </div>
+          <div class="input-group">
+            <label for="editProdDesc">Descrição</label>
+            <textarea id="editProdDesc" rows="3"></textarea>
+          </div>
+          <div class="input-group">
+            <label for="editProdPrice">Preço (R$)</label>
+            <input type="number" id="editProdPrice" step="0.01" min="0" required>
+          </div>
+          <div class="input-group checkbox-group">
+            <label class="toggle-switch">
+              <input type="checkbox" id="editProdAvailable">
+              <span class="slider"></span>
+            </label>
+            <span class="toggle-label">Disponível para venda</span>
+          </div>
+        </div>
+        <div class="modal-admin__footer">
+          <button type="button" class="btn-secondary" onclick="closeEditProductModal()">Cancelar</button>
+          <button type="submit" class="btn-primary">Salvar Alterações</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========== MODAL: EDITAR SABOR DE PIZZA ========== -->
+  <div class="modal-overlay-admin" id="editPizzaModal">
+    <div class="modal-admin">
+      <div class="modal-admin__header">
+        <h2>Editar Sabor de Pizza</h2>
+        <button class="modal-admin__close" onclick="closeEditPizzaModal()">✕</button>
+      </div>
+      <form id="editPizzaForm" onsubmit="savePizzaChanges(event)">
+        <div class="modal-admin__body">
+          <input type="hidden" id="editPizzaNameKey">
+          <div class="input-group">
+            <label for="editPizzaNameDisplay">Nome do Sabor</label>
+            <input type="text" id="editPizzaNameDisplay" disabled>
+          </div>
+          <div class="input-group">
+            <label for="editPizzaDesc">Descrição / Ingredientes</label>
+            <textarea id="editPizzaDesc" rows="3"></textarea>
+          </div>
+          <div class="input-group-grid">
+            <div class="input-group">
+              <label for="editPizzaPriceBrotinho">Preço Brotinho (R$)</label>
+              <input type="number" id="editPizzaPriceBrotinho" step="0.01" min="0" required>
+            </div>
+            <div class="input-group">
+              <label for="editPizzaPriceGrande">Preço Grande (R$)</label>
+              <input type="number" id="editPizzaPriceGrande" step="0.01" min="0" required>
+            </div>
+          </div>
+          <div class="input-group checkbox-group">
+            <label class="toggle-switch">
+              <input type="checkbox" id="editPizzaAvailable">
+              <span class="slider"></span>
+            </label>
+            <span class="toggle-label">Disponível para venda</span>
+          </div>
+        </div>
+        <div class="modal-admin__footer">
+          <button type="button" class="btn-secondary" onclick="closeEditPizzaModal()">Cancelar</button>
+          <button type="submit" class="btn-primary">Salvar Alterações</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>
