@@ -2,7 +2,7 @@
 // PAINEL ADMINISTRATIVO - ADMIN.JS
 // =============================================
 
-const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || !window.location.hostname || window.location.protocol === 'file:'
   ? 'http://localhost:3001'
   : 'https://cardapio-online-tcc-ii.onrender.com';
 
