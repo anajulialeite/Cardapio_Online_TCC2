@@ -28,7 +28,7 @@ const STORE_INFO = {
   ],
 };
 
-const CATEGORIES = [
+let CATEGORIES = [
   {
     id: "sushi",
     name: "Sushi",
@@ -335,7 +335,7 @@ const CATEGORIES = [
 // =============================================
 // DADOS DAS PIZZAS
 // =============================================
-const PIZZAS = {
+let PIZZAS = {
   name: "Pizzas",
   icon: "🍕",
   sizes: [
