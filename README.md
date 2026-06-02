@@ -9,7 +9,6 @@
 <img src="Logo/Gemini_Generated_Image_49hozq49hozq49ho-removebg-preview.png" alt="Logo" align="left" width="50" height="50">
 <img src="AJ - Criar e desenvolver (sem símbolo do Gemini).png" alt="Logo" align="center" width="65" height="65">
 
-<<<<<<< Updated upstream
 Sistema web para gerenciamento de pedidos online desenvolvido como Trabalho de Conclusão de Curso (TCC), com foco em experiência do usuário, automação de pedidos e integração com meios de pagamento.
 
 O projeto evoluiu de uma proposta acadêmica para uma aplicação funcional, preparada para utilização comercial em pequenos restaurantes e lanchonetes.
@@ -64,11 +63,9 @@ graph TD
   - Alteração de preços e controle de disponibilidade de produtos em tempo real.
   - Estatísticas operacionais (faturamento total e do dia).
 - **Banco de Dados SQL Server**: Armazenamento relacional estruturado com triggers para controle de data de atualização e índices otimizados para consultas de pedidos e produtos.
->>>>>>> Stashed changes
 
 ---
 
-<<<<<<< Updated upstream
 ### Frontend
 
 * HTML5
@@ -165,14 +162,12 @@ O repositório está organizado de forma simples, com o frontend na raiz e o bac
 Em conformidade com a Lei Geral de Proteção de Dados (LGPD – Lei nº 13.709/2018), todos os dados informados pelos usuários durante a finalização do pedido destinam-se exclusivamente à demonstração do funcionamento da plataforma. Não há compartilhamento com terceiros e os dados do cliente podem ser salvos localmente via `localStorage` de forma segura, sob a opção explícita do próprio usuário.
 
 ---
->>>>>>> Stashed changes
 
 ## Demonstração
 
 ### Página Inicial (Cardápio Digital)
 <img src="Logo/Index.png" alt="Index" align="center" width="300" height="300">
 
-<<<<<<< Updated upstream
 ## Como Funciona
 
 1. O cliente acessa o cardápio online.
