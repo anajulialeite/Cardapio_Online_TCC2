@@ -85,7 +85,7 @@ graph TD
 
 * Mercado Pago
 * WhatsApp
-=======
+
 ## Diferenciais Técnicos
 
 - **Segurança da Transação**: Validação de integridade de preços via assinatura HMAC no servidor para mitigar vulnerabilidades de modificação do DOM/HTML.
