@@ -80,10 +80,13 @@ async function salvarPedido(pedido) {
       .input('PixPago', sql.Bit, pedido.pixPago ? 1 : 0)
       .input('Cupom', sql.NVarChar(50), pedido.cupom || null)
       .input('Desconto', sql.Decimal(10, 2), pedido.desconto || 0.00)
+      .input('Cidade', sql.NVarChar(100), pedido.cidade || 'Luziânia')
+      .input('Bairro', sql.NVarChar(100), pedido.bairro || null)
+      .input('TaxaEntrega', sql.Decimal(10, 2), pedido.taxaEntrega || 0.00)
       .query(`
-        INSERT INTO Pedidos (NomeCliente, Telefone, Endereco, Referencia, Observacao, Total, FormaPagamento, TipoEntrega, TrocoPara, PixPago, Cupom, Desconto)
+        INSERT INTO Pedidos (NomeCliente, Telefone, Endereco, Referencia, Observacao, Total, FormaPagamento, TipoEntrega, TrocoPara, PixPago, Cupom, Desconto, Cidade, Bairro, TaxaEntrega)
         OUTPUT INSERTED.Id
-        VALUES (@NomeCliente, @Telefone, @Endereco, @Referencia, @Observacao, @Total, @FormaPagamento, @TipoEntrega, @TrocoPara, @PixPago, @Cupom, @Desconto)
+        VALUES (@NomeCliente, @Telefone, @Endereco, @Referencia, @Observacao, @Total, @FormaPagamento, @TipoEntrega, @TrocoPara, @PixPago, @Cupom, @Desconto, @Cidade, @Bairro, @TaxaEntrega)
       `);
 
     const pedidoId = result.recordset[0].Id;
