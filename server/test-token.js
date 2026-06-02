@@ -1,8 +1,4 @@
-// =============================================
-// TESTE DO SISTEMA DE TOKEN DE SEGURANÇA
-// =============================================
-// Executa: node test-token.js
-// =============================================
+// Testes do sistema de token de segurança
 
 require('dotenv').config();
 const { gerarToken, validarToken } = require('./token');
@@ -13,11 +9,11 @@ let failed = 0;
 function test(name, fn) {
   try {
     fn();
-    console.log(`  ✅ ${name}`);
+    console.log(`  [OK] ${name}`);
     passed++;
   } catch (err) {
-    console.log(`  ❌ ${name}`);
-    console.log(`     → ${err.message}`);
+    console.log(`  [FALHA] ${name}`);
+    console.log(`     -> ${err.message}`);
     failed++;
   }
 }
@@ -26,14 +22,8 @@ function assert(condition, message) {
   if (!condition) throw new Error(message);
 }
 
-console.log('');
-console.log('🔐 ========================================');
-console.log('   TESTE DO SISTEMA DE TOKEN');
-console.log('   ========================================');
-console.log('');
-
-// ----- TESTE 1: Geração de token -----
-console.log('📋 1. Geração de Token');
+console.log('\n--- Teste do Sistema de Token ---\n');
+console.log('1. Geração de Token');
 
 test('Deve gerar token com formato válido', () => {
   const { token } = gerarToken(45.90);
@@ -56,10 +46,7 @@ test('Deve gerar tokens para valores com centavos', () => {
   assert(token2, 'Deve gerar token para R$ 9.999,99');
 });
 
-console.log('');
-
-// ----- TESTE 2: Validação com valor correto -----
-console.log('📋 2. Validação com Valor Correto');
+console.log('\n2. Validação com Valor Correto');
 
 test('Deve validar token com valor inteiro (R$ 50,00)', () => {
   const { token } = gerarToken(50.00);
@@ -85,10 +72,7 @@ test('Deve validar token com valor grande (R$ 999,99)', () => {
   assert(result.valid === true, `Esperado valid=true, recebeu: ${JSON.stringify(result)}`);
 });
 
-console.log('');
-
-// ----- TESTE 3: Rejeitar valor adulterado -----
-console.log('📋 3. Rejeitar Valor Adulterado (PRINCIPAL!)');
+console.log('\n3. Rejeitar Valor Adulterado');
 
 test('Deve RECUSAR se valor foi alterado de R$ 85,00 para R$ 0,01', () => {
   const { token } = gerarToken(85.00);
@@ -115,10 +99,7 @@ test('Deve RECUSAR se valor foi aumentado (R$ 10,00 → R$ 100,00)', () => {
   assert(result.valid === false, 'Deveria recusar valor aumentado!');
 });
 
-console.log('');
-
-// ----- TESTE 4: Token inválido / adulterado -----
-console.log('📋 4. Token Adulterado ou Inválido');
+console.log('\n4. Token Adulterado ou Inválido');
 
 test('Deve RECUSAR token com formato inválido (sem ponto)', () => {
   const result = validarToken('tokeninvalido', 50.00);
@@ -148,10 +129,7 @@ test('Deve RECUSAR token com payload alterado (tentativa de forjar valor)', () =
   assert(result.valid === false, 'Deveria recusar token forjado!');
 });
 
-console.log('');
-
-// ----- TESTE 5: Expiração -----
-console.log('📋 5. Expiração do Token');
+console.log('\n5. Expiração do Token');
 
 test('Token recém-criado NÃO deve estar expirado', () => {
   const { token } = gerarToken(50.00);
@@ -177,22 +155,13 @@ test('Deve RECUSAR token expirado (simulação com timestamp antigo)', () => {
   assert(result.error.includes('expirado'), `Erro deveria mencionar expiração: ${result.error}`);
 });
 
-console.log('');
-
-// ----- RESULTADO FINAL -----
-console.log('========================================');
-console.log(`   RESULTADO: ${passed} passou, ${failed} falhou`);
-console.log('========================================');
+console.log('\n----------------------------------------');
+console.log(`RESULTADO: ${passed} passou, ${failed} falhou`);
+console.log('----------------------------------------');
 
 if (failed === 0) {
-  console.log('');
-  console.log('   🎉 TODOS OS TESTES PASSARAM!');
-  console.log('   O sistema de token está funcionando');
-  console.log('   corretamente.');
-  console.log('');
+  console.log('Todos os testes passaram.\n');
 } else {
-  console.log('');
-  console.log('   ⚠️  Alguns testes falharam!');
-  console.log('');
+  console.log('Alguns testes falharam!\n');
   process.exit(1);
 }

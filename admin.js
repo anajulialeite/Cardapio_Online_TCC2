@@ -1,6 +1,4 @@
-// =============================================
-// PAINEL ADMINISTRATIVO - ADMIN.JS
-// =============================================
+// Painel Administrativo - Script Principal
 
 const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || !window.location.hostname || window.location.protocol === 'file:'
   ? 'http://localhost:3001'
@@ -12,9 +10,7 @@ let allProducts = [];
 let allPizzas = [];
 let currentFilter = 'all';
 
-// =============================================
-// CONTROLE DE FLUXO & INICIALIZAÇÃO
-// =============================================
+// Fluxo e Inicialização
 document.addEventListener('DOMContentLoaded', () => {
   checkAuth();
   
@@ -73,9 +69,7 @@ async function apiFetch(endpoint, options = {}) {
   return response;
 }
 
-// =============================================
-// AUTENTICAÇÃO
-// =============================================
+// Autenticação
 async function handleLogin(event) {
   event.preventDefault();
   const usuario = document.getElementById('username').value.trim();
@@ -119,9 +113,7 @@ function handleLogout() {
   showToast('Sessão encerrada.', '🚪');
 }
 
-// =============================================
-// NAVEGAÇÃO DE ABAS
-// =============================================
+// Controle de Abas
 function switchTab(tabName) {
   // Alterar classes nos botões
   document.querySelectorAll('.sidebar__nav .nav-item').forEach(btn => {
@@ -150,9 +142,7 @@ function switchTab(tabName) {
   }
 }
 
-// =============================================
-// SEÇÃO: DASHBOARD
-// =============================================
+// Dashboard
 async function loadDashboardStats() {
   try {
     const res = await apiFetch('/admin/dashboard');
@@ -196,9 +186,7 @@ function renderRecentOrders(orders) {
   `).join('');
 }
 
-// =============================================
-// SEÇÃO: PEDIDOS
-// =============================================
+// Pedidos
 async function loadOrdersData() {
   const tbody = document.getElementById('ordersTableBody');
   tbody.innerHTML = `<tr><td colspan="8" class="text-center">Carregando pedidos...</td></tr>`;
@@ -289,9 +277,7 @@ async function updateOrderStatus(orderId, newStatus) {
   }
 }
 
-// =============================================
-// MODAL: DETALHES DO PEDIDO
-// =============================================
+// Modal de detalhes do pedido
 function openOrderDetails(orderId) {
   const order = allOrders.find(o => o.id === orderId);
   if (!order) return;
@@ -391,9 +377,7 @@ function closeOrderModal() {
   document.getElementById('orderDetailModal').classList.remove('active');
 }
 
-// =============================================
-// SEÇÃO: GERENCIAR CARDÁPIO
-// =============================================
+// Gerenciamento do cardápio (produtos e pizzas)
 function switchMenuTab(menuType) {
   // Tabs active state
   document.querySelectorAll('.menu-tab-btn').forEach(btn => {
@@ -655,9 +639,7 @@ async function savePizzaChanges(event) {
   }
 }
 
-// =============================================
-// UTILITÁRIOS GERAIS
-// =============================================
+// Funções auxiliares
 function formatPrice(value) {
   return Number(value).toFixed(2).replace('.', ',');
 }

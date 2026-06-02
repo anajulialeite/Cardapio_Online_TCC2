@@ -1,10 +1,6 @@
-// =============================================
-// CONEXÃO COM SQL SERVER
-// =============================================
-
 let sql, dbConfig, useNativeDriver;
 
-// Tentar usar driver nativo (Windows) primeiro, senão usar tedious (Linux/Nuvem)
+// Tentar usar driver nativo (Windows) primeiro, senão usar tedious
 try {
   sql = require('mssql/msnodesqlv8');
   useNativeDriver = true;
@@ -16,7 +12,7 @@ try {
       idleTimeoutMillis: 30000,
     },
   };
-  console.log('📦 Driver nativo (msnodesqlv8) detectado');
+  console.log('Driver nativo (msnodesqlv8) detectado');
 } catch (e) {
   sql = require('mssql');
   useNativeDriver = false;
@@ -36,7 +32,7 @@ try {
       idleTimeoutMillis: 30000,
     },
   };
-  console.log('📦 Usando driver tedious (compatível com nuvem)');
+  console.log('Usando driver tedious (compatível com nuvem)');
 }
 
 let pool = null;
@@ -45,18 +41,14 @@ async function getPool() {
   if (!pool) {
     try {
       pool = await sql.connect(dbConfig);
-      console.log('✅ Conectado ao SQL Server');
+      console.log('Conectado ao SQL Server');
     } catch (err) {
-      console.error('❌ Erro ao conectar ao SQL Server:', err.message);
+      console.error('Erro ao conectar ao SQL Server:', err.message);
       throw err;
     }
   }
   return pool;
 }
-
-// =============================================
-// FUNÇÕES DE PEDIDOS
-// =============================================
 
 // Salvar pedido + itens no banco (transação)
 async function salvarPedido(pedido) {
@@ -66,7 +58,6 @@ async function salvarPedido(pedido) {
   try {
     await transaction.begin();
 
-    // Inserir pedido
     const result = await transaction.request()
       .input('NomeCliente', sql.NVarChar(100), pedido.nomeCliente)
       .input('Telefone', sql.NVarChar(20), pedido.telefone)
@@ -91,7 +82,6 @@ async function salvarPedido(pedido) {
 
     const pedidoId = result.recordset[0].Id;
 
-    // Inserir itens do pedido
     for (const item of pedido.itens) {
       await transaction.request()
         .input('PedidoId', sql.Int, pedidoId)
@@ -109,12 +99,12 @@ async function salvarPedido(pedido) {
     }
 
     await transaction.commit();
-    console.log(`📦 Pedido #${pedidoId} salvo no banco`);
+    console.log(`Pedido #${pedidoId} salvo no banco`);
     return pedidoId;
 
   } catch (err) {
     await transaction.rollback();
-    console.error('❌ Erro ao salvar pedido:', err.message);
+    console.error('Erro ao salvar pedido:', err.message);
     throw err;
   }
 }
@@ -126,7 +116,7 @@ async function atualizarStatus(pedidoId, novoStatus) {
     .input('Id', sql.Int, pedidoId)
     .input('Status', sql.NVarChar(20), novoStatus)
     .query('UPDATE Pedidos SET Status = @Status WHERE Id = @Id');
-  console.log(`🔄 Pedido #${pedidoId} → status: ${novoStatus}`);
+  console.log(`Pedido #${pedidoId} -> status: ${novoStatus}`);
 }
 
 // Buscar pedidos pendentes

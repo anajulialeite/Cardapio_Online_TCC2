@@ -1,6 +1,4 @@
-// =============================================
-// SCRIPT DE SEED DO BANCO DE DADOS - CARDÁPIO ONLINE
-// =============================================
+// Script de carga inicial do banco de dados (seed)
 require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
@@ -11,16 +9,13 @@ const db = require('./db');
 const clean = process.argv.includes('--clean');
 
 async function seed() {
-  console.log('🌱 Iniciando seed do banco de dados...');
+  console.log('Iniciando seed do banco de dados...');
   const { sql, getPool } = db;
   try {
     const pool = await getPool();
     
-    // =============================================
-    // 0. LIMPAR TABELAS SE SOLICITADO (--clean)
-    // =============================================
     if (clean) {
-      console.log('🚨 Limpando tabelas existentes (--clean)...');
+      console.log('Limpando tabelas existentes (--clean)...');
       // Drop em ordem de dependência reversa
       await pool.request().query(`
         DROP TABLE IF EXISTS ItensPedido;
@@ -30,13 +25,11 @@ async function seed() {
         DROP TABLE IF EXISTS PizzaSabores;
         DROP TABLE IF EXISTS Admins;
       `);
-      console.log('✅ Tabelas antigas removidas.');
+      console.log('Tabelas antigas removidas.');
     }
 
-    // =============================================
-    // 1. CRIAR TABELAS SE NÃO EXISTIREM
-    // =============================================
-    console.log('⚙️ Verificando e criando tabelas...');
+    // Cria as tabelas necessárias se não existirem
+    console.log('Verificando/criando tabelas...');
     
     // Tabela Admins
     await pool.request().query(`
@@ -257,10 +250,7 @@ async function seed() {
       END
     `);
 
-    // =============================================
-    // 2. CRIAR ADMINISTRADOR PADRÃO (admin / admin123)
-    // =============================================
-    console.log('👤 Configurando usuário administrador padrão...');
+    // Configura o usuário administrador inicial
     const adminCheck = await pool.request()
       .input('Usuario', sql.NVarChar(50), 'admin')
       .query('SELECT * FROM Admins WHERE Usuario = @Usuario');
@@ -272,15 +262,12 @@ async function seed() {
         .input('SenhaHash', sql.NVarChar(255), passwordHash)
         .input('Nome', sql.NVarChar(100), 'Administrador')
         .query('INSERT INTO Admins (Usuario, SenhaHash, Nome) VALUES (@Usuario, @SenhaHash, @Nome)');
-      console.log('✅ Administrador padrão "admin" criado com sucesso!');
+      console.log('Administrador padrão "admin" criado.');
     } else {
-      console.log('ℹ️ Usuário "admin" já existe no banco de dados.');
+      console.log('Usuário "admin" já existe no banco.');
     }
 
-    // =============================================
-    // 3. PARSE DOS DADOS DO data.js DO FRONTEND
-    // =============================================
-    console.log('📄 Lendo arquivo data.js do frontend...');
+    // Lê e executa o arquivo data.js do frontend para extrair os dados
     const dataJsPath = path.join(__dirname, '../data.js');
     const dataJsContent = fs.readFileSync(dataJsPath, 'utf8');
 
@@ -293,10 +280,7 @@ async function seed() {
       throw new Error('Não foi possível ler CATEGORIES ou PIZZAS do data.js');
     }
 
-    // =============================================
-    // 4. POPULAR CATEGORIAS
-    // =============================================
-    console.log('📂 Importando categorias do frontend...');
+    // Popula categorias
     let catCount = 0;
     for (let index = 0; index < CATEGORIES.length; index++) {
       const cat = CATEGORIES[index];
@@ -316,14 +300,10 @@ async function seed() {
         catCount++;
       }
     }
-    console.log(`✅ ${catCount} novas categorias inseridas.`);
+    console.log(`${catCount} categorias inseridas.`);
 
-    // =============================================
-    // 5. POPULAR PRODUTOS GERAIS
-    // =============================================
-    console.log(`🍟 Importando produtos gerais (${CATEGORIES.reduce((acc, c) => acc + c.products.length, 0)} itens)...`);
+    // Popula produtos gerais
     let prodCount = 0;
-    
     for (const cat of CATEGORIES) {
       for (const prod of cat.products) {
         const prodCheck = await pool.request()
@@ -349,14 +329,10 @@ async function seed() {
         }
       }
     }
-    console.log(`✅ ${prodCount} novos produtos inseridos.`);
+    console.log(`${prodCount} produtos inseridos.`);
 
-    // =============================================
-    // 6. POPULAR SABORES DE PIZZAS
-    // =============================================
-    console.log(`🍕 Importando sabores de pizza (${PIZZAS.flavors.length} sabores)...`);
+    // Popula sabores de pizzas
     let pizzaCount = 0;
-
     for (const flavor of PIZZAS.flavors) {
       const pizzaCheck = await pool.request()
         .input('Nome', sql.NVarChar(100), flavor.name)
@@ -380,11 +356,11 @@ async function seed() {
         pizzaCount++;
       }
     }
-    console.log(`✅ ${pizzaCount} novos sabores de pizza inseridos.`);
-    console.log('🎉 Banco de dados atualizado e semeado com sucesso!');
+    console.log(`${pizzaCount} sabores de pizza inseridos.`);
+    console.log('Banco de dados atualizado e semeado.');
     
   } catch (error) {
-    console.error('❌ Erro no seed do banco de dados:', error);
+    console.error('Erro no seed do banco de dados:', error);
   } finally {
     process.exit(0);
   }

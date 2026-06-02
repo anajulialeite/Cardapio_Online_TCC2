@@ -1,38 +1,33 @@
-// =============================================
-// SCRIPT DE TESTE DE AUTENTICAÇÃO - CARDÁPIO ONLINE
-// =============================================
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-console.log('🧪 Iniciando testes de autenticação...');
+console.log('Iniciando testes de autenticação...');
 
 try {
-  // 1. Testar bcrypt
   const senha = 'senha_teste_123';
-  console.log('🔑 Criptografando senha com bcrypt...');
+  console.log('Criptografando senha com bcrypt...');
   const hash = bcrypt.hashSync(senha, 10);
-  console.log('✅ Hash gerado:', hash);
+  console.log('Hash gerado:', hash);
   
-  console.log('🔍 Validando senha correta...');
+  console.log('Validando senha correta...');
   const matchCorreto = bcrypt.compareSync(senha, hash);
-  console.log(matchCorreto ? '✅ Senha correta validada!' : '❌ Erro ao validar senha correta.');
+  console.log(matchCorreto ? 'Senha correta validada!' : 'Erro ao validar senha correta.');
 
-  console.log('🔍 Validando senha incorreta...');
+  console.log('Validando senha incorreta...');
   const matchIncorreto = bcrypt.compareSync('senha_errada', hash);
-  console.log(!matchIncorreto ? '✅ Senha incorreta rejeitada!' : '❌ Erro: aceitou senha errada.');
+  console.log(!matchIncorreto ? 'Senha incorreta rejeitada!' : 'Erro: aceitou senha errada.');
 
-  // 2. Testar JWT
   const secret = 'chave-secreta-teste';
   const payload = { id: 1, usuario: 'admin_teste' };
-  console.log('🔐 Gerando token JWT...');
+  console.log('Gerando token JWT...');
   const token = jwt.sign(payload, secret, { expiresIn: '1h' });
-  console.log('✅ Token gerado:', token);
+  console.log('Token gerado:', token);
 
-  console.log('🔍 Validando token JWT...');
+  console.log('Validando token JWT...');
   const decoded = jwt.verify(token, secret);
-  console.log(decoded.usuario === payload.usuario ? '✅ Token JWT decodificado com sucesso!' : '❌ Erro na decodificação do JWT.');
+  console.log(decoded.usuario === payload.usuario ? 'Token JWT decodificado com sucesso!' : 'Erro na decodificação do JWT.');
 
-  console.log('🎉 Todos os testes de autenticação passaram!');
+  console.log('Todos os testes de autenticação passaram!');
 } catch (error) {
-  console.error('❌ Erro nos testes de autenticação:', error.message);
+  console.error('Erro nos testes de autenticação:', error.message);
 }

@@ -1,6 +1,4 @@
-// =============================================
-// CARDÁPIO ONLINE - APP.JS
-// =============================================
+// Cardápio Online - Script Principal
 
 // URL DO SERVIDOR PIX
 const PIX_SERVER_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || !window.location.hostname || window.location.protocol === 'file:'
@@ -27,11 +25,11 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (data.categories && data.pizzas) {
         CATEGORIES = data.categories;
         PIZZAS = data.pizzas;
-        console.log('✅ Cardápio dinâmico carregado do servidor!');
+        console.log('Cardápio dinâmico carregado do servidor!');
       }
     }
   } catch (error) {
-    console.warn('⚠️ Não foi possível carregar o cardápio do servidor, usando fallback estático:', error);
+    console.warn('Não foi possível carregar o cardápio do servidor, usando fallback estático:', error);
   }
 
   renderStoreInfo();
@@ -44,9 +42,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   setupSearch();
 });
 
-// =============================================
-// INFO DO ESTABELECIMENTO
-// =============================================
+// Info do estabelecimento
 function renderStoreInfo() {
   document.getElementById('storeAddress').textContent = STORE_INFO.address;
   document.getElementById('storePhone').textContent = STORE_INFO.phone;
@@ -81,9 +77,7 @@ function checkStoreStatus() {
   }
 }
 
-// =============================================
-// PARTICLES
-// =============================================
+// Partículas do background
 function createParticles() {
   const container = document.getElementById('particles');
   for (let i = 0; i < 20; i++) {
@@ -97,9 +91,7 @@ function createParticles() {
   }
 }
 
-// =============================================
-// CATEGORIAS NAV
-// =============================================
+// Navegação de categorias
 function renderCategoriesNav() {
   const nav = document.getElementById('categoriesNav');
 
@@ -186,9 +178,7 @@ function setupCategoryObserver() {
   document.querySelectorAll('.category-section').forEach(s => observer.observe(s));
 }
 
-// =============================================
-// RENDERIZAR PRODUTOS
-// =============================================
+// Renderização dos produtos no cardápio
 function renderAllProducts() {
   const main = document.getElementById('mainContent');
   // MANter o banner de busca
@@ -259,9 +249,7 @@ function toggleCategory(catId) {
   header.classList.toggle('collapsed');
 }
 
-// =============================================
-// BUSCA
-// =============================================
+// Campo de pesquisa
 function setupSearch() {
   const input = document.getElementById('searchInput');
   let debounce;
@@ -305,9 +293,7 @@ function clearSearch() {
   renderAllProducts();
 }
 
-// =============================================
-// MODAL DE PRODUTO
-// =============================================
+// Modal de detalhes do produto
 function findProduct(productId, categoryId) {
   const cat = CATEGORIES.find(c => c.id === categoryId);
   if (!cat) return null;
@@ -527,9 +513,7 @@ document.getElementById('productModal').addEventListener('click', (e) => {
   if (e.target.id === 'productModal') closeProductModal();
 });
 
-// =============================================
-// MODAL DE PIZZA
-// =============================================
+// Modal para montagem de pizza meio a meio
 function openPizzaModal() {
   pizzaState = { size: null, flavors: [], border: null };
   pizzaQty = 1;
@@ -698,9 +682,7 @@ document.getElementById('pizzaModal').addEventListener('click', (e) => {
   if (e.target.id === 'pizzaModal') closePizzaModal();
 });
 
-// =============================================
-// CARRINHO
-// =============================================
+// Carrinho de compras
 function saveCart() {
   localStorage.setItem('cart', JSON.stringify(cart));
 }
@@ -797,9 +779,7 @@ function toggleCart() {
   }
 }
 
-// =============================================
-// FECHAR PEDIDO
-// =============================================
+// Finalização do pedido
 function updateCheckoutTotal() {
   const deliveryType = document.getElementById('checkDeliveryType')?.value;
   const totalProducts = cart.reduce((a, i) => a + (i.unitPrice * i.qty), 0);
@@ -822,9 +802,7 @@ function updateCheckoutTotal() {
   document.getElementById('checkoutTotalVal').textContent = `R$ ${formatPrice(totalGeneral)}`;
 }
 
-// =============================================
-// FECHAR PEDIDO
-// =============================================
+// Finalização do pedido
 function openCheckout() {
   if (cart.length === 0) return;
 
@@ -1104,12 +1082,12 @@ async function sendWhatsAppOrder({ name, phone, deliveryType, address, bairro, t
     if (response.ok) {
       const data = await response.json();
       pedidoId = data.id;
-      console.log(`📦 Pedido #${pedidoId} salvo no banco`);
+      console.log(`Pedido #${pedidoId} salvo no banco`);
     } else {
-      console.warn('⚠️ Não foi possível salvar no banco, continuando com WhatsApp...');
+      console.warn('Não foi possível salvar no banco, continuando com WhatsApp...');
     }
   } catch (err) {
-    console.warn('⚠️ Servidor indisponível, continuando com WhatsApp...', err.message);
+    console.warn('Servidor indisponível, continuando com WhatsApp...', err.message);
   }
 
   // 2. MONTAR MENSAGEM WHATSAPP
@@ -1168,9 +1146,9 @@ async function sendWhatsAppOrder({ name, phone, deliveryType, address, bairro, t
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: 'enviado' }),
       });
-      console.log(`✅ Pedido #${pedidoId} marcado como enviado`);
+      console.log(`Pedido #${pedidoId} marcado como enviado`);
     } catch (err) {
-      console.warn('⚠️ Não foi possível atualizar status no banco');
+      console.warn('Não foi possível atualizar status no banco');
     }
   }
 
@@ -1208,7 +1186,7 @@ async function createPixPayment(amount, payerName) {
     const tokenData = await tokenResponse.json();
     const securityToken = tokenData.token;
 
-    console.log('🔐 Token de segurança obtido');
+    console.log('Token de segurança obtido');
 
     // ---- PASSO 2: CRIAR PIX COM TOKEN ----
     const response = await fetch(`${PIX_SERVER_URL}/create-pix`, {
@@ -1352,9 +1330,7 @@ function finishOrder() {
   closeCheckout();
 }
 
-// =============================================
-// FOOTER
-// =============================================
+// Rodapé da página
 function renderFooter() {
   const footer = document.getElementById('footer');
   footer.innerHTML = `
@@ -1377,9 +1353,7 @@ function renderFooter() {
   `;
 }
 
-// =============================================
-// TOAST
-// =============================================
+// Mensagens toast (alerta flutuante)
 function showToast(message, icon = '✅') {
   const toast = document.getElementById('toast');
   document.getElementById('toastText').textContent = message;
@@ -1388,16 +1362,12 @@ function showToast(message, icon = '✅') {
   setTimeout(() => toast.classList.remove('show'), 2500);
 }
 
-// =============================================
-// HELPERS
-// =============================================
+// Funções auxiliares
 function formatPrice(price) {
   return price.toFixed(2).replace('.', ',');
 }
 
-// =============================================
-// DARK/LIGHT THEME
-// =============================================
+// Controle de tema (dark/light mode)
 function toggleTheme() {
   const html = document.documentElement;
   const isDark = html.getAttribute('data-theme') === 'dark';

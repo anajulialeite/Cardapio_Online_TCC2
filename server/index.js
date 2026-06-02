@@ -1,6 +1,4 @@
-// =============================================
-// SERVIDOR PIX + PEDIDOS - CARDÁPIO ONLINE
-// =============================================
+// Servidor PIX e Pedidos - Cardápio Online
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
@@ -30,14 +28,7 @@ const client = new MercadoPagoConfig({
 });
 const payment = new Payment(client);
 
-// =============================================
-// POST /generate-token - Gerar token de segurança
-// =============================================
-// O front-end chama este endpoint ANTES de criar o PIX.
-// O servidor gera um token HMAC assinado com o valor.
-// Na volta (/create-pix), o token é validado.
-// Se o valor foi adulterado, a transação é recusada.
-// =============================================
+// Gera o token de segurança assinado com o valor para validar no create-pix
 app.post('/generate-token', async (req, res) => {
   try {
     const { amount } = req.body;
@@ -49,7 +40,7 @@ app.post('/generate-token', async (req, res) => {
     // Gerar token assinado com o valor
     const { token } = gerarToken(Number(amount));
 
-    console.log(`🔐 Token gerado para R$ ${Number(amount).toFixed(2)}`);
+    console.log(`Token gerado para R$ ${Number(amount).toFixed(2)}`);
 
     res.json({
       token,
@@ -64,35 +55,28 @@ app.post('/generate-token', async (req, res) => {
   }
 });
 
-// =============================================
-// POST /create-pix - Criar cobrança PIX
-// =============================================
-// AGORA EXIGE TOKEN VÁLIDO para criar a cobrança.
-// Se o token for inválido ou o valor foi adulterado,
-// a transação é automaticamente recusada.
-// =============================================
+// POST /create-pix - Cria cobrança PIX com validação do token HMAC
 app.post('/create-pix', async (req, res) => {
   try {
     const { amount, token, description, payerEmail, payerFirstName, payerLastName, payerCPF } = req.body;
 
-    // ---- VALIDAÇÃO DO TOKEN ----
+    // Validação do token
     if (!token) {
-      console.warn('⚠️  Tentativa de criar PIX sem token!');
+      console.warn('Tentativa de criar PIX sem token');
       return res.status(403).json({ error: 'Token de segurança obrigatório' });
     }
 
     const validacao = validarToken(token, Number(amount));
     if (!validacao.valid) {
-      console.error(`🚫 TOKEN INVÁLIDO: ${validacao.error}`);
-      console.error(`   Amount recebido: R$ ${Number(amount).toFixed(2)}`);
+      console.error(`Token inválido: ${validacao.error}`);
+      console.error(`Valor recebido: R$ ${Number(amount).toFixed(2)}`);
       return res.status(403).json({
         error: 'Transação recusada',
         details: validacao.error,
       });
     }
 
-    console.log(`✅ Token validado para R$ ${Number(amount).toFixed(2)}`);
-    // ---- FIM VALIDAÇÃO ----
+    console.log(`Token validado para R$ ${Number(amount).toFixed(2)}`);
 
     if (!amount || amount <= 0) {
       return res.status(400).json({ error: 'Valor inválido' });
@@ -132,9 +116,7 @@ app.post('/create-pix', async (req, res) => {
   }
 });
 
-// =============================================
-// GET /payment-status/:id - Verificar status
-// =============================================
+// GET /payment-status/:id - Verifica status do pagamento no Mercado Pago
 app.get('/payment-status/:id', async (req, res) => {
   try {
     const result = await payment.get({ id: req.params.id });
@@ -153,9 +135,7 @@ app.get('/payment-status/:id', async (req, res) => {
   }
 });
 
-// =============================================
-// POST /orders - Salvar pedido no banco
-// =============================================
+// POST /orders - Salva pedido no banco
 app.post('/orders', async (req, res) => {
   try {
     const {
@@ -210,9 +190,7 @@ app.post('/orders', async (req, res) => {
   }
 });
 
-// =============================================
-// PUT /orders/:id/status - Atualizar status
-// =============================================
+// PUT /orders/:id/status - Atualiza status do pedido
 app.put('/orders/:id/status', async (req, res) => {
   try {
     const { status } = req.body;
@@ -238,9 +216,7 @@ app.put('/orders/:id/status', async (req, res) => {
   }
 });
 
-// =============================================
-// GET /orders/pending - Listar pedidos pendentes
-// =============================================
+// GET /orders/pending - Retorna os pedidos pendentes ou com erro
 app.get('/orders/pending', async (req, res) => {
   try {
     const pendentes = await db.buscarPendentes();
@@ -275,9 +251,7 @@ app.get('/orders/pending', async (req, res) => {
   }
 });
 
-// =============================================
-// GET /menu - Obter cardápio completo do banco (com fallback)
-// =============================================
+// GET /menu - Carrega o cardápio mesclando os dados do banco com o data.js do frontend
 app.get('/menu', async (req, res) => {
   try {
     const dbMenu = await db.obterMenuCompleto();
@@ -338,16 +312,12 @@ app.get('/menu', async (req, res) => {
       pizzas: mergedPizzas
     });
   } catch (error) {
-    console.warn('⚠️ Erro ao carregar cardápio do banco, usando fallback local...');
-    // Se der qualquer erro (ex: banco offline), o controller retorna erro
-    // O frontend tratará isso carregando o data.js local como fallback.
+    console.warn('Erro ao carregar cardápio do banco, usando fallback local...');
     res.status(500).json({ error: 'Erro ao carregar cardápio', details: error.message });
   }
 });
 
-// =============================================
-// POST /admin/login - Login administrativo
-// =============================================
+// POST /admin/login - Autenticação do painel administrativo
 app.post('/admin/login', async (req, res) => {
   try {
     const { usuario, senha } = req.body;
@@ -382,9 +352,7 @@ app.post('/admin/login', async (req, res) => {
   }
 });
 
-// =============================================
-// GET /admin/orders - Listar todos os pedidos
-// =============================================
+// GET /admin/orders - Retorna todos os pedidos para o painel administrativo
 app.get('/admin/orders', authMiddleware, async (req, res) => {
   try {
     const pedidos = await db.buscarTodosPedidos();
@@ -416,9 +384,7 @@ app.get('/admin/orders', authMiddleware, async (req, res) => {
   }
 });
 
-// =============================================
-// PUT /admin/orders/:id/status - Atualizar status do pedido
-// =============================================
+// PUT /admin/orders/:id/status - Atualização de status por um administrador
 app.put('/admin/orders/:id/status', authMiddleware, async (req, res) => {
   try {
     const { status } = req.body;
@@ -441,9 +407,7 @@ app.put('/admin/orders/:id/status', authMiddleware, async (req, res) => {
   }
 });
 
-// =============================================
-// GET /admin/dashboard - Estatísticas do painel
-// =============================================
+// GET /admin/dashboard - Retorna estatísticas gerais de faturamento e status
 app.get('/admin/dashboard', authMiddleware, async (req, res) => {
   try {
     const stats = await db.obterEstatisticasDashboard();
@@ -454,9 +418,7 @@ app.get('/admin/dashboard', authMiddleware, async (req, res) => {
   }
 });
 
-// =============================================
-// GET /admin/products - Listar produtos gerais
-// =============================================
+// GET /admin/products - Retorna a lista de produtos gerais cadastrados
 app.get('/admin/products', authMiddleware, async (req, res) => {
   try {
     const dbMenu = await db.obterMenuCompleto();
@@ -467,9 +429,7 @@ app.get('/admin/products', authMiddleware, async (req, res) => {
   }
 });
 
-// =============================================
-// PUT /admin/products/:id - Editar produto
-// =============================================
+// PUT /admin/products/:id - Edição de dados do produto pelo ID
 app.put('/admin/products/:id', authMiddleware, async (req, res) => {
   try {
     const { nome, descricao, preco, disponivel } = req.body;
@@ -487,9 +447,7 @@ app.put('/admin/products/:id', authMiddleware, async (req, res) => {
   }
 });
 
-// =============================================
-// GET /admin/pizzas - Listar sabores de pizza
-// =============================================
+// GET /admin/pizzas - Retorna os sabores e preços das pizzas
 app.get('/admin/pizzas', authMiddleware, async (req, res) => {
   try {
     const dbMenu = await db.obterMenuCompleto();
@@ -500,9 +458,7 @@ app.get('/admin/pizzas', authMiddleware, async (req, res) => {
   }
 });
 
-// =============================================
-// PUT /admin/pizzas/:name - Editar sabor de pizza
-// =============================================
+// PUT /admin/pizzas/:name - Edição dos preços e disponibilidade do sabor de pizza
 app.put('/admin/pizzas/:name', authMiddleware, async (req, res) => {
   try {
     const { descricao, precoBrotinho, precoGrande, disponivel } = req.body;
@@ -520,23 +476,14 @@ app.put('/admin/pizzas/:name', authMiddleware, async (req, res) => {
   }
 });
 
-// =============================================
-// INICIAR SERVIDOR
-// =============================================
+// Inicialização do servidor
 app.listen(PORT, async () => {
-  console.log(`✅ Servidor rodando em http://localhost:${PORT}`);
-  console.log(`🔐 Token: POST http://localhost:${PORT}/generate-token`);
-  console.log(`📱 Endpoint PIX: POST http://localhost:${PORT}/create-pix`);
-  console.log(`🔍 Status: GET http://localhost:${PORT}/payment-status/:id`);
-  console.log(`📦 Pedidos: POST http://localhost:${PORT}/orders`);
-  console.log(`📋 Pendentes: GET http://localhost:${PORT}/orders/pending`);
+  console.log(`Servidor rodando em http://localhost:${PORT}`);
 
-  // Conectar ao banco e iniciar fila
   try {
     await db.getPool();
     iniciarFilaDeReenvio();
   } catch (err) {
-    console.log('⚠️  Banco não conectado. Pedidos via banco desabilitados.');
-    console.log('   Configure as variáveis DB_* no arquivo .env');
+    console.log('Banco de dados não conectado. Pedidos via banco desabilitados.');
   }
 });

@@ -1,6 +1,4 @@
-// =============================================
-// DADOS DO CARDÁPIO ONLINE
-// =============================================
+// Dados de configuração e itens do cardápio
 
 const STORE_INFO = {
   name: "Menu Online",
