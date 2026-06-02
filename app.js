@@ -800,6 +800,31 @@ function toggleCart() {
 // =============================================
 // FECHAR PEDIDO
 // =============================================
+function updateCheckoutTotal() {
+  const deliveryType = document.getElementById('checkDeliveryType')?.value;
+  const totalProducts = cart.reduce((a, i) => a + (i.unitPrice * i.qty), 0);
+  let fee = 0;
+
+  if (deliveryType === 'delivery') {
+    const neighborhoodSelect = document.getElementById('checkNeighborhood');
+    if (neighborhoodSelect) {
+      const selectedOption = neighborhoodSelect.options[neighborhoodSelect.selectedIndex];
+      fee = parseFloat(selectedOption?.dataset?.fee || 0);
+    }
+    document.getElementById('checkoutDeliveryRow').style.display = 'flex';
+    document.getElementById('checkoutDeliveryFee').textContent = `R$ ${formatPrice(fee)}`;
+  } else {
+    document.getElementById('checkoutDeliveryRow').style.display = 'none';
+    document.getElementById('checkoutDeliveryFee').textContent = 'R$ 0,00';
+  }
+
+  const totalGeneral = totalProducts + fee;
+  document.getElementById('checkoutTotalVal').textContent = `R$ ${formatPrice(totalGeneral)}`;
+}
+
+// =============================================
+// FECHAR PEDIDO
+// =============================================
 function openCheckout() {
   if (cart.length === 0) return;
 
@@ -830,9 +855,13 @@ function openCheckout() {
             <span>R$ ${formatPrice(item.unitPrice * item.qty)}</span>
           </div>
         `).join('')}
+        <div id="checkoutDeliveryRow" style="display: none; justify-content: space-between; margin-bottom: 8px; font-size: 14px; opacity: 0.9;">
+          <span>Taxa de Entrega</span>
+          <span id="checkoutDeliveryFee">R$ 0,00</span>
+        </div>
         <div class="checkout__summary-total">
-          <span>Total</span>
-          <span>R$ ${formatPrice(total)}</span>
+          <span>Total Geral</span>
+          <span id="checkoutTotalVal">R$ ${formatPrice(total)}</span>
         </div>
       </div>
 
@@ -857,9 +886,19 @@ function openCheckout() {
           </select>
         </div>
         <div id="deliveryFields">
+          <p style="font-size: 12px; color: var(--accent); margin-bottom: 10px; font-weight: bold;">📍 Entregamos apenas na cidade de Luziânia-GO</p>
           <div class="checkout__input-group">
-            <label>Endereço *</label>
-            <input type="text" id="checkAddress" placeholder="Rua, número, bairro" value="${savedData.address || ''}">
+            <label>Bairro *</label>
+            <select id="checkNeighborhood" required>
+              <option value="">Selecione seu bairro em Luziânia...</option>
+              ${DELIVERY_AREAS.neighborhoods.map(n => `
+                <option value="${n.name}" data-fee="${n.fee}" ${savedData.bairro === n.name ? 'selected' : ''}>${n.name} — R$ ${formatPrice(n.fee)}</option>
+              `).join('')}
+            </select>
+          </div>
+          <div class="checkout__input-group">
+            <label>Endereço (Rua e Número) *</label>
+            <input type="text" id="checkAddress" placeholder="Rua, número, apto" value="${savedData.address || ''}">
           </div>
           <div class="checkout__input-group">
             <label>Referência</label>
@@ -901,27 +940,44 @@ function openCheckout() {
       </div>
 
       <button class="checkout__submit" onclick="submitOrder()">
-        ✅ Enviar Pedido via WhatsApp
+        📱 Pagar com PIX
       </button>
     </div>
   `;
 
-  // ALTERNAR O TIPO DE ENTREGA
+  // Inicializar o botão conforme o meio de pagamento selecionado por padrão
+  const paymentSelect = document.getElementById('checkPayment');
+  const submitBtn = document.querySelector('.checkout__submit');
+  if (paymentSelect.value === 'pix') {
+    submitBtn.innerHTML = '📱 Pagar com PIX';
+  } else {
+    submitBtn.innerHTML = '✅ Enviar Pedido via WhatsApp';
+  }
+
+  // ALTERNAR O TIPO DE ENTREGA E ATUALIZAR TOTAL
   document.getElementById('checkDeliveryType').addEventListener('change', (e) => {
-    document.getElementById('deliveryFields').style.display = e.target.value === 'delivery' ? 'block' : 'none';
+    const isDelivery = e.target.value === 'delivery';
+    document.getElementById('deliveryFields').style.display = isDelivery ? 'block' : 'none';
+    updateCheckoutTotal();
+  });
+
+  // ESCUTAR ALTERAÇÃO DE BAIRRO E ATUALIZAR TOTAL
+  document.getElementById('checkNeighborhood').addEventListener('change', () => {
+    updateCheckoutTotal();
   });
 
   // ALTERNAR O TIPO DE PAGAMENTO
-  document.getElementById('checkPayment').addEventListener('change', (e) => {
+  paymentSelect.addEventListener('change', (e) => {
     document.getElementById('changeFields').style.display = e.target.value === 'dinheiro' ? 'block' : 'none';
-    // Alterar botão de submit quando PIX for selecionado
-    const submitBtn = document.querySelector('.checkout__submit');
     if (e.target.value === 'pix') {
       submitBtn.innerHTML = '📱 Pagar com PIX';
     } else {
       submitBtn.innerHTML = '✅ Enviar Pedido via WhatsApp';
     }
   });
+
+  // Inicializar cálculo do total de checkout
+  updateCheckoutTotal();
 
   document.getElementById('checkoutOverlay').classList.add('active');
   document.body.style.overflow = 'hidden';
@@ -945,13 +1001,38 @@ function submitOrder() {
     return;
   }
 
+  const deliveryType = document.getElementById('checkDeliveryType').value;
+  let address = '';
+  let bairro = null;
+  let taxaEntrega = 0;
+
+  if (deliveryType === 'delivery') {
+    const street = document.getElementById('checkAddress')?.value?.trim() || '';
+    const neighborhoodSelect = document.getElementById('checkNeighborhood');
+    bairro = neighborhoodSelect?.value || '';
+    
+    if (!bairro) {
+      showToast('Selecione seu bairro para entrega!', '⚠️');
+      return;
+    }
+    if (!street) {
+      showToast('Preencha a rua e o número do endereço!', '⚠️');
+      return;
+    }
+
+    const selectedOption = neighborhoodSelect.options[neighborhoodSelect.selectedIndex];
+    taxaEntrega = parseFloat(selectedOption?.dataset?.fee || 0);
+    address = street;
+  }
+
   // Salvar dados do cliente se checkbox marcado
   const saveData = document.getElementById('checkSaveData')?.checked;
   if (saveData) {
     const customerData = {
       name,
       phone,
-      address: document.getElementById('checkAddress')?.value?.trim() || '',
+      address: deliveryType === 'delivery' ? address : '',
+      bairro: deliveryType === 'delivery' ? bairro : '',
       ref: document.getElementById('checkRef')?.value?.trim() || ''
     };
     localStorage.setItem('customerData', JSON.stringify(customerData));
@@ -959,30 +1040,29 @@ function submitOrder() {
     localStorage.removeItem('customerData');
   }
 
-  const deliveryType = document.getElementById('checkDeliveryType').value;
-  const address = document.getElementById('checkAddress')?.value?.trim() || '';
   const ref = document.getElementById('checkRef')?.value?.trim() || '';
   const payment = document.getElementById('checkPayment').value;
   const change = document.getElementById('checkChange')?.value?.trim() || '';
   const obs = document.getElementById('checkObs')?.value?.trim() || '';
-  const total = cart.reduce((a, i) => a + (i.unitPrice * i.qty), 0);
+  const totalProducts = cart.reduce((a, i) => a + (i.unitPrice * i.qty), 0);
+  const total = totalProducts + taxaEntrega;
 
   // SE FOR PIX, ABRE O MODAL PIX
   if (payment === 'pix') {
     // Salvar dados do pedido para enviar no WhatsApp depois
-    window._pixOrderData = { name, phone, deliveryType, address, ref, obs, total };
+    window._pixOrderData = { name, phone, deliveryType, address, bairro, taxaEntrega, ref, obs, total };
     createPixPayment(total, name);
     return;
   }
 
   // FLUXO NORMAL - ENVIAR NO WHATSAPP
-  sendWhatsAppOrder({ name, phone, deliveryType, address, ref, payment, change, obs, total });
+  sendWhatsAppOrder({ name, phone, deliveryType, address, bairro, taxaEntrega, ref, payment, change, obs, total });
 }
 
 // =============================================
 // ENVIAR PEDIDO VIA WHATSAPP (COM PROTEÇÃO DB)
 // =============================================
-async function sendWhatsAppOrder({ name, phone, deliveryType, address, ref, payment, change, obs, total, pixPago }) {
+async function sendWhatsAppOrder({ name, phone, deliveryType, address, bairro, taxaEntrega, ref, payment, change, obs, total, pixPago }) {
   // 1. SALVAR NO BANCO PRIMEIRO
   let pedidoId = null;
   try {
@@ -1015,6 +1095,9 @@ async function sendWhatsAppOrder({ name, phone, deliveryType, address, ref, paym
         tipoEntrega: deliveryType || 'delivery',
         trocoPara: payment === 'dinheiro' ? (change || null) : null,
         pixPago: pixPago || false,
+        cidade: deliveryType === 'delivery' ? 'Luziânia' : null,
+        bairro: deliveryType === 'delivery' ? (bairro || null) : null,
+        taxaEntrega: deliveryType === 'delivery' ? (taxaEntrega || 0.00) : 0.00,
       }),
     });
 
@@ -1057,8 +1140,11 @@ async function sendWhatsAppOrder({ name, phone, deliveryType, address, ref, paym
   msg += `\n${EMOJI.money} *TOTAL: R$ ${formatPrice(total)}*\n\n`;
   msg += `${EMOJI.bike} *Entrega:* ${deliveryType === 'delivery' ? 'Delivery' : 'Retirada no Balcão'}\n`;
   if (deliveryType === 'delivery' && address) {
-    msg += `${EMOJI.pin} *Endereço:* ${address}\n`;
+    msg += `🏙️ *Cidade:* Luziânia - GO\n`;
+    if (bairro) msg += `${EMOJI.pin} *Bairro:* ${bairro}\n`;
+    msg += `🏠 *Endereço:* ${address}\n`;
     if (ref) msg += `${EMOJI.pushpin} *Referência:* ${ref}\n`;
+    msg += `🚴 *Taxa de Entrega:* R$ ${formatPrice(taxaEntrega || 0)}\n`;
   }
 
   if (pixPago) {
