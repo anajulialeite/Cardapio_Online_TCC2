@@ -10,7 +10,7 @@
 <img src="Logo/Gemini_Generated_Image_49hozq49hozq49ho-removebg-preview.png" alt="Logo" align="left" width="50" height="50">
 <img src="AJ - Criar e desenvolver (sem símbolo do Gemini).png" alt="Logo" align="center" width="65" height="65">
 
-Sistema web para gerenciamento de pedidos online desenvolvido como Trabalho de Conclusão de Curso (TCC), com foco em experiência do usuário, automação de pedidos e integração com meios de pagamento.
+Sistema web para gerenciamento de pedidos online desenvolvido como Trabalho de Conclusão de Curso (TCC II), com foco em experiência do usuário, automação de pedidos e integração com meios de pagamento.
 
 O projeto evoluiu de uma proposta acadêmica para uma aplicação funcional, preparada para utilização comercial em pequenos restaurantes e lanchonetes.
 
