@@ -161,7 +161,8 @@ app.post('/orders', async (req, res) => {
     const {
       nomeCliente, telefone, endereco, referencia,
       observacao, total, itens,
-      formaPagamento, tipoEntrega, trocoPara, pixPago
+      formaPagamento, tipoEntrega, trocoPara, pixPago,
+      cidade, bairro, taxaEntrega
     } = req.body;
 
     // Validações
@@ -190,6 +191,9 @@ app.post('/orders', async (req, res) => {
       tipoEntrega,
       trocoPara,
       pixPago,
+      cidade,
+      bairro,
+      taxaEntrega,
     });
 
     res.status(201).json({
@@ -252,6 +256,9 @@ app.get('/orders/pending', async (req, res) => {
       status: p.Status,
       tentativasEnvio: p.TentativasEnvio,
       dataCriacao: p.DataCriacao,
+      cidade: p.Cidade,
+      bairro: p.Bairro,
+      taxaEntrega: p.TaxaEntrega,
       itens: p.Itens ? JSON.parse(p.Itens) : [],
     }));
 
@@ -396,6 +403,9 @@ app.get('/admin/orders', authMiddleware, async (req, res) => {
       status: p.Status,
       tentativasEnvio: p.TentativasEnvio,
       dataCriacao: p.DataCriacao,
+      cidade: p.Cidade,
+      bairro: p.Bairro,
+      taxaEntrega: p.TaxaEntrega,
       itens: p.Itens ? JSON.parse(p.Itens) : [],
     }));
 
