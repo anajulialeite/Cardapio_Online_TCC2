@@ -111,6 +111,9 @@ CREATE TABLE Pedidos (
     DataAtualizacao DATETIME                        NOT NULL    DEFAULT GETDATE(),
     Cupom           NVARCHAR(50)                    NULL,
     Desconto        DECIMAL(10,2)                   NOT NULL    DEFAULT 0.00,
+    Cidade          NVARCHAR(100)                   NOT NULL    DEFAULT 'Luziânia',
+    Bairro          NVARCHAR(100)                   NULL,
+    TaxaEntrega     DECIMAL(10,2)                   NOT NULL    DEFAULT 0.00,
 
     CONSTRAINT PK_Pedidos PRIMARY KEY CLUSTERED (Id),
 
@@ -132,7 +135,9 @@ CREATE TABLE Pedidos (
 
     CONSTRAINT CK_Pedidos_Telefone CHECK (LEN(Telefone) >= 10),
 
-    CONSTRAINT CK_Pedidos_Desconto CHECK (Desconto >= 0)
+    CONSTRAINT CK_Pedidos_Desconto CHECK (Desconto >= 0),
+
+    CONSTRAINT CK_Pedidos_TaxaEntrega CHECK (TaxaEntrega >= 0)
 );
 GO
 
