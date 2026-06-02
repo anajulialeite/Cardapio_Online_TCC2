@@ -200,13 +200,13 @@ O sistema utiliza mecanismos de proteção para garantir a integridade das opera
 Em conformidade com a Lei Geral de Proteção de Dados (LGPD – Lei nº 13.709/2018), os dados informados pelos usuários são utilizados exclusivamente para demonstração do funcionamento da plataforma e não são compartilhados com terceiros.
 
 ### Carrinho de Compras
-<!-- Insira aqui o caminho da imagem do carrinho, ex: <img src="Logo/Carrinho.png" alt="Carrinho de Compras" width="300">-->
+<img src="Logo/Index.png" alt="Index" align="center" width="300" height="300">
 
 ### Checkout PIX (QR Code & Timer)
-<!-- Insira aqui o caminho da imagem do checkout PIX, ex: <img src="Logo/CheckoutPIX.png" alt="Checkout PIX" width="300">-->
+<img src="Logo/Carrinho de compras.png" alt="Index" align="center" width="300" height="300">
 
 ### Painel Administrativo
-<!-- Insira aqui o caminho da imagem do painel admin, ex: <img src="Logo/PainelAdmin.png" alt="Painel Administrativo" width="300">-->
+<img src="Logo/Painel ADM.png" alt="Index" align="center" width="300" height="300">
 
 ---
 
