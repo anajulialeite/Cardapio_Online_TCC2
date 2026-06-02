@@ -177,6 +177,9 @@ async function seed() {
             DataAtualizacao DATETIME                        NOT NULL    DEFAULT GETDATE(),
             Cupom           NVARCHAR(50)                    NULL,
             Desconto        DECIMAL(10,2)                   NOT NULL    DEFAULT 0.00,
+            Cidade          NVARCHAR(100)                   NOT NULL    DEFAULT 'Luziânia',
+            Bairro          NVARCHAR(100)                   NULL,
+            TaxaEntrega     DECIMAL(10,2)                   NOT NULL    DEFAULT 0.00,
             CONSTRAINT PK_Pedidos PRIMARY KEY CLUSTERED (Id),
             CONSTRAINT CK_Pedidos_Status CHECK (Status IN ('pendente', 'enviado', 'erro')),
             CONSTRAINT CK_Pedidos_FormaPagamento CHECK (FormaPagamento IN ('dinheiro', 'debito', 'credito', 'pix')),
@@ -184,7 +187,8 @@ async function seed() {
             CONSTRAINT CK_Pedidos_Total CHECK (Total >= 0),
             CONSTRAINT CK_Pedidos_TentativasEnvio CHECK (TentativasEnvio >= 0),
             CONSTRAINT CK_Pedidos_Telefone CHECK (LEN(Telefone) >= 10),
-            CONSTRAINT CK_Pedidos_Desconto CHECK (Desconto >= 0)
+            CONSTRAINT CK_Pedidos_Desconto CHECK (Desconto >= 0),
+            CONSTRAINT CK_Pedidos_TaxaEntrega CHECK (TaxaEntrega >= 0)
         );
         PRINT 'Tabela Pedidos criada com sucesso.';
       END
