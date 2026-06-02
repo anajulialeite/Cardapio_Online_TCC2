@@ -987,6 +987,7 @@ async function sendWhatsAppOrder({ name, phone, deliveryType, address, ref, paym
   let pedidoId = null;
   try {
     const itens = cart.map(item => ({
+      produtoId: item.productId || null,
       nome: item.name,
       quantidade: item.qty,
       preco: item.unitPrice * item.qty,

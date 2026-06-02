@@ -90,6 +90,7 @@ async function salvarPedido(pedido) {
     for (const item of pedido.itens) {
       await transaction.request()
         .input('PedidoId', sql.Int, pedidoId)
+        .input('ProdutoId', sql.NVarChar(50), item.produtoId || null)
         .input('NomeProduto', sql.NVarChar(100), item.nome)
         .input('Quantidade', sql.Int, item.quantidade)
         .input('Preco', sql.Decimal(10, 2), item.preco)
@@ -97,8 +98,8 @@ async function salvarPedido(pedido) {
         .input('Extras', sql.NVarChar(500), item.extras || null)
         .input('Observacao', sql.NVarChar(255), item.observacao || null)
         .query(`
-          INSERT INTO ItensPedido (PedidoId, NomeProduto, Quantidade, Preco, Complementos, Extras, Observacao)
-          VALUES (@PedidoId, @NomeProduto, @Quantidade, @Preco, @Complementos, @Extras, @Observacao)
+          INSERT INTO ItensPedido (PedidoId, ProdutoId, NomeProduto, Quantidade, Preco, Complementos, Extras, Observacao)
+          VALUES (@PedidoId, @ProdutoId, @NomeProduto, @Quantidade, @Preco, @Complementos, @Extras, @Observacao)
         `);
     }
 
