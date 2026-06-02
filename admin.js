@@ -348,11 +348,13 @@ function openOrderDetails(orderId) {
         </div>
         <div class="info-block">
           <h4>Tipo de Entrega</h4>
-          <p>${order.tipoEntrega === 'delivery' ? '🚗 Entrega' : '🏪 Retirada no Balcão'}</p>
+          <p>${order.tipoEntrega === 'delivery' ? `🚗 Entrega (Taxa: R$ ${formatPrice(order.taxaEntrega || 0)})` : '🏪 Retirada no Balcão'}</p>
         </div>
         <div class="info-block" style="grid-column: span 2;">
           <h4>Endereço de Entrega</h4>
           <p>${order.endereco || 'Retirada no local'}</p>
+          ${order.bairro ? `<p style="font-size: 13px; margin-top: 4px;"><strong>Bairro:</strong> ${order.bairro}</p>` : ''}
+          ${order.cidade ? `<p style="font-size: 13px; margin-top: 2px;"><strong>Cidade:</strong> ${order.cidade} - GO</p>` : ''}
           ${order.referencia ? `<p style="font-size: 12px; color: var(--text-secondary); margin-top: 4px;">Ref: ${order.referencia}</p>` : ''}
         </div>
         <div class="info-block">
