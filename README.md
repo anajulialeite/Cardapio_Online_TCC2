@@ -28,7 +28,7 @@ O projeto evoluiu de uma proposta acadêmica para uma aplicação funcional, pre
 * Gerenciamento de produtos e preços
 * Banco de dados SQL Server
 * Autenticação JWT para área administrativa:
-Sistema web de pedidos online desenvolvido como Trabalho de Conclusão de Curso (TCC), voltado para restaurantes e lanchonetes. A aplicação contempla o gerenciamento do cardápio em tempo real, processamento de pagamentos PIX integrado, painel administrativo dedicado com controle operacional, autenticação segura por meio de tokens JWT e persistência de dados em SQL Server.
+Sistema web de pedidos online desenvolvido como Trabalho de Conclusão de Curso (TCC II), voltado para restaurantes e lanchonetes. A aplicação contempla o gerenciamento do cardápio em tempo real, processamento de pagamentos PIX integrado, painel administrativo dedicado com controle operacional, autenticação segura por meio de tokens JWT e persistência de dados em SQL Server.
 
 ---
 
