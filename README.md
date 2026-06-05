@@ -10,28 +10,11 @@
 <img src="Logo/Gemini_Generated_Image_49hozq49hozq49ho-removebg-preview.png" alt="Logo" align="left" width="50" height="50">
 <img src="AJ - Criar e desenvolver (sem símbolo do Gemini).png" alt="Logo" align="center" width="65" height="65">
 
-Sistema web para gerenciamento de pedidos online desenvolvido como Trabalho de Conclusão de Curso (TCC II), com foco em experiência do usuário, automação de pedidos e integração com meios de pagamento.
+Sistema web de pedidos online desenvolvido como Trabalho de Conclusão de Curso (TCC II), voltado para restaurantes e lanchonetes.
+
+A aplicação contempla gerenciamento de cardápio em tempo real, processamento de pagamentos PIX integrado ao Mercado Pago, painel administrativo protegido por autenticação JWT e persistência de dados em SQL Server.
 
 O projeto evoluiu de uma proposta acadêmica para uma aplicação funcional, preparada para utilização comercial em pequenos restaurantes e lanchonetes.
-
-## Principais Funcionalidades
-
-* Cardápio digital responsivo
-* Carrinho de compras
-* Busca de produtos em tempo real
-* Modo claro e modo escuro
-* Controle de horário de funcionamento
-* Pedidos via WhatsApp
-* Pagamento via PIX utilizando Mercado Pago
-* Taxa de entrega por bairro
-* Delivery e retirada no balcão
-* Painel administrativo
-* Gerenciamento de produtos e preços
-* Banco de dados SQL Server
-* Autenticação JWT para área administrativa:
-Sistema web de pedidos online desenvolvido como Trabalho de Conclusão de Curso (TCC II), voltado para restaurantes e lanchonetes. A aplicação contempla o gerenciamento do cardápio em tempo real, processamento de pagamentos PIX integrado, painel administrativo dedicado com controle operacional, autenticação segura por meio de tokens JWT e persistência de dados em SQL Server.
-
----
 
 ## Arquitetura do Sistema
 
@@ -166,38 +149,8 @@ Em conformidade com a Lei Geral de Proteção de Dados (LGPD – Lei nº 13.709/
 ## Demonstração
 
 ### Página Inicial (Cardápio Digital)
+
 <img src="Logo/Index.png" alt="Index" align="center" width="300" height="300">
-
-## Como Funciona
-
-1. O cliente acessa o cardápio online.
-2. Seleciona os produtos desejados.
-3. Escolhe retirada ou entrega.
-4. Define a forma de pagamento.
-5. O sistema gera o pedido.
-6. O pedido é enviado ao administrador.
-7. O pagamento PIX é processado pelo Mercado Pago.
-
-## Segurança
-
-O sistema utiliza mecanismos de proteção para garantir a integridade das operações:
-
-* Autenticação JWT para área administrativa
-* Validação de requisições críticas
-* Proteção de rotas administrativas
-* Tratamento de dados em conformidade com a LGPD
-
-## Estrutura do Projeto
-
-/frontend
-/server
-/database
-/assets
-/docs
-
-## Observação sobre Dados
-
-Em conformidade com a Lei Geral de Proteção de Dados (LGPD – Lei nº 13.709/2018), os dados informados pelos usuários são utilizados exclusivamente para demonstração do funcionamento da plataforma e não são compartilhados com terceiros.
 
 ### Carrinho de Compras
 <img src="Logo/Carrinho de compras.png" alt="Index" align="center" width="300" height="400">
