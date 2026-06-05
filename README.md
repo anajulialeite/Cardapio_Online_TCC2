@@ -23,44 +23,7 @@ A aplicação foi desenvolvida utilizando uma arquitetura cliente-servidor, sepa
 O fluxo de informações segue o modelo abaixo:
 
 ```mermaid
-flowchart TD
-    %% Classes & Estilos
-    classDef front fill:#1C003F,color:#fff,stroke:#FF1493,stroke-width:2px;
-    classDef back fill:#4c1d95,color:#fff,stroke:#a78bfa,stroke-width:2px;
-    classDef db fill:#0f172a,color:#fff,stroke:#38bdf8,stroke-width:2px;
-    classDef ext fill:#14532d,color:#fff,stroke:#4ade80,stroke-width:2px;
-
-    subgraph Frontend [Camada Cliente - Navegador]
-        A[Interface do Usuário]:::front
-        A1[Checkout UI / Seletor de Bairro]:::front
-        A2[PIX Modal / Polling Status]:::front
-    end
-
-    subgraph Backend [Servidor Express - Node.js]
-        B[API Controller / Rotas]:::back
-        B1[Módulo JWT / Middleware Auth]:::back
-        B2[Assinatura HMAC-SHA256]:::back
-        B3[Fila de Reenvio - Cron]:::back
-    end
-
-    subgraph Persistencia [Persistência de Dados]
-        C[(Banco de Dados: SQL Server)]:::db
-    end
-
-    subgraph Servicos [Integrações Externas]
-        D[Mercado Pago - API PIX]:::ext
-        E[API WhatsApp Link]:::ext
-    end
-
-    %% Fluxo de Informação
-    A -->|Acesso Público & Admin| B
-    A1 -->|1. Salvar Pedido / Auth JWT| B
-    A2 -->|2. Gerar Token de Valor| B
-    B -->|3. Validar / Persistir Pedido| C
-    B2 -->|4. Validar HMAC| B
-    B -->|5. Criar Cobrança PIX| D
-    A1 -->|6. Redirecionar com Dados| E
-    B3 -->|7. Reprocessar Pedidos Falhos| B
+graph TD A[Frontend: HTML/CSS/JS] -->|Requisições HTTP & JWT| B[Backend API: Node.js + Express] B -->|Persistência de Dados| C[(Banco de Dados: SQL Server)] B -->|Geração e Validação de PIX| D[Integração: Mercado Pago] A -->|Redirecionamento com Dados do Pedido| E[Notificação: WhatsApp]
 ```
 
 ---
