@@ -49,6 +49,8 @@ graph TD
 
 ---
 
+## Tecnologias Utilizadas
+
 ### Frontend
 
 * HTML5
@@ -147,6 +149,8 @@ Em conformidade com a Lei Geral de Proteção de Dados (LGPD – Lei nº 13.709/
 ---
 
 ## Demonstração
+
+Abaixo estão algumas capturas de tela das principais funcionalidades do sistema.
 
 ### Página Inicial (Cardápio Digital)
 
