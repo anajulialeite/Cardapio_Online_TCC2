@@ -1,7 +1,0 @@
-Sugestões de Melhoria (Checklist para o TCC)
-
-Embora o banco esteja correto, para um projeto de TCC, você pode considerar estes ajustes finos:
-
--> Ele demora um pouco pra gerar o QR Code, melhorar isso
-
--> fazer algo para o sistema não enrolar buscando dados no banco de dados, agilizar processo
