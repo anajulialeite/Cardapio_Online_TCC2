@@ -18,7 +18,9 @@ O projeto evoluiu de uma proposta acadêmica para uma aplicação funcional, pre
 
 ## Arquitetura do Sistema
 
-O fluxo de informações e a integração entre as diferentes partes da aplicação seguem o modelo abaixo:
+A aplicação foi desenvolvida utilizando uma arquitetura cliente-servidor, separando frontend, backend, banco de dados e integrações externas para facilitar manutenção, escalabilidade e segurança.
+
+O fluxo de informações segue o modelo abaixo:
 
 ```mermaid
 flowchart TD
@@ -99,7 +101,7 @@ flowchart TD
 
 * Microsoft SQL Server
 
-### Integrações
+### Integrações e Serviços
 
 * Mercado Pago
 * WhatsApp
@@ -163,7 +165,10 @@ O repositório está organizado de forma simples, com o frontend na raiz e o bac
    ```bash
    node seed-db.js
    ```
-   *(Dica: Se quiser limpar tabelas antigas antes de semear, execute: `node seed-db.js --clean`)*
+   > Dica: Se quiser limpar tabelas antigas antes de semear, execute:
+   >
+   > `node seed-db.js --clean`
+   
 4. Inicie o servidor local Express:
    ```bash
    npm start
@@ -204,6 +209,8 @@ Abaixo estão algumas capturas de tela das principais funcionalidades do sistema
 
 **Ana Júlia de Lima Aguiar Leite**
 
+Desenvolvedora responsável pela análise, modelagem, implementação, documentação e testes do projeto Cardápio Online.
+
 <a href="https://www.linkedin.com/in/anajulialimaleite/" style="text-decoration:none" target="_blank" rel="noopener noreferrer">
     <img src="https://img.shields.io/badge/Linkedin-%231C003F?style=for-the-badge&logo=LinkedIn&logoColor=white" alt="LinkedIn"/>
 </a>
@@ -215,5 +222,9 @@ Abaixo estão algumas capturas de tela das principais funcionalidades do sistema
 ---
 
 ## Licença
+
+Este projeto está licenciado sob a Licença Proprietária AJ - Criar e Desenvolver.
+
+O código-fonte não pode ser redistribuído, comercializado ou utilizado para fins comerciais sem autorização prévia da autora.
 
 [![AJ - Criar e Desenvolver](https://img.shields.io/badge/AJ%20Criar%20e%20Desenvolver-Licença%20Proprietária-FF1493?labelColor=1C003F)](./LICENSE)
