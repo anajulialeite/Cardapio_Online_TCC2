@@ -277,6 +277,7 @@ app.get('/menu', async (req, res) => {
             desc: dbProd.Descricao,
             price: Number(dbProd.Preco),
             available: dbProd.Disponivel === true || dbProd.Disponivel === 1,
+            image: dbProd.Imagem || prod.image,
           };
         }
         return prod;
@@ -301,6 +302,7 @@ app.get('/menu', async (req, res) => {
               grande: Number(dbPizza.PrecoGrande),
             },
             available: dbPizza.Disponivel === true || dbPizza.Disponivel === 1,
+            image: dbPizza.Imagem || flavor.image,
           };
         }
         return flavor;
@@ -432,14 +434,14 @@ app.get('/admin/products', authMiddleware, async (req, res) => {
 // PUT /admin/products/:id - Edição de dados do produto pelo ID
 app.put('/admin/products/:id', authMiddleware, async (req, res) => {
   try {
-    const { nome, descricao, preco, disponivel } = req.body;
+    const { nome, descricao, preco, disponivel, imagem } = req.body;
     const id = req.params.id;
 
     if (!nome || preco === undefined) {
       return res.status(400).json({ error: 'Nome e preço são obrigatórios' });
     }
 
-    await db.atualizarProduto(id, { nome, descricao, preco, disponivel });
+    await db.atualizarProduto(id, { nome, descricao, preco, disponivel, imagem });
     res.json({ id, message: 'Produto atualizado com sucesso' });
   } catch (error) {
     console.error('Erro ao atualizar produto (admin):', error);
@@ -461,14 +463,14 @@ app.get('/admin/pizzas', authMiddleware, async (req, res) => {
 // PUT /admin/pizzas/:name - Edição dos preços e disponibilidade do sabor de pizza
 app.put('/admin/pizzas/:name', authMiddleware, async (req, res) => {
   try {
-    const { descricao, precoBrotinho, precoGrande, disponivel } = req.body;
+    const { descricao, precoBrotinho, precoGrande, disponivel, imagem } = req.body;
     const name = req.params.name;
 
     if (precoBrotinho === undefined || precoGrande === undefined) {
       return res.status(400).json({ error: 'Preços são obrigatórios' });
     }
 
-    await db.atualizarPizzaSabor(name, { descricao, precoBrotinho, precoGrande, disponivel });
+    await db.atualizarPizzaSabor(name, { descricao, precoBrotinho, precoGrande, disponivel, imagem });
     res.json({ name, message: 'Sabor de pizza atualizado com sucesso' });
   } catch (error) {
     console.error('Erro ao atualizar sabor de pizza (admin):', error);

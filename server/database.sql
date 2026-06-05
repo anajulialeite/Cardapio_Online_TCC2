@@ -42,6 +42,7 @@ CREATE TABLE Produtos (
     Disponivel      BIT             NOT NULL DEFAULT 1,
     Tag             NVARCHAR(50)    NULL,
     Complements     NVARCHAR(MAX)   NULL,
+    Imagem          NVARCHAR(255)   NULL,
     DataCriacao     DATETIME        NOT NULL DEFAULT GETDATE(),
     DataAtualizacao DATETIME        NOT NULL DEFAULT GETDATE(),
 
@@ -72,6 +73,7 @@ CREATE TABLE PizzaSabores (
     PrecoBrotinho   DECIMAL(10,2)                   NOT NULL,
     PrecoGrande     DECIMAL(10,2)                   NOT NULL,
     Disponivel      BIT                             NOT NULL DEFAULT 1,
+    Imagem          NVARCHAR(255)                   NULL,
     DataCriacao     DATETIME                        NOT NULL DEFAULT GETDATE(),
     DataAtualizacao DATETIME                        NOT NULL DEFAULT GETDATE(),
 

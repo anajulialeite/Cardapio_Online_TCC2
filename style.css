@@ -2596,3 +2596,34 @@ ul {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--text-light);
 }
+
+/* =============================================
+   SUPORTE A IMAGENS DE PRODUTOS
+   ============================================= */
+.product-card__img {
+  width: 96px;
+  height: 96px;
+  object-fit: cover;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+#modalBannerContainer {
+  width: 100%;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+.modal__banner-img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+}
+
+@media (max-width: 480px) {
+  .product-card__img {
+    width: 80px;
+    height: 80px;
+  }
+}

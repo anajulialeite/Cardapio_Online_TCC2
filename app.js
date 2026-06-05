@@ -226,9 +226,13 @@ function renderProductCard(product, category) {
   const tagHtml = product.tag
     ? `<span class="product-card__tag ${product.tag === 'Novidade' ? 'product-card__tag--new' : ''}">${product.tag}</span>`
     : '';
+  const imgHtml = product.image
+    ? `<img class="product-card__img" src="${product.image}" alt="${product.name}" loading="lazy">`
+    : '';
 
   return `
     <div class="product-card ${unavailableClass}" onclick="openProductModal('${product.id}', '${category.id}')">
+      ${imgHtml}
       <div class="product-card__info">
         <div class="product-card__name">${product.name}</div>
         ${product.desc ? `<div class="product-card__desc">${product.desc}</div>` : ''}
@@ -309,6 +313,14 @@ function openProductModal(productId, categoryId) {
 
   const { product, category } = result;
   const modal = document.getElementById('productModal');
+
+  // Banner da imagem
+  const bannerContainer = document.getElementById('modalBannerContainer');
+  if (product.image) {
+    bannerContainer.innerHTML = `<img class="modal__banner-img" src="${product.image}" alt="${product.name}">`;
+  } else {
+    bannerContainer.innerHTML = '';
+  }
 
   document.getElementById('modalTitle').textContent = product.name;
   document.getElementById('modalDesc').textContent = product.desc || '';

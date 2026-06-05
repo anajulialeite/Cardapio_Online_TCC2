@@ -32,7 +32,7 @@ let CATEGORIES = [
     name: "Sushi",
     icon: "🍣",
     products: [
-      { id: "p1", name: "Temaki de Salmão", desc: "Arroz e salmão", price: 38.9, available: true },
+      { id: "p1", name: "Temaki de Salmão", desc: "Arroz e salmão", price: 38.9, available: true, image: "images/products/temaki_salmao.webp" },
       { id: "p2", name: "Temaki Philadélfia", desc: "Arroz, salmão, cream cheese e cebolinha", price: 38.9, available: true },
       { id: "p3", name: "Temaki Samarão", desc: "Arroz, salmão, camarão e cream cheese", price: 41.9, available: true },
       { id: "p4", name: "Temaki Camarão", desc: "Arroz, camarão, cream cheese e alho poró", price: 41.9, available: true },
@@ -341,7 +341,7 @@ let PIZZAS = {
     { id: "grande", name: "Grande 8 Fatias", desc: "Até 2 Sabores - 8 Fatias", basePrice: 59.90, maxFlavors: 2 },
   ],
   flavors: [
-    { name: "Calabresa", desc: "Muçarela, molho pomodoro, calabresa e cebola", type: "Tradicional", prices: { brotinho: 34.90, grande: 59.90 } },
+    { name: "Calabresa", desc: "Muçarela, molho pomodoro, calabresa e cebola", type: "Tradicional", prices: { brotinho: 34.90, grande: 59.90 }, image: "images/products/pizza_calabresa.webp" },
     { name: "Frango", desc: "Muçarela, molho pomodoro, frango, milho e azeitona", type: "Tradicional", prices: { brotinho: 34.90, grande: 59.90 } },
     { name: "Marguerita", desc: "Muçarela, molho pomodoro, tomate cereja, parmesão e manjericão", type: "Tradicional", prices: { brotinho: 34.90, grande: 59.90 } },
     { name: "Muçarela", desc: "Muçarela, molho pomodoro e tomate", type: "Tradicional", prices: { brotinho: 34.90, grande: 59.90 } },

@@ -193,9 +193,10 @@ async function atualizarProduto(id, dados) {
     .input('Descricao', sql.NVarChar(255), dados.descricao || null)
     .input('Preco', sql.Decimal(10, 2), dados.preco)
     .input('Disponivel', sql.Bit, dados.disponivel ? 1 : 0)
+    .input('Imagem', sql.NVarChar(255), dados.imagem || null)
     .query(`
       UPDATE Produtos 
-      SET Nome = @Nome, Descricao = @Descricao, Preco = @Preco, Disponivel = @Disponivel 
+      SET Nome = @Nome, Descricao = @Descricao, Preco = @Preco, Disponivel = @Disponivel, Imagem = @Imagem 
       WHERE Id = @Id
     `);
 }
@@ -209,9 +210,10 @@ async function atualizarPizzaSabor(nome, dados) {
     .input('PrecoBrotinho', sql.Decimal(10, 2), dados.precoBrotinho)
     .input('PrecoGrande', sql.Decimal(10, 2), dados.precoGrande)
     .input('Disponivel', sql.Bit, dados.disponivel ? 1 : 0)
+    .input('Imagem', sql.NVarChar(255), dados.imagem || null)
     .query(`
       UPDATE PizzaSabores 
-      SET Descricao = @Descricao, PrecoBrotinho = @PrecoBrotinho, PrecoGrande = @PrecoGrande, Disponivel = @Disponivel 
+      SET Descricao = @Descricao, PrecoBrotinho = @PrecoBrotinho, PrecoGrande = @PrecoGrande, Disponivel = @Disponivel, Imagem = @Imagem 
       WHERE Nome = @Nome
     `);
 }

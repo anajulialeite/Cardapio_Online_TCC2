@@ -89,6 +89,7 @@ async function seed() {
             Disponivel      BIT             NOT NULL DEFAULT 1,
             Tag             NVARCHAR(50)    NULL,
             Complements     NVARCHAR(MAX)   NULL,
+            Imagem          NVARCHAR(255)   NULL,
             DataCriacao     DATETIME        NOT NULL DEFAULT GETDATE(),
             DataAtualizacao DATETIME        NOT NULL DEFAULT GETDATE(),
             CONSTRAINT PK_Produtos PRIMARY KEY CLUSTERED (Id),
@@ -124,6 +125,7 @@ async function seed() {
             PrecoBrotinho   DECIMAL(10,2)                   NOT NULL,
             PrecoGrande     DECIMAL(10,2)                   NOT NULL,
             Disponivel      BIT                             NOT NULL DEFAULT 1,
+            Imagem          NVARCHAR(255)                   NULL,
             DataCriacao     DATETIME                        NOT NULL DEFAULT GETDATE(),
             DataAtualizacao DATETIME                        NOT NULL DEFAULT GETDATE(),
             CONSTRAINT PK_PizzaSabores PRIMARY KEY CLUSTERED (Id),
@@ -321,9 +323,10 @@ async function seed() {
             .input('Disponivel', sql.Bit, prod.available ? 1 : 0)
             .input('Tag', sql.NVarChar(50), prod.tag || null)
             .input('Complements', sql.NVarChar(sql.MAX), complementsJson)
+            .input('Imagem', sql.NVarChar(255), prod.image || null)
             .query(`
-              INSERT INTO Produtos (Id, CategoriaId, Nome, Descricao, Preco, Disponivel, Tag, Complements)
-              VALUES (@Id, @CategoriaId, @Nome, @Descricao, @Preco, @Disponivel, @Tag, @Complements)
+              INSERT INTO Produtos (Id, CategoriaId, Nome, Descricao, Preco, Disponivel, Tag, Complements, Imagem)
+              VALUES (@Id, @CategoriaId, @Nome, @Descricao, @Preco, @Disponivel, @Tag, @Complements, @Imagem)
             `);
           prodCount++;
         }
@@ -349,9 +352,10 @@ async function seed() {
           .input('PrecoBrotinho', sql.Decimal(10, 2), precoBrotinho)
           .input('PrecoGrande', sql.Decimal(10, 2), precoGrande)
           .input('Disponivel', sql.Bit, 1)
+          .input('Imagem', sql.NVarChar(255), flavor.image || null)
           .query(`
-            INSERT INTO PizzaSabores (Nome, Descricao, Tipo, PrecoBrotinho, PrecoGrande, Disponivel)
-            VALUES (@Nome, @Descricao, @Tipo, @PrecoBrotinho, @PrecoGrande, @Disponivel)
+            INSERT INTO PizzaSabores (Nome, Descricao, Tipo, PrecoBrotinho, PrecoGrande, Disponivel, Imagem)
+            VALUES (@Nome, @Descricao, @Tipo, @PrecoBrotinho, @PrecoGrande, @Disponivel, @Imagem)
           `);
         pizzaCount++;
       }
