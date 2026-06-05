@@ -8,7 +8,7 @@
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vscode/vscode-original.svg" align="left" width="50" height="50"/>
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/microsoftsqlserver/microsoftsqlserver-original.svg" align="left" width="50" height="50"/>
 <img src="Logo/Gemini_Generated_Image_49hozq49hozq49ho-removebg-preview.png" alt="Logo" align="left" width="50" height="50">
-<img src="AJ - Criar e desenvolver (sem símbolo do Gemini).png" alt="Logo" align="center" width="65" height="65">
+<img src="Logo/AJ - Criar e desenvolver.png" alt="Logo" align="center" width="65" height="65">
 
 Sistema web de pedidos online desenvolvido como Trabalho de Conclusão de Curso (TCC II), voltado para restaurantes e lanchonetes.
 
@@ -21,11 +21,15 @@ O projeto evoluiu de uma proposta acadêmica para uma aplicação funcional, pre
 O fluxo de informações e a integração entre as diferentes partes da aplicação seguem o modelo abaixo:
 
 ```mermaid
+<<<<<<< HEAD
 graph TD
     A[Frontend: HTML/CSS/JS] -->|Requisições HTTP & JWT| B[Backend API: Node.js + Express]
     B -->|Persistência de Dados| C[(Banco de Dados: SQL Server)]
     B -->|Geração e Validação de PIX| D[Integração: Mercado Pago]
     A -->|Redirecionamento com Dados do Pedido| E[Notificação: WhatsApp]
+=======
+graph TD A[Frontend: HTML/CSS/JS] -->|Requisições HTTP & JWT| B[Backend API: Node.js + Express] B -->|Persistência de Dados| C[(Banco de Dados: SQL Server)] B -->|Geração e Validação de PIX| D[Integração: Mercado Pago] A -->|Redirecionamento com Dados do Pedido| E[Notificação: WhatsApp]
+>>>>>>> 5313f4acc4e6f0ddf1bd55358ba1b56b9080650c
 ```
 
 ---
