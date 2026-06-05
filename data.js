@@ -384,15 +384,15 @@ let DELIVERY_AREAS = {
   city: "Luziânia",
   state: "GO",
   neighborhoods: [
+    { name: "Bairro Prefeito Caetano", fee: 6.00 },
     { name: "Centro", fee: 5.00 },
+    { name: "Jardim Ingá", fee: 12.00 },
+    { name: "Jardim Jockey Club", fee: 8.00 },
+    { name: "Parque Alvorada", fee: 7.00 },
     { name: "Parque Estrela", fee: 6.00 },
+    { name: "Parque Industrial", fee: 9.00 },
     { name: "Setor Leste", fee: 6.00 },
     { name: "Setor Norte", fee: 7.00 },
-    { name: "Jardim Jockey Club", fee: 8.00 },
-    { name: "Jardim Ingá", fee: 12.00 },
-    { name: "Parque Alvorada", fee: 7.00 },
-    { name: "Vila Guará", fee: 8.00 },
-    { name: "Parque Industrial", fee: 9.00 },
-    { name: "Bairro Prefeito Caetano", fee: 6.00 }
+    { name: "Vila Guará", fee: 8.00 }
   ]
 };
