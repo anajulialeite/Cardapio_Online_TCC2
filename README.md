@@ -169,7 +169,7 @@ Abaixo estão algumas capturas de tela das principais funcionalidades do sistema
 <img src="Logo/pix.png" alt="Index" align="center" width="250" height="300">
 
 ### Painel Administrativo
-<img src="Logo/Painel ADM.png" alt="Index" align="center" width="300" height="300">
+<img src="Logo/Painel Administrativo.png" alt="Index" align="center" width="400" height="400">
 
 ---
 
