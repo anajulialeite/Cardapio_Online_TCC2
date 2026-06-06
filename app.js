@@ -570,19 +570,23 @@ function renderPizzaModal() {
         <div class="pizza-flavor-type">
           <div class="pizza-flavor-type__title">${type}</div>
           ${flavorsOfType.map(flavor => {
-        const isSelected = pizzaState.flavors.includes(flavor.name);
-        const price = flavor.prices[pizzaState.size.id];
-        return `
-              <div class="pizza-flavor-option ${isSelected ? 'selected' : ''}" onclick="togglePizzaFlavor('${flavor.name}')">
-                <div class="pizza-flavor-option__check">${isSelected ? '✓' : ''}</div>
-                <div class="pizza-flavor-option__info">
-                  <div class="pizza-flavor-option__name">${flavor.name}</div>
-                  <div class="pizza-flavor-option__desc">${flavor.desc}</div>
-                </div>
-                <div class="pizza-flavor-option__price">R$ ${formatPrice(price)}</div>
-              </div>
-            `;
-      }).join('')}
+            const isSelected = pizzaState.flavors.includes(flavor.name);
+            const price = flavor.prices[pizzaState.size.id];
+            const imgHtml = flavor.image
+              ? `<img class="pizza-flavor-option__img" src="${flavor.image}" alt="${flavor.name}" loading="lazy">`
+              : '';
+            return `
+                  <div class="pizza-flavor-option ${isSelected ? 'selected' : ''}" onclick="togglePizzaFlavor('${flavor.name}')">
+                    <div class="pizza-flavor-option__check">${isSelected ? '✓' : ''}</div>
+                    ${imgHtml}
+                    <div class="pizza-flavor-option__info">
+                      <div class="pizza-flavor-option__name">${flavor.name}</div>
+                      <div class="pizza-flavor-option__desc">${flavor.desc}</div>
+                    </div>
+                    <div class="pizza-flavor-option__price">R$ ${formatPrice(price)}</div>
+                  </div>
+                `;
+          }).join('')}
         </div>
       `;
     });
