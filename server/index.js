@@ -425,11 +425,7 @@ app.put('/admin/orders/:id/status', authMiddleware, async (req, res) => {
       return res.status(400).json({ error: 'Status inválido' });
     }
 
-    try {
-      await db.atualizarStatus(pedidoId, status);
-    } catch (dbErr) {
-      console.warn('Banco offline na atualização de status');
-    }
+    await db.atualizarStatus(pedidoId, status);
 
     res.json({
       id: pedidoId,
@@ -438,7 +434,7 @@ app.put('/admin/orders/:id/status', authMiddleware, async (req, res) => {
     });
   } catch (error) {
     console.error('Erro ao atualizar status do pedido (admin):', error);
-    res.status(500).json({ error: 'Erro ao atualizar status', details: error.message });
+    res.status(500).json({ error: 'Erro ao atualizar status do pedido no banco de dados', details: error.message });
   }
 });
 
@@ -517,15 +513,11 @@ app.put('/admin/products/:id', authMiddleware, async (req, res) => {
       return res.status(400).json({ error: 'Nome e preço são obrigatórios' });
     }
 
-    try {
-      await db.atualizarProduto(id, { nome, descricao, preco, disponivel, imagem });
-    } catch (dbErr) {
-      console.warn('Banco offline na edição de produto');
-    }
+    await db.atualizarProduto(id, { nome, descricao, preco, disponivel, imagem });
     res.json({ id, message: 'Produto atualizado com sucesso' });
   } catch (error) {
     console.error('Erro ao atualizar produto (admin):', error);
-    res.status(500).json({ error: 'Erro ao atualizar produto', details: error.message });
+    res.status(500).json({ error: 'Erro ao atualizar produto no banco de dados', details: error.message });
   }
 });
 
@@ -575,15 +567,11 @@ app.put('/admin/pizzas/:name', authMiddleware, async (req, res) => {
       return res.status(400).json({ error: 'Preços são obrigatórios' });
     }
 
-    try {
-      await db.atualizarPizzaSabor(name, { descricao, precoBrotinho, precoGrande, disponivel, imagem });
-    } catch (dbErr) {
-      console.warn('Banco offline na edição de sabor de pizza');
-    }
+    await db.atualizarPizzaSabor(name, { descricao, precoBrotinho, precoGrande, disponivel, imagem });
     res.json({ name, message: 'Sabor de pizza atualizado com sucesso' });
   } catch (error) {
     console.error('Erro ao atualizar sabor de pizza (admin):', error);
-    res.status(500).json({ error: 'Erro ao atualizar sabor de pizza', details: error.message });
+    res.status(500).json({ error: 'Erro ao atualizar sabor de pizza no banco de dados', details: error.message });
   }
 });
 

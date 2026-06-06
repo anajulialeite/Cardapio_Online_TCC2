@@ -164,7 +164,7 @@ let CATEGORIES = [
       { id: "c5", name: "Pamonha Sal", desc: null, price: 9.00, available: true },
       { id: "c6", name: "Cuscuz Carne Seca com Muçarela", desc: null, price: 22.90, available: true },
       { id: "c7", name: "Cuscuz Calabresa, bacon e muçarela", desc: null, price: 22.90, available: true },
-      { id: "c8", name: "Pamonha Doce", desc: null, price: 9.00, available: false },
+      { id: "c8", name: "Pamonha Doce", desc: null, price: 9.00, available: true },
     ],
     extras: [{ name: "Maionese", price: 0.10 }]
   },
