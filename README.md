@@ -35,6 +35,7 @@ graph TD
 - **Cardápio Digital Interativo**: Interface responsiva para desktop e dispositivos móveis, com suporte a modo claro e modo escuro.
 - **Carrinho de Compras**: Suporte para seleção de complementos (obrigatórios e opcionais) e adicionais de produtos com cálculo dinâmico de valores.
 - **Montagem de Pizzas Fracionadas**: Interface modal para escolha de sabores fracionados, tamanhos e bordas.
+- **Imagens Opcionais nos Produtos**: Suporte a fotos de pratos e sabores de pizza em formato WebP altamente otimizado, exibidas nos cards (`96x96px` / `80x80px`), no topo do modal de detalhes, e como miniaturas (`50x50px`) no modal de montagem de pizza.
 - **Busca em Tempo Real**: Filtro instantâneo de itens do cardápio por digitação.
 - **Controle de Horário de Funcionamento**: Status dinâmico da loja ("Aberto agora" ou "Fechado") com base em regras de horários configuradas.
 - **Integração com Mercado Pago (PIX)**: Geração de QR Code e código Copia e Cola via API oficial do Mercado Pago, com atualização automática do status de pagamento.
@@ -45,7 +46,7 @@ graph TD
   - Controle de pedidos pendentes, enviados e com erro.
   - Alteração de preços e controle de disponibilidade de produtos em tempo real.
   - Estatísticas operacionais (faturamento total e do dia).
-- **Banco de Dados SQL Server**: Armazenamento relacional estruturado com triggers para controle de data de atualização e índices otimizados para consultas de pedidos e produtos.
+- **Banco de Dados SQL Server**: Armazenamento relacional estruturado com triggers para controle de data de atualização, persistência da coluna de imagens do cardápio (`Imagem NVARCHAR(255) NULL`) nas tabelas de produtos e sabores, e índices otimizados para consultas de pedidos e produtos.
 
 ---
 
@@ -74,7 +75,8 @@ graph TD
 ## Diferenciais Técnicos
 
 - **Segurança da Transação**: Validação de integridade de preços via assinatura HMAC no servidor para mitigar vulnerabilidades de modificação do DOM/HTML.
-- **Arquitetura Resiliente (Fallback Local)**: Sistema que carrega a versão estática e local do cardápio caso o banco de dados SQL Server esteja temporariamente indisponível.
+- **Performance de Carregamento (Otimização)**: Uso de imagens em formato `.webp` compactadas a menos de 150 KB associadas ao atributo `loading="lazy"` para manter a fluidez de carregamento rápido.
+- **Arquitetura Resiliente (Fallback Local)**: Sistema que carrega a versão estática e local do cardápio caso o banco de dados SQL Server esteja temporariamente indisponível (resiliência no frontend e backend).
 - **Autenticação Stateless**: Utilização de tokens JWT (JSON Web Tokens) com prazo de expiração para garantir segurança nas requisições administrativas.
 - **Consistência Relacional**: Banco de dados estruturado com chaves estrangeiras, triggers de atualização automática e chaves únicas para evitar duplicidade de cadastros.
 
@@ -88,6 +90,7 @@ O repositório está organizado de forma simples, com o frontend na raiz e o bac
   - `index.html` / `app.js` / `style.css` - Página principal do cardápio digital do cliente.
   - `admin.html` / `admin.js` / `admin.css` - Painel administrativo.
   - `data.js` - Arquivo contendo as informações básicas da loja e do cardápio local (fallback).
+  - `images/products/` - Diretório contendo os arquivos de imagem de comida no formato `.webp`.
 - **`/server` (Backend Node.js & Express)**:
   - `index.js` - Ponto de entrada do servidor Express e rotas da API.
   - `db.js` - Conexão e queries utilizando o driver nativo (`msnodesqlv8`) ou `tedious` para o SQL Server.
