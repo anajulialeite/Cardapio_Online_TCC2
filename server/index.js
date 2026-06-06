@@ -10,6 +10,57 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const { authMiddleware, JWT_SECRET } = require('./auth');
 
+let fallbackProducts = null;
+let fallbackPizzas = null;
+
+function getFallbackData() {
+  if (!fallbackProducts || !fallbackPizzas) {
+    const vm = require('vm');
+    const fs = require('fs');
+    const path = require('path');
+    try {
+      const dataJsContent = fs.readFileSync(path.join(__dirname, '../data.js'), 'utf8');
+      const context = vm.createContext({});
+      const scriptToRun = dataJsContent + '\nglobalThis.CATEGORIES = CATEGORIES; globalThis.PIZZAS = PIZZAS;';
+      vm.runInContext(scriptToRun, context);
+      const { CATEGORIES, PIZZAS } = context;
+
+      fallbackProducts = [];
+      CATEGORIES.forEach(cat => {
+        cat.products.forEach(p => {
+          fallbackProducts.push({
+            Id: p.id,
+            CategoriaId: cat.id,
+            Nome: p.name,
+            Descricao: p.desc || null,
+            Preco: p.price,
+            Disponivel: p.available ? 1 : 0,
+            Tag: p.tag || null,
+            Imagem: p.image || null,
+            Complements: p.complements ? JSON.stringify(p.complements) : null
+          });
+        });
+      });
+
+      fallbackPizzas = PIZZAS.flavors.map((flavor, index) => ({
+        Id: index + 1,
+        Nome: flavor.name,
+        Descricao: flavor.desc || null,
+        Tipo: flavor.type,
+        PrecoBrotinho: flavor.prices.brotinho,
+        PrecoGrande: flavor.prices.grande,
+        Disponivel: flavor.available !== false ? 1 : 0,
+        Imagem: flavor.image || null
+      }));
+    } catch (err) {
+      console.error('Erro ao inicializar fallback data.js:', err);
+      fallbackProducts = [];
+      fallbackPizzas = [];
+    }
+  }
+  return { products: fallbackProducts, pizzas: fallbackPizzas };
+}
+
 const app = express();
 const PORT = process.env.PORT || 3001;
 
@@ -268,10 +319,53 @@ app.get('/menu', async (req, res) => {
     try {
       dbMenu = await db.obterMenuCompleto();
     } catch (dbErr) {
-      console.warn('Banco de dados indisponível, servindo cardápio estático do arquivo data.js:', dbErr.message);
+      console.warn('Banco de dados indisponível, servindo cardápio estático mesclado com cache em memória:', dbErr.message);
+      const fallback = getFallbackData();
+
+      const mergedCategories = CATEGORIES.map(cat => {
+        const mergedProducts = cat.products.map(prod => {
+          const dbProd = fallback.products.find(p => p.Id === prod.id);
+          if (dbProd) {
+            return {
+              ...prod,
+              name: dbProd.Nome,
+              desc: dbProd.Descricao,
+              price: Number(dbProd.Preco),
+              available: dbProd.Disponivel === true || dbProd.Disponivel === 1,
+              image: dbProd.Imagem || prod.image,
+            };
+          }
+          return prod;
+        });
+        return {
+          ...cat,
+          products: mergedProducts
+        };
+      });
+
+      const mergedPizzas = {
+        ...PIZZAS,
+        flavors: PIZZAS.flavors.map(flavor => {
+          const dbPizza = fallback.pizzas.find(p => p.Nome === flavor.name);
+          if (dbPizza) {
+            return {
+              ...flavor,
+              desc: dbPizza.Descricao,
+              prices: {
+                brotinho: Number(dbPizza.PrecoBrotinho),
+                grande: Number(dbPizza.PrecoGrande),
+              },
+              available: dbPizza.Disponivel === true || dbPizza.Disponivel === 1,
+              image: dbPizza.Imagem || flavor.image,
+            };
+          }
+          return flavor;
+        })
+      };
+
       return res.json({
-        categories: CATEGORIES,
-        pizzas: PIZZAS
+        categories: mergedCategories,
+        pizzas: mergedPizzas
       });
     }
 
@@ -470,31 +564,9 @@ app.get('/admin/products', authMiddleware, async (req, res) => {
       const dbMenu = await db.obterMenuCompleto();
       produtos = dbMenu.produtos;
     } catch (dbErr) {
-      console.warn('Banco offline no carregamento de produtos admin, lendo do data.js');
-      const vm = require('vm');
-      const fs = require('fs');
-      const path = require('path');
-      const dataJsContent = fs.readFileSync(path.join(__dirname, '../data.js'), 'utf8');
-      const context = vm.createContext({});
-      const scriptToRun = dataJsContent + '\nglobalThis.CATEGORIES = CATEGORIES;';
-      vm.runInContext(scriptToRun, context);
-      const { CATEGORIES } = context;
-
-      produtos = [];
-      CATEGORIES.forEach(cat => {
-        cat.products.forEach(p => {
-          produtos.push({
-            Id: p.id,
-            CategoriaId: cat.id,
-            Nome: p.name,
-            Descricao: p.desc || null,
-            Preco: p.price,
-            Disponivel: p.available ? 1 : 0,
-            Tag: p.tag || null,
-            Imagem: p.image || null
-          });
-        });
-      });
+      console.warn('Banco offline no carregamento de produtos admin, lendo do cache em memória');
+      const fallback = getFallbackData();
+      produtos = fallback.products;
     }
     res.json(produtos);
   } catch (error) {
@@ -513,7 +585,20 @@ app.put('/admin/products/:id', authMiddleware, async (req, res) => {
       return res.status(400).json({ error: 'Nome e preço são obrigatórios' });
     }
 
-    await db.atualizarProduto(id, { nome, descricao, preco, disponivel, imagem });
+    try {
+      await db.atualizarProduto(id, { nome, descricao, preco, disponivel, imagem });
+    } catch (dbErr) {
+      console.warn('Banco offline na edição de produto, atualizando cache em memória');
+      const fallback = getFallbackData();
+      const prod = fallback.products.find(p => p.Id === id);
+      if (prod) {
+        prod.Nome = nome;
+        prod.Descricao = descricao || null;
+        prod.Preco = preco;
+        prod.Disponivel = disponivel ? 1 : 0;
+        prod.Imagem = imagem || null;
+      }
+    }
     res.json({ id, message: 'Produto atualizado com sucesso' });
   } catch (error) {
     console.error('Erro ao atualizar produto (admin):', error);
@@ -529,26 +614,9 @@ app.get('/admin/pizzas', authMiddleware, async (req, res) => {
       const dbMenu = await db.obterMenuCompleto();
       pizzas = dbMenu.pizzas;
     } catch (dbErr) {
-      console.warn('Banco offline no carregamento de pizzas admin, lendo do data.js');
-      const vm = require('vm');
-      const fs = require('fs');
-      const path = require('path');
-      const dataJsContent = fs.readFileSync(path.join(__dirname, '../data.js'), 'utf8');
-      const context = vm.createContext({});
-      const scriptToRun = dataJsContent + '\nglobalThis.PIZZAS = PIZZAS;';
-      vm.runInContext(scriptToRun, context);
-      const { PIZZAS } = context;
-
-      pizzas = PIZZAS.flavors.map((flavor, index) => ({
-        Id: index + 1,
-        Nome: flavor.name,
-        Descricao: flavor.desc || null,
-        Tipo: flavor.type,
-        PrecoBrotinho: flavor.prices.brotinho,
-        PrecoGrande: flavor.prices.grande,
-        Disponivel: 1,
-        Imagem: flavor.image || null
-      }));
+      console.warn('Banco offline no carregamento de pizzas admin, lendo do cache em memória');
+      const fallback = getFallbackData();
+      pizzas = fallback.pizzas;
     }
     res.json(pizzas);
   } catch (error) {
@@ -567,7 +635,20 @@ app.put('/admin/pizzas/:name', authMiddleware, async (req, res) => {
       return res.status(400).json({ error: 'Preços são obrigatórios' });
     }
 
-    await db.atualizarPizzaSabor(name, { descricao, precoBrotinho, precoGrande, disponivel, imagem });
+    try {
+      await db.atualizarPizzaSabor(name, { descricao, precoBrotinho, precoGrande, disponivel, imagem });
+    } catch (dbErr) {
+      console.warn('Banco offline na edição de sabor de pizza, atualizando cache em memória');
+      const fallback = getFallbackData();
+      const pizza = fallback.pizzas.find(p => p.Nome === name);
+      if (pizza) {
+        pizza.Descricao = descricao || null;
+        pizza.PrecoBrotinho = precoBrotinho;
+        pizza.PrecoGrande = precoGrande;
+        pizza.Disponivel = disponivel ? 1 : 0;
+        pizza.Imagem = imagem || null;
+      }
+    }
     res.json({ name, message: 'Sabor de pizza atualizado com sucesso' });
   } catch (error) {
     console.error('Erro ao atualizar sabor de pizza (admin):', error);
