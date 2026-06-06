@@ -254,8 +254,6 @@ app.get('/orders/pending', async (req, res) => {
 // GET /menu - Carrega o cardápio mesclando os dados do banco com o data.js do frontend
 app.get('/menu', async (req, res) => {
   try {
-    const dbMenu = await db.obterMenuCompleto();
-    
     // Ler data.js do frontend usando vm
     const vm = require('vm');
     const fs = require('fs');
@@ -265,6 +263,17 @@ app.get('/menu', async (req, res) => {
     const scriptToRun = dataJsContent + '\nglobalThis.CATEGORIES = CATEGORIES; globalThis.PIZZAS = PIZZAS;';
     vm.runInContext(scriptToRun, context);
     const { CATEGORIES, PIZZAS } = context;
+
+    let dbMenu;
+    try {
+      dbMenu = await db.obterMenuCompleto();
+    } catch (dbErr) {
+      console.warn('Banco de dados indisponível, servindo cardápio estático do arquivo data.js:', dbErr.message);
+      return res.json({
+        categories: CATEGORIES,
+        pizzas: PIZZAS
+      });
+    }
 
     // Mesclar produtos normais do banco de dados
     const mergedCategories = CATEGORIES.map(cat => {
