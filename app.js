@@ -226,8 +226,9 @@ function renderProductCard(product, category) {
   const tagHtml = product.tag
     ? `<span class="product-card__tag ${product.tag === 'Novidade' ? 'product-card__tag--new' : ''}">${product.tag}</span>`
     : '';
-  const imgHtml = product.image
-    ? `<img class="product-card__img" src="${product.image}" alt="${product.name}" loading="lazy">`
+  const imgUrl = product.image ? (product.image.startsWith('/uploads/') ? `${PIX_SERVER_URL}${product.image}` : product.image) : '';
+  const imgHtml = imgUrl
+    ? `<img class="product-card__img" src="${imgUrl}" alt="${product.name}" loading="lazy">`
     : '';
 
   return `
@@ -317,7 +318,8 @@ function openProductModal(productId, categoryId) {
   // Banner da imagem
   const bannerContainer = document.getElementById('modalBannerContainer');
   if (product.image) {
-    bannerContainer.innerHTML = `<img class="modal__banner-img" src="${product.image}" alt="${product.name}">`;
+    const imgSrc = product.image.startsWith('/uploads/') ? `${PIX_SERVER_URL}${product.image}` : product.image;
+    bannerContainer.innerHTML = `<img class="modal__banner-img" src="${imgSrc}" alt="${product.name}">`;
   } else {
     bannerContainer.innerHTML = '';
   }
@@ -572,8 +574,9 @@ function renderPizzaModal() {
           ${flavorsOfType.map(flavor => {
             const isSelected = pizzaState.flavors.includes(flavor.name);
             const price = flavor.prices[pizzaState.size.id];
-            const imgHtml = flavor.image
-              ? `<img class="pizza-flavor-option__img" src="${flavor.image}" alt="${flavor.name}" loading="lazy">`
+            const imgUrl = flavor.image ? (flavor.image.startsWith('/uploads/') ? `${PIX_SERVER_URL}${flavor.image}` : flavor.image) : '';
+            const imgHtml = imgUrl
+              ? `<img class="pizza-flavor-option__img" src="${imgUrl}" alt="${flavor.name}" loading="lazy">`
               : '';
             return `
                   <div class="pizza-flavor-option ${isSelected ? 'selected' : ''}" onclick="togglePizzaFlavor('${flavor.name}')">

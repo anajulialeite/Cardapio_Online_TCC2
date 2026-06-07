@@ -46,7 +46,8 @@ graph TD
   - Controle de pedidos pendentes, enviados e com erro.
   - Alteração de preços e controle de disponibilidade de produtos em tempo real.
   - Estatísticas operacionais (faturamento total e do dia).
-- **Banco de Dados SQL Server**: Armazenamento relacional estruturado com triggers para controle de data de atualização, persistência da coluna de imagens do cardápio (`Imagem NVARCHAR(255) NULL`) nas tabelas de produtos e sabores, e índices otimizados para consultas de pedidos e produtos.
+  - **Upload Estruturado de Imagens**: Gestão física de arquivos de imagens no servidor organizada por categorias (`uploads/products/` e `uploads/pizzas/`) com nomes gerados via timestamp/hash para evitar colisões e remoção automática de imagens antigas ao serem substituídas.
+- **Banco de Dados SQL Server**: Armazenamento relacional estruturado com triggers para controle de data de atualização, persistência da coluna de imagens do cardápio (`ImagemUrl NVARCHAR(500) NULL`) nas tabelas de produtos e sabores, e índices otimizados para consultas de pedidos e produtos.
 
 ---
 

@@ -293,6 +293,14 @@
             <label for="editProdPrice">Preço (R$)</label>
             <input type="number" id="editProdPrice" step="0.01" min="0" required>
           </div>
+          <div class="input-group">
+            <label>Imagem do Produto</label>
+            <div style="display: flex; gap: 15px; align-items: center; margin-top: 5px;">
+              <img id="editProdImagePreview" src="" alt="Sem imagem" style="width: 60px; height: 60px; border-radius: 8px; object-fit: cover; background: #333; border: 1px solid var(--border);">
+              <input type="file" id="editProdImageFile" accept="image/*" style="font-size: 13px;">
+            </div>
+            <input type="hidden" id="editProdImageUrl">
+          </div>
           <div class="input-group checkbox-group">
             <label class="toggle-switch">
               <input type="checkbox" id="editProdAvailable">
@@ -336,6 +344,14 @@
               <label for="editPizzaPriceGrande">Preço Grande (R$)</label>
               <input type="number" id="editPizzaPriceGrande" step="0.01" min="0" required>
             </div>
+          </div>
+          <div class="input-group">
+            <label>Imagem do Sabor</label>
+            <div style="display: flex; gap: 15px; align-items: center; margin-top: 5px;">
+              <img id="editPizzaImagePreview" src="" alt="Sem imagem" style="width: 60px; height: 60px; border-radius: 8px; object-fit: cover; background: #333; border: 1px solid var(--border);">
+              <input type="file" id="editPizzaImageFile" accept="image/*" style="font-size: 13px;">
+            </div>
+            <input type="hidden" id="editPizzaImageUrl">
           </div>
           <div class="input-group checkbox-group">
             <label class="toggle-switch">

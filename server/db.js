@@ -193,10 +193,10 @@ async function atualizarProduto(id, dados) {
     .input('Descricao', sql.NVarChar(255), dados.descricao || null)
     .input('Preco', sql.Decimal(10, 2), dados.preco)
     .input('Disponivel', sql.Bit, dados.disponivel ? 1 : 0)
-    .input('Imagem', sql.NVarChar(255), dados.imagem || null)
+    .input('ImagemUrl', sql.NVarChar(500), dados.imagemUrl || null)
     .query(`
       UPDATE Produtos 
-      SET Nome = @Nome, Descricao = @Descricao, Preco = @Preco, Disponivel = @Disponivel, Imagem = @Imagem 
+      SET Nome = @Nome, Descricao = @Descricao, Preco = @Preco, Disponivel = @Disponivel, ImagemUrl = @ImagemUrl 
       WHERE Id = @Id
     `);
 }
@@ -210,10 +210,10 @@ async function atualizarPizzaSabor(nome, dados) {
     .input('PrecoBrotinho', sql.Decimal(10, 2), dados.precoBrotinho)
     .input('PrecoGrande', sql.Decimal(10, 2), dados.precoGrande)
     .input('Disponivel', sql.Bit, dados.disponivel ? 1 : 0)
-    .input('Imagem', sql.NVarChar(255), dados.imagem || null)
+    .input('ImagemUrl', sql.NVarChar(500), dados.imagemUrl || null)
     .query(`
       UPDATE PizzaSabores 
-      SET Descricao = @Descricao, PrecoBrotinho = @PrecoBrotinho, PrecoGrande = @PrecoGrande, Disponivel = @Disponivel, Imagem = @Imagem 
+      SET Descricao = @Descricao, PrecoBrotinho = @PrecoBrotinho, PrecoGrande = @PrecoGrande, Disponivel = @Disponivel, ImagemUrl = @ImagemUrl 
       WHERE Nome = @Nome
     `);
 }

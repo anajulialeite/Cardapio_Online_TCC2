@@ -9,6 +9,16 @@ const { gerarToken, validarToken } = require('./token');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const { authMiddleware, JWT_SECRET } = require('./auth');
+const path = require('path');
+const fs = require('fs');
+const multer = require('multer');
+
+// Criar pasta de uploads se não existir
+const uploadsDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+  console.log(`📁 Pasta de uploads criada: ${uploadsDir}`);
+}
 
 let fallbackProducts = null;
 let fallbackPizzas = null;
@@ -16,8 +26,6 @@ let fallbackPizzas = null;
 function getFallbackData() {
   if (!fallbackProducts || !fallbackPizzas) {
     const vm = require('vm');
-    const fs = require('fs');
-    const path = require('path');
     try {
       const dataJsContent = fs.readFileSync(path.join(__dirname, '../data.js'), 'utf8');
       const context = vm.createContext({});
@@ -36,7 +44,7 @@ function getFallbackData() {
             Preco: p.price,
             Disponivel: p.available ? 1 : 0,
             Tag: p.tag || null,
-            Imagem: p.image || null,
+            ImagemUrl: p.image || null,
             Complements: p.complements ? JSON.stringify(p.complements) : null
           });
         });
@@ -50,7 +58,7 @@ function getFallbackData() {
         PrecoBrotinho: flavor.prices.brotinho,
         PrecoGrande: flavor.prices.grande,
         Disponivel: flavor.available !== false ? 1 : 0,
-        Imagem: flavor.image || null
+        ImagemUrl: flavor.image || null
       }));
     } catch (err) {
       console.error('Erro ao inicializar fallback data.js:', err);
@@ -67,6 +75,7 @@ const PORT = process.env.PORT || 3001;
 // Middleware
 app.use(cors());
 app.use(express.json());
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Health check
 app.get('/', (req, res) => {
@@ -332,7 +341,7 @@ app.get('/menu', async (req, res) => {
               desc: dbProd.Descricao,
               price: Number(dbProd.Preco),
               available: dbProd.Disponivel === true || dbProd.Disponivel === 1,
-              image: dbProd.Imagem || prod.image,
+              image: dbProd.ImagemUrl || prod.image,
             };
           }
           return prod;
@@ -356,7 +365,7 @@ app.get('/menu', async (req, res) => {
                 grande: Number(dbPizza.PrecoGrande),
               },
               available: dbPizza.Disponivel === true || dbPizza.Disponivel === 1,
-              image: dbPizza.Imagem || flavor.image,
+              image: dbPizza.ImagemUrl || flavor.image,
             };
           }
           return flavor;
@@ -380,7 +389,7 @@ app.get('/menu', async (req, res) => {
             desc: dbProd.Descricao,
             price: Number(dbProd.Preco),
             available: dbProd.Disponivel === true || dbProd.Disponivel === 1,
-            image: dbProd.Imagem || prod.image,
+            image: dbProd.ImagemUrl || prod.image,
           };
         }
         return prod;
@@ -405,7 +414,7 @@ app.get('/menu', async (req, res) => {
               grande: Number(dbPizza.PrecoGrande),
             },
             available: dbPizza.Disponivel === true || dbPizza.Disponivel === 1,
-            image: dbPizza.Imagem || flavor.image,
+            image: dbPizza.ImagemUrl || flavor.image,
           };
         }
         return flavor;
@@ -575,10 +584,53 @@ app.get('/admin/products', authMiddleware, async (req, res) => {
   }
 });
 
+// Configuração do Multer para upload simplificado
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, uploadsDir);
+  },
+  filename: (req, file, cb) => {
+    // timestamp + random hash de 6 caracteres + extensao original (evita colisões no mesmo milissegundo)
+    const uniqueSuffix = Date.now() + '-' + Math.random().toString(36).substring(2, 8);
+    cb(null, uniqueSuffix + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({
+  storage: storage,
+  limits: { fileSize: 5 * 1024 * 1024 }, // limite de 5MB
+  fileFilter: (req, file, cb) => {
+    const filetypes = /jpeg|jpg|png|webp|svg/;
+    const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+    const mimetype = filetypes.test(file.mimetype);
+    if (mimetype && extname) {
+      return cb(null, true);
+    }
+    cb(new Error('Apenas imagens são permitidas (jpeg, jpg, png, webp, svg)!'));
+  }
+});
+
+// POST /admin/upload - Upload de Imagem (protegido por JWT)
+app.post('/admin/upload', authMiddleware, (req, res) => {
+  const uploadSingle = upload.single('image');
+  
+  uploadSingle(req, res, (err) => {
+    if (err) {
+      console.error('Erro no upload de imagem:', err.message);
+      return res.status(400).json({ error: err.message });
+    }
+    if (!req.file) {
+      return res.status(400).json({ error: 'Nenhum arquivo enviado' });
+    }
+    const relativePath = `/uploads/${req.file.filename}`;
+    res.json({ path: relativePath });
+  });
+});
+
 // PUT /admin/products/:id - Edição de dados do produto pelo ID (resiliente)
 app.put('/admin/products/:id', authMiddleware, async (req, res) => {
   try {
-    const { nome, descricao, preco, disponivel, imagem } = req.body;
+    const { nome, descricao, preco, disponivel, imagemUrl } = req.body;
     const id = req.params.id;
 
     if (!nome || preco === undefined) {
@@ -586,9 +638,9 @@ app.put('/admin/products/:id', authMiddleware, async (req, res) => {
     }
 
     try {
-      await db.atualizarProduto(id, { nome, descricao, preco, disponivel, imagem });
+      await db.atualizarProduto(id, { nome, descricao, preco, disponivel, imagemUrl });
     } catch (dbErr) {
-      console.warn('Banco offline na edição de produto, atualizando cache em memória');
+      console.warn('Banco offline na edição de produto, atualizando cache em memória:', dbErr.message);
       const fallback = getFallbackData();
       const prod = fallback.products.find(p => p.Id === id);
       if (prod) {
@@ -596,7 +648,7 @@ app.put('/admin/products/:id', authMiddleware, async (req, res) => {
         prod.Descricao = descricao || null;
         prod.Preco = preco;
         prod.Disponivel = disponivel ? 1 : 0;
-        prod.Imagem = imagem || null;
+        prod.ImagemUrl = imagemUrl || null;
       }
     }
     res.json({ id, message: 'Produto atualizado com sucesso' });
@@ -628,7 +680,7 @@ app.get('/admin/pizzas', authMiddleware, async (req, res) => {
 // PUT /admin/pizzas/:name - Edição dos preços e disponibilidade do sabor de pizza (resiliente)
 app.put('/admin/pizzas/:name', authMiddleware, async (req, res) => {
   try {
-    const { descricao, precoBrotinho, precoGrande, disponivel, imagem } = req.body;
+    const { descricao, precoBrotinho, precoGrande, disponivel, imagemUrl } = req.body;
     const name = req.params.name;
 
     if (precoBrotinho === undefined || precoGrande === undefined) {
@@ -636,9 +688,9 @@ app.put('/admin/pizzas/:name', authMiddleware, async (req, res) => {
     }
 
     try {
-      await db.atualizarPizzaSabor(name, { descricao, precoBrotinho, precoGrande, disponivel, imagem });
+      await db.atualizarPizzaSabor(name, { descricao, precoBrotinho, precoGrande, disponivel, imagemUrl });
     } catch (dbErr) {
-      console.warn('Banco offline na edição de sabor de pizza, atualizando cache em memória');
+      console.warn('Banco offline na edição de sabor de pizza, atualizando cache em memória:', dbErr.message);
       const fallback = getFallbackData();
       const pizza = fallback.pizzas.find(p => p.Nome === name);
       if (pizza) {
@@ -646,7 +698,7 @@ app.put('/admin/pizzas/:name', authMiddleware, async (req, res) => {
         pizza.PrecoBrotinho = precoBrotinho;
         pizza.PrecoGrande = precoGrande;
         pizza.Disponivel = disponivel ? 1 : 0;
-        pizza.Imagem = imagem || null;
+        pizza.ImagemUrl = imagemUrl || null;
       }
     }
     res.json({ name, message: 'Sabor de pizza atualizado com sucesso' });

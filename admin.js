@@ -22,6 +22,36 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
+
+  // Preview local de imagem selecionada para produtos
+  const prodFileInput = document.getElementById('editProdImageFile');
+  if (prodFileInput) {
+    prodFileInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          document.getElementById('editProdImagePreview').src = ev.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  }
+
+  // Preview local de imagem selecionada para pizzas
+  const pizzaFileInput = document.getElementById('editPizzaImageFile');
+  if (pizzaFileInput) {
+    pizzaFileInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          document.getElementById('editPizzaImagePreview').src = ev.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  }
 });
 
 function checkAuth() {
@@ -45,7 +75,7 @@ function checkAuth() {
 async function apiFetch(endpoint, options = {}) {
   const token = sessionStorage.getItem('adminToken');
   const headers = {
-    'Content-Type': 'application/json',
+    ...(options.body instanceof FormData ? {} : { 'Content-Type': 'application/json' }),
     ...(token ? { 'Authorization': `Bearer ${token}` } : {})
   };
 
@@ -486,6 +516,17 @@ function openEditProduct(id) {
   document.getElementById('editProdPrice').value = prod.Preco;
   document.getElementById('editProdAvailable').checked = prod.Disponivel;
 
+  // Imagem preview e file input reset
+  document.getElementById('editProdImageFile').value = '';
+  const imgUrl = prod.ImagemUrl || '';
+  document.getElementById('editProdImageUrl').value = imgUrl;
+  const preview = document.getElementById('editProdImagePreview');
+  if (imgUrl) {
+    preview.src = imgUrl.startsWith('/uploads/') ? `${API_URL}${imgUrl}` : imgUrl;
+  } else {
+    preview.src = '';
+  }
+
   document.getElementById('editProductModal').classList.add('active');
 }
 
@@ -500,11 +541,36 @@ async function saveProductChanges(event) {
   const descricao = document.getElementById('editProdDesc').value.trim();
   const preco = parseFloat(document.getElementById('editProdPrice').value);
   const disponivel = document.getElementById('editProdAvailable').checked;
+  let imagemUrl = document.getElementById('editProdImageUrl').value;
+
+  const fileInput = document.getElementById('editProdImageFile');
+  if (fileInput.files.length > 0) {
+    // Fazer upload da imagem primeiro
+    const formData = new FormData();
+    formData.append('image', fileInput.files[0]);
+    try {
+      showToast('Enviando imagem...', '⏳');
+      const uploadRes = await apiFetch(`/admin/upload`, {
+        method: 'POST',
+        body: formData
+      });
+      if (!uploadRes.ok) {
+        const errData = await uploadRes.json();
+        throw new Error(errData.error || 'Erro ao subir imagem');
+      }
+      const uploadData = await uploadRes.json();
+      imagemUrl = uploadData.path;
+      console.log('📷 Imagem enviada:', imagemUrl);
+    } catch (uploadErr) {
+      showToast(uploadErr.message, '❌');
+      return;
+    }
+  }
 
   try {
     const res = await apiFetch(`/admin/products/${id}`, {
       method: 'PUT',
-      body: JSON.stringify({ nome, descricao, preco, disponivel })
+      body: JSON.stringify({ nome, descricao, preco, disponivel, imagemUrl })
     });
 
     if (!res.ok) throw new Error('Erro ao salvar produto');
@@ -607,6 +673,17 @@ function openEditPizza(name) {
   document.getElementById('editPizzaPriceGrande').value = pizza.PrecoGrande;
   document.getElementById('editPizzaAvailable').checked = pizza.Disponivel;
 
+  // Imagem preview e file input reset
+  document.getElementById('editPizzaImageFile').value = '';
+  const imgUrl = pizza.ImagemUrl || '';
+  document.getElementById('editPizzaImageUrl').value = imgUrl;
+  const preview = document.getElementById('editPizzaImagePreview');
+  if (imgUrl) {
+    preview.src = imgUrl.startsWith('/uploads/') ? `${API_URL}${imgUrl}` : imgUrl;
+  } else {
+    preview.src = '';
+  }
+
   document.getElementById('editPizzaModal').classList.add('active');
 }
 
@@ -621,11 +698,36 @@ async function savePizzaChanges(event) {
   const precoBrotinho = parseFloat(document.getElementById('editPizzaPriceBrotinho').value);
   const precoGrande = parseFloat(document.getElementById('editPizzaPriceGrande').value);
   const disponivel = document.getElementById('editPizzaAvailable').checked;
+  let imagemUrl = document.getElementById('editPizzaImageUrl').value;
+
+  const fileInput = document.getElementById('editPizzaImageFile');
+  if (fileInput.files.length > 0) {
+    // Fazer upload da imagem primeiro
+    const formData = new FormData();
+    formData.append('image', fileInput.files[0]);
+    try {
+      showToast('Enviando imagem...', '⏳');
+      const uploadRes = await apiFetch(`/admin/upload`, {
+        method: 'POST',
+        body: formData
+      });
+      if (!uploadRes.ok) {
+        const errData = await uploadRes.json();
+        throw new Error(errData.error || 'Erro ao subir imagem');
+      }
+      const uploadData = await uploadRes.json();
+      imagemUrl = uploadData.path;
+      console.log('📷 Imagem enviada:', imagemUrl);
+    } catch (uploadErr) {
+      showToast(uploadErr.message, '❌');
+      return;
+    }
+  }
 
   try {
     const res = await apiFetch(`/admin/pizzas/${encodeURIComponent(name)}`, {
       method: 'PUT',
-      body: JSON.stringify({ descricao, precoBrotinho, precoGrande, disponivel })
+      body: JSON.stringify({ descricao, precoBrotinho, precoGrande, disponivel, imagemUrl })
     });
 
     if (!res.ok) throw new Error('Erro ao salvar sabor de pizza');
