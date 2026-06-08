@@ -101,7 +101,7 @@ let CATEGORIES = [
     name: "Salgados",
     icon: "🥟",
     products: [
-      { id: "s1", name: "Coxinha", desc: null, price: 1.40, available: true },
+      { id: "s1", name: "Coxinha", desc: null, price: 1.40, available: true, image: "images/products/coxinha.png" },
       { id: "s2", name: "Pastel de Queijo", desc: null, price: 1.40, available: true },
       { id: "s3", name: "Enroladinho de Salsicha Frito", desc: null, price: 1.40, available: true },
       { id: "s4", name: "Enroladinho de Presunto e Queijo Frito", desc: null, price: 1.40, available: true },
@@ -192,7 +192,7 @@ let CATEGORIES = [
     icon: "🍔",
     products: [
       { id: "sd1", name: "Cachorro Quente na Chapa", desc: "Salsicha, milho, queijo, batata palha e ervilha", price: 15.90, available: true },
-      { id: "sd2", name: "Cheese Búrguer", desc: "Hambúrguer e Queijo", price: 20.90, available: true },
+      { id: "sd2", name: "Cheese Búrguer", desc: "Hambúrguer e Queijo", price: 20.90, available: true, image: "images/products/cheese_burguer.png" },
       { id: "sd3", name: "Cheese Bacon Salada", desc: "Hambúrguer, Bacon, Queijo e Salada", price: 22.90, available: true },
       { id: "sd4", name: "Cheese Tudo", desc: "Hambúrguer, Bacon, Queijo, Presunto, Ovo e Salada", price: 24.90, available: true },
       { id: "sd5", name: "Cheese Frango", desc: "Frango e Queijo", price: 19.90, available: true },
@@ -293,7 +293,7 @@ let CATEGORIES = [
     products: [
       { id: "bb1", name: "Cappuccino Tradicional", desc: null, price: 10.90, available: true },
       { id: "bb2", name: "Coca Cola Zero lata 310ml", desc: null, price: 5.90, available: true },
-      { id: "bb3", name: "Coca Cola lata 310ml", desc: null, price: 5.90, available: true },
+      { id: "bb3", name: "Coca Cola lata 310ml", desc: null, price: 5.90, available: true, image: "images/products/refrigerante_lata.png" },
       { id: "bb4", name: "Guaraná Antarctica Zero lata 350ml", desc: null, price: 5.90, available: true },
       { id: "bb5", name: "Guaraná Antarctica lata 350ml", desc: null, price: 5.90, available: true },
       { id: "bb6", name: "Tampico 450ml", desc: null, price: 5.90, available: true },
@@ -349,7 +349,7 @@ let PIZZAS = {
     { name: "Peito de Peru", desc: "Muçarela, molho pomodoro, peito de peru e tomate", type: "Tradicional", prices: { brotinho: 34.90, grande: 59.90 } },
     { name: "Pizzaiolo", desc: "Muçarela, molho pomodoro, lombo canadense, bacon, milho, cebola, tomate e azeitona", type: "Especial", prices: { brotinho: 39.90, grande: 69.90 } },
     { name: "Abobrinha", desc: "Muçarela, molho pomodoro, abobrinha e tomate", type: "Especial", prices: { brotinho: 39.90, grande: 69.00 } },
-    { name: "Frango Especial", desc: "Muçarela, molho pomodoro, frango, requeijão e cebola", type: "Especial", prices: { brotinho: 39.90, grande: 69.90 } },
+    { name: "Frango Especial", desc: "Muçarela, molho pomodoro, frango, requeijão e cebola", type: "Especial", prices: { brotinho: 39.90, grande: 69.90 }, image: "images/products/pizza_frango_catupiry.png" },
     { name: "Portuguesa", desc: "Muçarela, molho pomodoro, calabresa, presunto, cebola, pimentão, tomate, azeitona e ovos", type: "Especial", prices: { brotinho: 39.90, grande: 69.90 } },
     { name: "Luziânia", desc: "Muçarela, molho pomodoro, frango, bacon, ovos, milho e cebola", type: "Especial", prices: { brotinho: 39.90, grande: 69.90 } },
     { name: "Especiale", desc: "Muçarela, molho pomodoro, calabresa, presunto, bacon, milho, azeitona e palmito", type: "Gourmet", prices: { brotinho: 35.90, grande: 64.90 } },
