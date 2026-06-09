@@ -257,9 +257,14 @@ function toggleCategory(catId) {
 // Campo de pesquisa
 function setupSearch() {
   const input = document.getElementById('searchInput');
+  const clearBtn = document.getElementById('searchClearBtn');
   let debounce;
 
   input.addEventListener('input', (e) => {
+    if (clearBtn) {
+      clearBtn.style.display = e.target.value ? 'flex' : 'none';
+    }
+
     clearTimeout(debounce);
     debounce = setTimeout(() => {
       searchQuery = e.target.value.trim().toLowerCase();
@@ -293,7 +298,15 @@ function matchSearch(product) {
 
 function clearSearch() {
   searchQuery = '';
-  document.getElementById('searchInput').value = '';
+  const input = document.getElementById('searchInput');
+  if (input) {
+    input.value = '';
+    input.focus();
+  }
+  const clearBtn = document.getElementById('searchClearBtn');
+  if (clearBtn) {
+    clearBtn.style.display = 'none';
+  }
   document.getElementById('searchBanner').style.display = 'none';
   renderAllProducts();
 }

@@ -249,7 +249,7 @@ ul {
 
 .header__search input {
   width: 100%;
-  padding: 10px 16px 10px 44px;
+  padding: 10px 40px 10px 44px;
   border-radius: 50px;
   border: none;
   background: rgba(255, 255, 255, 0.12);
@@ -275,6 +275,30 @@ ul {
   color: rgba(255, 255, 255, 0.5);
   font-size: 18px;
   pointer-events: none;
+}
+
+.header__search-clear {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.header__search-clear:hover {
+  color: var(--accent);
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .header__actions {
