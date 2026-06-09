@@ -86,7 +86,7 @@ let CATEGORIES = [
     icon: "🍝",
     products: [
       {
-        id: "m1", name: "Massa 8 Ingredientes", desc: "Escolha a massa, acompanhamentos e molho", price: 33.9, available: true,
+        id: "m1", name: "Massa 8 Ingredientes", desc: "Escolha a massa, acompanhamentos e molho", price: 33.9, available: true, image: "images/products/massa.png",
         complements: [
           { title: "Tipo", type: "radio", required: true, options: ["Penne", "Talharim", "Spaguetti"] },
           { title: "Acompanhamentos", type: "checkbox", required: true, min: 1, max: 8, options: ["Frango", "Carne Moída", "Bacon", "Calabresa", "Milho", "Presunto", "Muçarela", "Ervilha", "Parmesão", "Tomate", "Alho Frito", "Azeitona", "Cebola", "Ovo de Codorna"] },
@@ -102,7 +102,7 @@ let CATEGORIES = [
     icon: "🥟",
     products: [
       { id: "s1", name: "Coxinha", desc: null, price: 1.40, available: true, image: "images/products/coxinha.png" },
-      { id: "s2", name: "Pastel de Queijo", desc: null, price: 1.40, available: true },
+      { id: "s2", name: "Pastel de Queijo", desc: null, price: 1.40, available: true, image: "images/products/pastel_queijo.png" },
       { id: "s3", name: "Enroladinho de Salsicha Frito", desc: null, price: 1.40, available: true },
       { id: "s4", name: "Enroladinho de Presunto e Queijo Frito", desc: null, price: 1.40, available: true },
       { id: "s5", name: "Quibe", desc: null, price: 1.40, available: true },
@@ -117,7 +117,7 @@ let CATEGORIES = [
     icon: "🫓",
     products: [
       { id: "t1", name: "Tapioca Manteiga", desc: null, price: 12.90, available: true },
-      { id: "t2", name: "Tapioca Frango e Muçarela", desc: null, price: 20.90, available: true },
+      { id: "t2", name: "Tapioca Frango e Muçarela", desc: null, price: 20.90, available: true, image: "images/products/tapioca_frango.png" },
       { id: "t3", name: "Tapioca Frango e Requeijão", desc: null, price: 20.90, available: true },
       { id: "t4", name: "Tapioca Queijo Coalho", desc: null, price: 20.90, available: true },
       { id: "t5", name: "Tapioca Queijo Minas", desc: null, price: 20.90, available: true },
@@ -191,7 +191,7 @@ let CATEGORIES = [
     name: "Sanduíches",
     icon: "🍔",
     products: [
-      { id: "sd1", name: "Cachorro Quente na Chapa", desc: "Salsicha, milho, queijo, batata palha e ervilha", price: 15.90, available: true },
+      { id: "sd1", name: "Cachorro Quente na Chapa", desc: "Salsicha, milho, queijo, batata palha e ervilha", price: 15.90, available: true, image: "images/products/cachorro_quente.png" },
       { id: "sd2", name: "Cheese Búrguer", desc: "Hambúrguer e Queijo", price: 20.90, available: true, image: "images/products/cheese_burguer.png" },
       { id: "sd3", name: "Cheese Bacon Salada", desc: "Hambúrguer, Bacon, Queijo e Salada", price: 22.90, available: true },
       { id: "sd4", name: "Cheese Tudo", desc: "Hambúrguer, Bacon, Queijo, Presunto, Ovo e Salada", price: 24.90, available: true },
@@ -210,7 +210,7 @@ let CATEGORIES = [
     name: "Pão",
     icon: "🥖",
     products: [
-      { id: "pm1", name: "Pão na Chapa", desc: null, price: 4.50, available: true },
+      { id: "pm1", name: "Pão na Chapa", desc: null, price: 4.50, available: true, image: "images/products/pao_na_chapa.png" },
       { id: "pm2", name: "Pão com Ovo", desc: null, price: 6.90, available: true },
       { id: "pm3", name: "Pão com Mortadela", desc: null, price: 7.90, available: true },
       { id: "pm4", name: "Pão com Presunto", desc: null, price: 7.90, available: true },
@@ -246,7 +246,7 @@ let CATEGORIES = [
     name: "Sobremesa",
     icon: "🍫",
     products: [
-      { id: "d1", name: "Brigadeiro", desc: null, price: 1.10, available: true },
+      { id: "d1", name: "Brigadeiro", desc: null, price: 1.10, available: true, image: "images/products/brigadeiro.png" },
       { id: "d2", name: "Bombom Grande", desc: null, price: 3.00, available: true },
       {
         id: "d3", name: "Fatia de Torta Doce (Trunch)", desc: null, price: 7.00, available: true,
@@ -291,7 +291,7 @@ let CATEGORIES = [
     name: "Bebidas",
     icon: "🥤",
     products: [
-      { id: "bb1", name: "Cappuccino Tradicional", desc: null, price: 10.90, available: true },
+      { id: "bb1", name: "Cappuccino Tradicional", desc: null, price: 10.90, available: true, image: "images/products/cappuccino.png" },
       { id: "bb2", name: "Coca Cola Zero lata 310ml", desc: null, price: 5.90, available: true },
       { id: "bb3", name: "Coca Cola lata 310ml", desc: null, price: 5.90, available: true, image: "images/products/refrigerante_lata.png" },
       { id: "bb4", name: "Guaraná Antarctica Zero lata 350ml", desc: null, price: 5.90, available: true },
@@ -350,7 +350,7 @@ let PIZZAS = {
     { name: "Pizzaiolo", desc: "Muçarela, molho pomodoro, lombo canadense, bacon, milho, cebola, tomate e azeitona", type: "Especial", prices: { brotinho: 39.90, grande: 69.90 } },
     { name: "Abobrinha", desc: "Muçarela, molho pomodoro, abobrinha e tomate", type: "Especial", prices: { brotinho: 39.90, grande: 69.00 } },
     { name: "Frango Especial", desc: "Muçarela, molho pomodoro, frango, requeijão e cebola", type: "Especial", prices: { brotinho: 39.90, grande: 69.90 }, image: "images/products/pizza_frango_catupiry.png" },
-    { name: "Portuguesa", desc: "Muçarela, molho pomodoro, calabresa, presunto, cebola, pimentão, tomate, azeitona e ovos", type: "Especial", prices: { brotinho: 39.90, grande: 69.90 } },
+    { name: "Portuguesa", desc: "Muçarela, molho pomodoro, calabresa, presunto, cebola, pimentão, tomate, azeitona e ovos", type: "Especial", prices: { brotinho: 39.90, grande: 69.90 }, image: "images/products/pizza_portuguesa.png" },
     { name: "Luziânia", desc: "Muçarela, molho pomodoro, frango, bacon, ovos, milho e cebola", type: "Especial", prices: { brotinho: 39.90, grande: 69.90 } },
     { name: "Especiale", desc: "Muçarela, molho pomodoro, calabresa, presunto, bacon, milho, azeitona e palmito", type: "Gourmet", prices: { brotinho: 35.90, grande: 64.90 } },
     { name: "Quitanda", desc: "Muçarela, molho pomodoro, carne seca, azeitona, tomate cereja e manjericão", type: "Gourmet", prices: { brotinho: 38.90, grande: 69.90 } },
