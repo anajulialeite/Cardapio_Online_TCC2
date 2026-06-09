@@ -231,6 +231,10 @@ function renderProductCard(product, category) {
     ? `<img class="product-card__img" src="${imgUrl}" alt="${product.name}" loading="lazy">`
     : '';
 
+  if (product.image) {
+    console.log(`[DEBUG_IMAGEM] Produto: "${product.name}" | Caminho final do <img>: "${imgUrl}"`);
+  }
+
   return `
     <div class="product-card ${unavailableClass}" onclick="openProductModal('${product.id}', '${category.id}')">
       ${imgHtml}
