@@ -160,7 +160,7 @@ let CATEGORIES = [
       { id: "c1", name: "Cuscuz Manteiga", desc: null, price: 13.90, available: true },
       { id: "c2", name: "Cuscuz Queijo Coalho com Ovo", desc: null, price: 19.90, available: true },
       { id: "c3", name: "Cuscuz Muçarela", desc: null, price: 19.90, available: true },
-      { id: "c4", name: "Cuscuz Muçarela com Ovo", desc: null, price: 19.90, available: true },
+      { id: "c4", name: "Cuscuz Muçarela com Ovo", desc: null, price: 19.90, available: true, image: "images/products/cuscuz_ovo.png" },
       { id: "c5", name: "Pamonha Sal", desc: null, price: 9.00, available: true },
       { id: "c6", name: "Cuscuz Carne Seca com Muçarela", desc: null, price: 22.90, available: true },
       { id: "c7", name: "Cuscuz Calabresa, bacon e muçarela", desc: null, price: 22.90, available: true },
@@ -223,7 +223,7 @@ let CATEGORIES = [
         id: "pm10", name: "Queijo Quente", desc: "Muçarela ou queijo minas", price: 9.90, available: true,
         complements: [{ title: "Tipo", type: "radio", required: true, options: ["Muçarela", "Queijo Minas"] }]
       },
-      { id: "pm11", name: "Pão francês com carne de panela", desc: null, price: 15.90, available: true, tag: "Novidade" },
+      { id: "pm11", name: "Pão francês com carne de panela", desc: null, price: 15.90, available: true, tag: "Novidade", image: "images/products/pao_carne_panela.png" },
       { id: "pm12", name: "Queijo Quente com Ovo", desc: null, price: 11.90, available: true },
     ],
     extras: [{ name: "Ketchup", price: 0.10 }, { name: "Maionese", price: 0.10 }, { name: "Salada", price: 3.00 }]
@@ -235,7 +235,7 @@ let CATEGORIES = [
     products: [
       { id: "b1", name: "Bolo de Laranja (sem leite) und.", desc: "Sem leite", price: 14.00, available: true },
       { id: "b2", name: "Bolo Formigueiro und.", desc: null, price: 14.00, available: true },
-      { id: "b3", name: "Bolo de Chocolate und.", desc: null, price: 14.00, available: true },
+      { id: "b3", name: "Bolo de Chocolate und.", desc: null, price: 14.00, available: true, image: "images/products/bolo_chocolate.png" },
       { id: "b4", name: "Bolo Mesclado und.", desc: null, price: 14.00, available: true },
       { id: "b5", name: "Bolo de Limão c/ Cobertura und.", desc: null, price: 18.00, available: true },
     ],
@@ -314,7 +314,7 @@ let CATEGORIES = [
       { id: "bb21", name: "Monster Energy 473ml", desc: null, price: 13.90, available: true },
       { id: "bb22", name: "Agua Mineral com gás 500ml", desc: null, price: 3.50, available: true },
       { id: "bb23", name: "Agua Mineral sem gás 500ml", desc: null, price: 3.00, available: true },
-      { id: "bb24", name: "Suco Natural de laranja 300ml", desc: null, price: 7.90, available: true },
+      { id: "bb24", name: "Suco Natural de laranja 300ml", desc: null, price: 7.90, available: true, image: "images/products/suco_laranja.png" },
       { id: "bb25", name: "Suco Natural de laranja 500ml", desc: null, price: 11.90, available: true },
       { id: "bb26", name: "Suco Natural de laranja 1L", desc: null, price: 19.90, available: true },
       {
