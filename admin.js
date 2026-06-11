@@ -491,7 +491,8 @@ async function toggleProductAvailability(id, isAvailable) {
         nome: prod.Nome,
         descricao: prod.Descricao,
         preco: prod.Preco,
-        disponivel: isAvailable
+        disponivel: isAvailable,
+        imagemUrl: prod.ImagemUrl
       })
     });
 
@@ -647,7 +648,8 @@ async function togglePizzaAvailability(name, isAvailable) {
         descricao: pizza.Descricao,
         precoBrotinho: pizza.PrecoBrotinho,
         precoGrande: pizza.PrecoGrande,
-        disponivel: isAvailable
+        disponivel: isAvailable,
+        imagemUrl: pizza.ImagemUrl
       })
     });
 
