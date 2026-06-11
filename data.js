@@ -70,7 +70,7 @@ let CATEGORIES = [
         complements: [{ title: "Sabor", type: "radio", required: true, options: ["Salmão", "Camarão", "Chocolate", "Banana"] }]
       },
       { id: "p26", name: "Camarão Empanado 10 peças", desc: null, price: 35.9, available: true },
-      { id: "p27", name: "Acarajapa de Camarão (01 unidade)", desc: "Acompanha crispy de alho poró", price: 29.9, available: true },
+      { id: "p27", name: "Acarajapa de Camarão (01 unidade)", desc: "Acompanha crispy de alho poró", price: 29.9, available: true, image: "images/products/acarajapa_camarao.png" },
       { id: "p28", name: "Acarajapa de Salmão (01 unidade)", desc: "Acompanha crispy de alho poró", price: 29.9, available: true },
       { id: "p29", name: "Ceviche de Peixe Branco (Porção)", desc: "Acompanha chips de batata", price: 39.9, available: true },
       { id: "p30", name: "Carpaccio de Salmão", desc: null, price: 44.9, available: true },
@@ -145,7 +145,7 @@ let CATEGORIES = [
       { id: "o3", name: "Omelete Peito de Peru, Muçarela, Azeitona e Orégano", desc: null, price: 21.90, available: true },
       { id: "o4", name: "Omelete Queijo Coalho, Carne Seca e Orégano", desc: null, price: 21.90, available: true },
       { id: "o5", name: "Omelete Muçarela, Tomate, Azeitona e Orégano", desc: null, price: 21.90, available: true },
-      { id: "o6", name: "Omelete Calabresa, Bacon e Muçarela", desc: null, price: 21.90, available: true },
+      { id: "o6", name: "Omelete Calabresa, Bacon e Muçarela", desc: null, price: 21.90, available: true, image: "images/products/omelete_especial.png" },
     ],
     extras: [
       { name: "Bacon", price: 3.00 }, { name: "Ketchup", price: 0.10 }, { name: "Maionese", price: 0.10 },
@@ -164,7 +164,7 @@ let CATEGORIES = [
       { id: "c5", name: "Pamonha Sal", desc: null, price: 9.00, available: true },
       { id: "c6", name: "Cuscuz Carne Seca com Muçarela", desc: null, price: 22.90, available: true },
       { id: "c7", name: "Cuscuz Calabresa, bacon e muçarela", desc: null, price: 22.90, available: true },
-      { id: "c8", name: "Pamonha Doce", desc: null, price: 9.00, available: true },
+      { id: "c8", name: "Pamonha Doce", desc: null, price: 9.00, available: true, image: "images/products/pamonha.png" },
     ],
     extras: [{ name: "Maionese", price: 0.10 }]
   },
@@ -173,7 +173,7 @@ let CATEGORIES = [
     name: "Panquecas",
     icon: "🥞",
     products: [
-      { id: "pq1", name: "Panqueca Carne Moída", desc: null, price: 19.90, available: true },
+      { id: "pq1", name: "Panqueca Carne Moída", desc: null, price: 19.90, available: true, image: "images/products/panqueca_carne.png" },
       { id: "pq2", name: "Panqueca Presunto e Queijo", desc: null, price: 19.90, available: true },
       { id: "pq3", name: "Panqueca Presunto, Queijo, Tomate e Orégano", desc: null, price: 20.90, available: true },
       { id: "pq4", name: "Panqueca Frango e Muçarela", desc: null, price: 19.90, available: true },
