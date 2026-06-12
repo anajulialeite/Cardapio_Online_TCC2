@@ -329,6 +329,16 @@ async function seed() {
               VALUES (@Id, @CategoriaId, @Nome, @Descricao, @Preco, @Disponivel, @Tag, @Complements, @ImagemUrl)
             `);
           prodCount++;
+        } else {
+          // Atualiza ImagemUrl caso esteja nula
+          await pool.request()
+            .input('Id', sql.NVarChar(50), prod.id)
+            .input('ImagemUrl', sql.NVarChar(500), prod.image || null)
+            .query(`
+              UPDATE Produtos 
+              SET ImagemUrl = COALESCE(ImagemUrl, @ImagemUrl) 
+              WHERE Id = @Id AND ImagemUrl IS NULL
+            `);
         }
       }
     }
@@ -358,6 +368,16 @@ async function seed() {
             VALUES (@Nome, @Descricao, @Tipo, @PrecoBrotinho, @PrecoGrande, @Disponivel, @ImagemUrl)
           `);
         pizzaCount++;
+      } else {
+        // Atualiza ImagemUrl caso esteja nula
+        await pool.request()
+          .input('Nome', sql.NVarChar(100), flavor.name)
+          .input('ImagemUrl', sql.NVarChar(500), flavor.image || null)
+          .query(`
+            UPDATE PizzaSabores 
+            SET ImagemUrl = COALESCE(ImagemUrl, @ImagemUrl) 
+            WHERE Nome = @Nome AND ImagemUrl IS NULL
+          `);
       }
     }
     console.log(`${pizzaCount} sabores de pizza inseridos.`);

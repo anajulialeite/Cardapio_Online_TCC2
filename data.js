@@ -33,7 +33,7 @@ let CATEGORIES = [
     icon: "🍣",
     products: [
       { id: "p1", name: "Temaki de Salmão", desc: "Arroz e salmão", price: 38.9, available: true, image: "images/products/temaki_salmao.webp" },
-      { id: "p2", name: "Temaki Philadélfia", desc: "Arroz, salmão, cream cheese e cebolinha", price: 38.9, available: true },
+      { id: "p2", name: "Temaki Philadélfia", desc: "Arroz, salmão, cream cheese e cebolinha", price: 38.9, available: true, image: "images/products/temaki_philadelphia.png" },
       { id: "p3", name: "Temaki Samarão", desc: "Arroz, salmão, camarão e cream cheese", price: 41.9, available: true },
       { id: "p4", name: "Temaki Camarão", desc: "Arroz, camarão, cream cheese e alho poró", price: 41.9, available: true },
       { id: "p5", name: "Temaki Hot", desc: "Arroz, salmão e cream cheese", price: 41.9, available: true },
@@ -157,7 +157,7 @@ let CATEGORIES = [
     name: "Cuscuz e Pamonhas",
     icon: "🌽",
     products: [
-      { id: "c1", name: "Cuscuz Manteiga", desc: null, price: 13.90, available: true },
+      { id: "c1", name: "Cuscuz Manteiga", desc: null, price: 13.90, available: true, image: "images/products/cuscuz_manteiga.png" },
       { id: "c2", name: "Cuscuz Queijo Coalho com Ovo", desc: null, price: 19.90, available: true },
       { id: "c3", name: "Cuscuz Muçarela", desc: null, price: 19.90, available: true },
       { id: "c4", name: "Cuscuz Muçarela com Ovo", desc: null, price: 19.90, available: true, image: "images/products/cuscuz_ovo.png" },
@@ -343,7 +343,7 @@ let PIZZAS = {
   flavors: [
     { name: "Calabresa", desc: "Muçarela, molho pomodoro, calabresa e cebola", type: "Tradicional", prices: { brotinho: 34.90, grande: 59.90 }, image: "images/products/pizza_calabresa.webp" },
     { name: "Frango", desc: "Muçarela, molho pomodoro, frango, milho e azeitona", type: "Tradicional", prices: { brotinho: 34.90, grande: 59.90 } },
-    { name: "Marguerita", desc: "Muçarela, molho pomodoro, tomate cereja, parmesão e manjericão", type: "Tradicional", prices: { brotinho: 34.90, grande: 59.90 } },
+    { name: "Marguerita", desc: "Muçarela, molho pomodoro, tomate cereja, parmesão e manjericão", type: "Tradicional", prices: { brotinho: 34.90, grande: 59.90 }, image: "images/products/pizza_marguerita.png" },
     { name: "Muçarela", desc: "Muçarela, molho pomodoro e tomate", type: "Tradicional", prices: { brotinho: 34.90, grande: 59.90 } },
     { name: "Napolitana", desc: "Muçarela, molho pomodoro, presunto, cebola e azeitona, manjericão e alho frito", type: "Tradicional", prices: { brotinho: 34.90, grande: 59.90 } },
     { name: "Peito de Peru", desc: "Muçarela, molho pomodoro, peito de peru e tomate", type: "Tradicional", prices: { brotinho: 34.90, grande: 59.90 } },
