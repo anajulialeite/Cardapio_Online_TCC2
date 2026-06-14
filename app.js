@@ -152,6 +152,10 @@ function renderCategoriesNav() {
 }
 
 function scrollToCategory(catId) {
+  if (searchQuery) {
+    clearSearch(false);
+  }
+
   const section = document.getElementById(`cat-${catId}`);
   if (section) {
     section.scrollIntoView({ behavior: 'smooth' });
@@ -300,12 +304,14 @@ function matchSearch(product) {
   );
 }
 
-function clearSearch() {
+function clearSearch(shouldFocus = true) {
   searchQuery = '';
   const input = document.getElementById('searchInput');
   if (input) {
     input.value = '';
-    input.focus();
+    if (shouldFocus) {
+      input.focus();
+    }
   }
   const clearBtn = document.getElementById('searchClearBtn');
   if (clearBtn) {
