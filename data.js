@@ -103,10 +103,10 @@ let CATEGORIES = [
     products: [
       { id: "s1", name: "Coxinha", desc: null, price: 1.40, available: true, image: "images/products/coxinha.png" },
       { id: "s2", name: "Pastel de Queijo", desc: null, price: 1.40, available: true, image: "images/products/pastel_queijo.png" },
-      { id: "s3", name: "Enroladinho de Salsicha Frito", desc: null, price: 1.40, available: true },
+      { id: "s3", name: "Enroladinho de Salsicha Frito", desc: null, price: 1.40, available: true, image: "images/products/enroladinho_salsicha.png" },
       { id: "s4", name: "Enroladinho de Presunto e Queijo Frito", desc: null, price: 1.40, available: true },
       { id: "s5", name: "Quibe", desc: null, price: 1.40, available: true, image: "images/products/quibe.png" },
-      { id: "s6", name: "Empada", desc: null, price: 1.40, available: true },
+      { id: "s6", name: "Empada", desc: null, price: 1.40, available: true, image: "images/products/empada.png" },
       { id: "s7", name: "Enroladinho de Presunto e Queijo Assado", desc: null, price: 1.40, available: true },
     ],
     extras: [{ name: "Ketchup", price: 0.10 }, { name: "Maionese", price: 0.10 }]
@@ -237,7 +237,7 @@ let CATEGORIES = [
       { id: "b2", name: "Bolo Formigueiro und.", desc: null, price: 14.00, available: true },
       { id: "b3", name: "Bolo de Chocolate und.", desc: null, price: 14.00, available: true, image: "images/products/bolo_chocolate.png" },
       { id: "b4", name: "Bolo Mesclado und.", desc: null, price: 14.00, available: false },
-      { id: "b5", name: "Bolo de Limão c/ Cobertura und.", desc: null, price: 18.00, available: true },
+      { id: "b5", name: "Bolo de Limão c/ Cobertura und.", desc: null, price: 18.00, available: true, image: "images/products/bolo_limao.png" },
     ],
     extras: [{ name: "Maionese", price: 0.10 }]
   },
