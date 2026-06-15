@@ -54,7 +54,7 @@ let CATEGORIES = [
       { id: "p14", name: "Philadélfia Maçaricado (8 peças)", desc: "Salmão, cream cheese, cebolinha e crispy de alho poró", price: 35.9, available: true },
       { id: "p15", name: "Gunkan (8 unidades)", desc: "Camarão empanado, salmão maçaricado, cream cheese e molho especial", price: 47.9, available: true },
       {
-        id: "p16", name: "Sashimi (10 peças)", desc: "Salmão ou Peixe branco", price: 37.9, available: true,
+        id: "p16", name: "Sashimi (10 peças)", desc: "Salmão ou Peixe branco", price: 37.9, available: true, image: "images/products/sashimi.png",
         complements: [{ title: "Tipo", type: "radio", required: true, options: ["Salmão", "Peixe Branco"] }]
       },
       { id: "p17", name: "Sashimi (20 peças)", desc: "Salmão ou Peixe branco", price: 69.9, available: false },
@@ -104,7 +104,7 @@ let CATEGORIES = [
       { id: "s1", name: "Coxinha", desc: null, price: 1.40, available: true, image: "images/products/coxinha.png" },
       { id: "s2", name: "Pastel de Queijo", desc: null, price: 1.40, available: true, image: "images/products/pastel_queijo.png" },
       { id: "s3", name: "Enroladinho de Salsicha Frito", desc: null, price: 1.40, available: true, image: "images/products/enroladinho_salsicha.png" },
-      { id: "s4", name: "Enroladinho de Presunto e Queijo Frito", desc: null, price: 1.40, available: true },
+      { id: "s4", name: "Enroladinho de Presunto e Queijo Frito", desc: null, price: 1.40, available: true, image: "images/products/enroladinho_presunto_queijo.png" },
       { id: "s5", name: "Quibe", desc: null, price: 1.40, available: true, image: "images/products/quibe.png" },
       { id: "s6", name: "Empada", desc: null, price: 1.40, available: true, image: "images/products/empada.png" },
       { id: "s7", name: "Enroladinho de Presunto e Queijo Assado", desc: null, price: 1.40, available: true },
@@ -124,7 +124,7 @@ let CATEGORIES = [
       { id: "t6", name: "Tapioca Presunto e Queijo", desc: null, price: 20.90, available: true },
       { id: "t7", name: "Tapioca Presunto, Queijo e Ovo", desc: null, price: 21.90, available: true },
       { id: "t8", name: "Tapioca Presunto, Queijo, Tomate e Orégano", desc: null, price: 21.90, available: true },
-      { id: "t9", name: "Tapioca Carne Seca e Muçarela", desc: null, price: 21.90, available: true },
+      { id: "t9", name: "Tapioca Carne Seca e Muçarela", desc: null, price: 21.90, available: true, image: "images/products/tapioca_carne_seca.png" },
       { id: "t10", name: "Tapioca Carne Seca e Requeijão", desc: null, price: 21.90, available: true },
       { id: "t11", name: "Tapioca Banana, Muçarela, Açúcar e Canela", desc: null, price: 20.90, available: true },
       { id: "t12", name: "Tapioca com carne de panela", desc: null, price: 21.90, available: true, tag: "Novidade" },
