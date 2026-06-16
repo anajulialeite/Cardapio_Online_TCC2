@@ -107,7 +107,7 @@ let CATEGORIES = [
       { id: "s4", name: "Enroladinho de Presunto e Queijo Frito", desc: null, price: 1.40, available: true, image: "images/products/enroladinho_presunto_queijo.png" },
       { id: "s5", name: "Quibe", desc: null, price: 1.40, available: true, image: "images/products/quibe.png" },
       { id: "s6", name: "Empada", desc: null, price: 1.40, available: true, image: "images/products/empada.png" },
-      { id: "s7", name: "Enroladinho de Presunto e Queijo Assado", desc: null, price: 1.40, available: true },
+      { id: "s7", name: "Enroladinho de Presunto e Queijo Assado", desc: null, price: 1.40, available: true, image: "images/products/enroladinho_assado.png" },
     ],
     extras: [{ name: "Ketchup", price: 0.10 }, { name: "Maionese", price: 0.10 }]
   },
@@ -140,7 +140,7 @@ let CATEGORIES = [
     name: "Omeletes",
     icon: "🍳",
     products: [
-      { id: "o1", name: "Omelete Presunto e Muçarela", desc: null, price: 20.90, available: true },
+      { id: "o1", name: "Omelete Presunto e Muçarela", desc: null, price: 20.90, available: true, image: "images/products/omelete_presunto_queijo.png" },
       { id: "o2", name: "Omelete Presunto, Muçarela e Azeitona", desc: null, price: 21.90, available: true },
       { id: "o3", name: "Omelete Peito de Peru, Muçarela, Azeitona e Orégano", desc: null, price: 21.90, available: false },
       { id: "o4", name: "Omelete Queijo Coalho, Carne Seca e Orégano", desc: null, price: 21.90, available: true },
@@ -211,7 +211,7 @@ let CATEGORIES = [
     icon: "🥖",
     products: [
       { id: "pm1", name: "Pão na Chapa", desc: null, price: 4.50, available: true, image: "images/products/pao_na_chapa.png" },
-      { id: "pm2", name: "Pão com Ovo", desc: null, price: 6.90, available: true },
+      { id: "pm2", name: "Pão com Ovo", desc: null, price: 6.90, available: true, image: "images/products/pao_com_ovo.png" },
       { id: "pm3", name: "Pão com Mortadela", desc: null, price: 7.90, available: false },
       { id: "pm4", name: "Pão com Presunto", desc: null, price: 7.90, available: false },
       { id: "pm5", name: "Misto Tradicional", desc: "Presunto e queijo", price: 8.90, available: true, image: "images/products/misto_quente.png" },
