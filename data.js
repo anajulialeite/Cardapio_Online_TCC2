@@ -158,7 +158,7 @@ let CATEGORIES = [
     icon: "🌽",
     products: [
       { id: "c1", name: "Cuscuz Manteiga", desc: null, price: 13.90, available: true, image: "images/products/cuscuz_manteiga.png" },
-      { id: "c2", name: "Cuscuz Queijo Coalho com Ovo", desc: null, price: 19.90, available: true },
+      { id: "c2", name: "Cuscuz Queijo Coalho com Ovo", desc: null, price: 19.90, available: true, image: "images/products/cuscuz_coalho_ovo.png" },
       { id: "c3", name: "Cuscuz Muçarela", desc: null, price: 19.90, available: true },
       { id: "c4", name: "Cuscuz Muçarela com Ovo", desc: null, price: 19.90, available: true, image: "images/products/cuscuz_ovo.png" },
       { id: "c5", name: "Pamonha Sal", desc: null, price: 9.00, available: true, image: "images/products/pamonha.png" },
@@ -194,7 +194,7 @@ let CATEGORIES = [
       { id: "sd1", name: "Cachorro Quente na Chapa", desc: "Salsicha, milho, queijo, batata palha e ervilha", price: 15.90, available: true, image: "images/products/cachorro_quente.png" },
       { id: "sd2", name: "Cheese Búrguer", desc: "Hambúrguer e Queijo", price: 20.90, available: true, image: "images/products/cheese_burguer.png" },
       { id: "sd3", name: "Cheese Bacon Salada", desc: "Hambúrguer, Bacon, Queijo e Salada", price: 22.90, available: true },
-      { id: "sd4", name: "Cheese Tudo", desc: "Hambúrguer, Bacon, Queijo, Presunto, Ovo e Salada", price: 24.90, available: true },
+      { id: "sd4", name: "Cheese Tudo", desc: "Hambúrguer, Bacon, Queijo, Presunto, Ovo e Salada", price: 24.90, available: true, image: "images/products/cheese_tudo.png" },
       { id: "sd5", name: "Cheese Frango", desc: "Frango e Queijo", price: 19.90, available: true },
       { id: "sd6", name: "Cheese Frango Salada", desc: "Frango, Queijo, Bacon e Salada", price: 21.90, available: true },
       { id: "sd7", name: "Cheese Frango Tudo", desc: "Frango, Bacon, Ovo, Presunto, Queijo e Salada", price: 23.90, available: true },
@@ -215,12 +215,12 @@ let CATEGORIES = [
       { id: "pm3", name: "Pão com Mortadela", desc: null, price: 7.90, available: false },
       { id: "pm4", name: "Pão com Presunto", desc: null, price: 7.90, available: false },
       { id: "pm5", name: "Misto Tradicional", desc: "Presunto e queijo", price: 8.90, available: true, image: "images/products/misto_quente.png" },
-      { id: "pm6", name: "Misto com Ovo", desc: "Presunto, queijo e ovo", price: 10.90, available: true },
+      { id: "pm6", name: "Misto com Ovo", desc: "Presunto, queijo e ovo", price: 10.90, available: true, image: "images/products/misto_com_ovo.png" },
       { id: "pm7", name: "Misto Duplo", desc: "2 fatias de queijo e 2 fatias de presunto", price: 10.90, available: true },
       { id: "pm8", name: "Misto Integral", desc: "Peito de peru e queijo minas", price: 10.90, available: true },
       { id: "pm9", name: "Misto Integral com Ovo", desc: "Peito de peru, queijo minas e ovo", price: 11.90, available: true },
       {
-        id: "pm10", name: "Queijo Quente", desc: "Muçarela ou queijo minas", price: 9.90, available: true,
+        id: "pm10", name: "Queijo Quente", desc: "Muçarela ou queijo minas", price: 9.90, available: true, image: "images/products/queijo_quente.png",
         complements: [{ title: "Tipo", type: "radio", required: true, options: ["Muçarela", "Queijo Minas"] }]
       },
       { id: "pm11", name: "Pão francês com carne de panela", desc: null, price: 15.90, available: true, tag: "Novidade", image: "images/products/pao_carne_panela.png" },
@@ -234,7 +234,7 @@ let CATEGORIES = [
     icon: "🎂",
     products: [
       { id: "b1", name: "Bolo de Laranja (sem leite) und.", desc: "Sem leite", price: 14.00, available: false },
-      { id: "b2", name: "Bolo Formigueiro und.", desc: null, price: 14.00, available: true },
+      { id: "b2", name: "Bolo Formigueiro und.", desc: null, price: 14.00, available: true, image: "images/products/bolo_formigueiro.png" },
       { id: "b3", name: "Bolo de Chocolate und.", desc: null, price: 14.00, available: true, image: "images/products/bolo_chocolate.png" },
       { id: "b4", name: "Bolo Mesclado und.", desc: null, price: 14.00, available: false },
       { id: "b5", name: "Bolo de Limão c/ Cobertura und.", desc: null, price: 18.00, available: true, image: "images/products/bolo_limao.png" },
@@ -277,7 +277,7 @@ let CATEGORIES = [
     name: "Biscoitos de Queijo",
     icon: "🧀",
     products: [
-      { id: "pq1b", name: "Pão de Queijo (Embalagem com 100g)", desc: "aprox. 3 unidades", price: 3.40, available: true },
+      { id: "pq1b", name: "Pão de Queijo (Embalagem com 100g)", desc: "aprox. 3 unidades", price: 3.40, available: true, image: "images/products/pao_de_queijo.png" },
       { id: "pq2b", name: "Biscoito de Queijo (Embalagem com 100g)", desc: "aprox. 3 unidades", price: 3.40, available: true },
       { id: "pq3b", name: "Peta de Polvilho Doce (Embalagem com 300g)", desc: null, price: 10.50, available: true },
       { id: "pq4b", name: "Chipa (Embalagem com 250g)", desc: null, price: 9.50, available: true },
