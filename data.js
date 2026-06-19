@@ -193,7 +193,7 @@ let CATEGORIES = [
     products: [
       { id: "sd1", name: "Cachorro Quente na Chapa", desc: "Salsicha, milho, queijo, batata palha e ervilha", price: 15.90, available: true, image: "images/products/cachorro_quente.png" },
       { id: "sd2", name: "Cheese Búrguer", desc: "Hambúrguer e Queijo", price: 20.90, available: true, image: "images/products/cheese_burguer.png" },
-      { id: "sd3", name: "Cheese Bacon Salada", desc: "Hambúrguer, Bacon, Queijo e Salada", price: 22.90, available: true },
+      { id: "sd3", name: "Cheese Bacon Salada", desc: "Hambúrguer, Bacon, Queijo e Salada", price: 22.90, available: true, image: "images/products/cheese_bacon_salada.png" },
       { id: "sd4", name: "Cheese Tudo", desc: "Hambúrguer, Bacon, Queijo, Presunto, Ovo e Salada", price: 24.90, available: true, image: "images/products/cheese_tudo.png" },
       { id: "sd5", name: "Cheese Frango", desc: "Frango e Queijo", price: 19.90, available: true },
       { id: "sd6", name: "Cheese Frango Salada", desc: "Frango, Queijo, Bacon e Salada", price: 21.90, available: true },
