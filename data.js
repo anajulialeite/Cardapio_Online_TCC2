@@ -60,7 +60,7 @@ let CATEGORIES = [
       { id: "p17", name: "Sashimi (20 peças)", desc: "Salmão ou Peixe branco", price: 69.9, available: false },
       { id: "p18", name: "Combinado 16 peças", desc: "4 sashimis de salmão, 4 uramakis, 4 philadélfia, 4 califórnia", price: 55.9, available: true },
       { id: "p19", name: "Combinado 24 peças", desc: "4 sashimis de salmão, 4 sashimis de peixe branco com limão, 4 shakimakis, 4 philadélfia, 4 califórnia, 4 joys com alho poró", price: 81.9, available: true },
-      { id: "p20", name: "Combinado 36 peças", desc: "4 sashimis de salmão, 4 sashimis de peixe branco, 3 niguiris de salmão, 3 niguiris de peixe branco, 6 philadélfia, 6 uramakis, 6 shakimakis, 4 hot philadélfia", price: 118.9, available: true },
+      { id: "p20", name: "Combinado 36 peças", desc: "4 sashimis de salmão, 4 sashimis de peixe branco, 3 niguiris de salmão, 3 niguiris de peixe branco, 6 philadélfia, 6 uramakis, 6 shakimakis, 4 hot philadélfia", price: 118.9, available: true, image: "images/products/combinado_36.png" },
       { id: "p21", name: "Combinado 48 peças", desc: "8 sashimis salmão, 8 peixe branco, 6 niguiris salmão, 6 peixe branco, 4 uramakis, 4 shakimakis, 4 philadélfia, 4 hot, 4 joys", price: 153.9, available: false },
       { id: "p22", name: "Combinado 60 Peças (somente sushi)", desc: "8 niguiris salmão, 6 peixe branco, 10 philadélfia, 10 uramakis, 10 shakimakis, 10 hot, 6 joys", price: 159.9, available: false, tag: "Não é possível a troca de peças" },
       { id: "p23", name: "Combinado 72 peças", desc: "10 sashimis salmão, 8 peixe branco, 8 niguiris salmão, 6 peixe branco, 10 philadélfia, 10 uramakis, 10 shakimakis, 10 hot", price: 223.9, available: false },
