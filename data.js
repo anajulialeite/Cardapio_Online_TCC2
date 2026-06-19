@@ -127,7 +127,7 @@ let CATEGORIES = [
       { id: "t9", name: "Tapioca Carne Seca e Muçarela", desc: null, price: 21.90, available: true, image: "images/products/tapioca_carne_seca.png" },
       { id: "t10", name: "Tapioca Carne Seca e Requeijão", desc: null, price: 21.90, available: true },
       { id: "t11", name: "Tapioca Banana, Muçarela, Açúcar e Canela", desc: null, price: 20.90, available: true },
-      { id: "t12", name: "Tapioca com carne de panela", desc: null, price: 21.90, available: true, tag: "Novidade" },
+      { id: "t12", name: "Tapioca com carne de panela", desc: null, price: 21.90, available: true, tag: "Novidade", image: "images/products/tapioca_carne_panela.png" },
     ],
     extras: [
       { name: "Bacon", price: 3.00 }, { name: "Ketchup", price: 0.10 }, { name: "Maionese", price: 0.10 },
