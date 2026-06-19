@@ -178,7 +178,7 @@ let CATEGORIES = [
       { id: "pq3", name: "Panqueca Presunto, Queijo, Tomate e Orégano", desc: null, price: 20.90, available: true },
       { id: "pq4", name: "Panqueca Frango e Muçarela", desc: null, price: 19.90, available: true },
       { id: "pq5", name: "Panqueca Frango e Requeijão", desc: null, price: 19.90, available: true },
-      { id: "pq6", name: "Panqueca Carne Seca e Muçarela", desc: null, price: 22.90, available: true },
+      { id: "pq6", name: "Panqueca Carne Seca e Muçarela", desc: null, price: 22.90, available: true, image: "images/products/panqueca_carne_seca.png" },
       { id: "pq7", name: "Panqueca Carne Seca e Requeijão", desc: null, price: 22.90, available: true },
     ],
     extras: [
