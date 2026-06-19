@@ -342,7 +342,7 @@ let PIZZAS = {
   ],
   flavors: [
     { name: "Calabresa", desc: "Muçarela, molho pomodoro, calabresa e cebola", type: "Tradicional", prices: { brotinho: 34.90, grande: 59.90 }, image: "images/products/pizza_calabresa.webp" },
-    { name: "Frango", desc: "Muçarela, molho pomodoro, frango, milho e azeitona", type: "Tradicional", prices: { brotinho: 34.90, grande: 59.90 } },
+    { name: "Frango", desc: "Muçarela, molho pomodoro, frango, milho e azeitona", type: "Tradicional", prices: { brotinho: 34.90, grande: 59.90 }, image: "images/products/pizza_frango.png" },
     { name: "Marguerita", desc: "Muçarela, molho pomodoro, tomate cereja, parmesão e manjericão", type: "Tradicional", prices: { brotinho: 34.90, grande: 59.90 }, image: "images/products/pizza_marguerita.png" },
     { name: "Muçarela", desc: "Muçarela, molho pomodoro e tomate", type: "Tradicional", prices: { brotinho: 34.90, grande: 59.90 } },
     { name: "Napolitana", desc: "Muçarela, molho pomodoro, presunto, cebola e azeitona, manjericão e alho frito", type: "Tradicional", prices: { brotinho: 34.90, grande: 59.90 } },
