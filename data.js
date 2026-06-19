@@ -36,7 +36,7 @@ let CATEGORIES = [
       { id: "p2", name: "Temaki Philadélfia", desc: "Arroz, salmão, cream cheese e cebolinha", price: 38.9, available: true, image: "images/products/temaki_philadelphia.png" },
       { id: "p3", name: "Temaki Samarão", desc: "Arroz, salmão, camarão e cream cheese", price: 41.9, available: true },
       { id: "p4", name: "Temaki Camarão", desc: "Arroz, camarão, cream cheese e alho poró", price: 41.9, available: true },
-      { id: "p5", name: "Temaki Hot", desc: "Arroz, salmão e cream cheese", price: 41.9, available: true },
+      { id: "p5", name: "Temaki Hot", desc: "Arroz, salmão e cream cheese", price: 41.9, available: true, image: "images/products/temaki_hot.png" },
       { id: "p6", name: "Temaki Bombado (sem arroz)", desc: "Salmão, cream cheese e cebolinha", price: 49.9, available: true },
       { id: "p7", name: "Temaki da Casa", desc: "Arroz, salmão, cream cheese, gengibre, alho poró e pimenta japonesa", price: 46.9, available: true },
       { id: "p8", name: "Hot Philadélfia (10 peças)", desc: "Salmão e cream cheese", price: 34.9, available: true },
@@ -249,7 +249,7 @@ let CATEGORIES = [
       { id: "d1", name: "Brigadeiro", desc: null, price: 1.10, available: true, image: "images/products/brigadeiro.png" },
       { id: "d2", name: "Bombom Grande", desc: null, price: 3.00, available: true },
       {
-        id: "d3", name: "Fatia de Torta Doce (Trunch)", desc: null, price: 7.00, available: true,
+        id: "d3", name: "Fatia de Torta Doce (Trunch)", desc: null, price: 7.00, available: true, image: "images/products/torta_doce.png",
         complements: [{ title: "Sabores", type: "radio", required: true, options: ["Morango", "Ninho"] }]
       },
     ],
@@ -295,7 +295,7 @@ let CATEGORIES = [
       { id: "bb2", name: "Coca Cola Zero lata 310ml", desc: null, price: 5.90, available: true },
       { id: "bb3", name: "Coca Cola lata 310ml", desc: null, price: 5.90, available: true, image: "images/products/refrigerante_lata.png" },
       { id: "bb4", name: "Guaraná Antarctica Zero lata 350ml", desc: null, price: 5.90, available: true },
-      { id: "bb5", name: "Guaraná Antarctica lata 350ml", desc: null, price: 5.90, available: true },
+      { id: "bb5", name: "Guaraná Antarctica lata 350ml", desc: null, price: 5.90, available: true, image: "images/products/guarana_lata.png" },
       { id: "bb6", name: "Tampico 450ml", desc: null, price: 5.90, available: true },
       { id: "bb7", name: "Água Tônica 350ml", desc: null, price: 4.90, available: true },
       { id: "bb8", name: "Coca Cola 600 ml", desc: null, price: 8.50, available: true },
