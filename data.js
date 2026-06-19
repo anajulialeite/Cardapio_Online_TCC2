@@ -35,7 +35,7 @@ let CATEGORIES = [
       { id: "p1", name: "Temaki de Salmão", desc: "Arroz e salmão", price: 38.9, available: true, image: "images/products/temaki_salmao.webp" },
       { id: "p2", name: "Temaki Philadélfia", desc: "Arroz, salmão, cream cheese e cebolinha", price: 38.9, available: true, image: "images/products/temaki_philadelphia.png" },
       { id: "p3", name: "Temaki Samarão", desc: "Arroz, salmão, camarão e cream cheese", price: 41.9, available: true },
-      { id: "p4", name: "Temaki Camarão", desc: "Arroz, camarão, cream cheese e alho poró", price: 41.9, available: true },
+      { id: "p4", name: "Temaki Camarão", desc: "Arroz, camarão, cream cheese e alho poró", price: 41.9, available: true, image: "images/products/temaki_camarao.png" },
       { id: "p5", name: "Temaki Hot", desc: "Arroz, salmão e cream cheese", price: 41.9, available: true, image: "images/products/temaki_hot.png" },
       { id: "p6", name: "Temaki Bombado (sem arroz)", desc: "Salmão, cream cheese e cebolinha", price: 49.9, available: true },
       { id: "p7", name: "Temaki da Casa", desc: "Arroz, salmão, cream cheese, gengibre, alho poró e pimenta japonesa", price: 46.9, available: true },
