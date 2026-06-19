@@ -224,7 +224,7 @@ let CATEGORIES = [
         complements: [{ title: "Tipo", type: "radio", required: true, options: ["Muçarela", "Queijo Minas"] }]
       },
       { id: "pm11", name: "Pão francês com carne de panela", desc: null, price: 15.90, available: true, tag: "Novidade", image: "images/products/pao_carne_panela.png" },
-      { id: "pm12", name: "Queijo Quente com Ovo", desc: null, price: 11.90, available: true },
+      { id: "pm12", name: "Queijo Quente com Ovo", desc: null, price: 11.90, available: true, image: "images/products/queijo_quente_ovo.png" },
     ],
     extras: [{ name: "Ketchup", price: 0.10 }, { name: "Maionese", price: 0.10 }, { name: "Salada", price: 3.00 }]
   },
