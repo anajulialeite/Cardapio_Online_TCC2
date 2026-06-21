@@ -66,7 +66,7 @@ let CATEGORIES = [
       { id: "p23", name: "Combinado 72 peças", desc: "10 sashimis salmão, 8 peixe branco, 8 niguiris salmão, 6 peixe branco, 10 philadélfia, 10 uramakis, 10 shakimakis, 10 hot", price: 223.9, available: false },
       { id: "p24", name: "Combinado 100 peças", desc: "18 sashimis salmão, 12 peixe branco, 8 niguiris salmão, 8 peixe branco, 10 uramakis, 10 shakimakis, 10 philadélfia, 10 hot, 5 joys alho poró, 5 joys couve, 4 joys camarão", price: 299.9, available: false },
       {
-        id: "p25", name: "Rolinho Primavera", desc: "Salmão, camarão, chocolate ou banana", price: 14.9, available: true,
+        id: "p25", name: "Rolinho Primavera", desc: "Salmão, camarão, chocolate ou banana", price: 14.9, available: true, image: "images/products/rolinho_primavera.png",
         complements: [{ title: "Sabor", type: "radio", required: true, options: ["Salmão", "Camarão", "Chocolate", "Banana"] }]
       },
       { id: "p26", name: "Camarão Empanado 10 peças", desc: null, price: 35.9, available: true },
