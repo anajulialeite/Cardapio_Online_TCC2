@@ -34,7 +34,7 @@ let CATEGORIES = [
     products: [
       { id: "p1", name: "Temaki de Salmão", desc: "Arroz e salmão", price: 38.9, available: true, image: "images/products/temaki_salmao.webp" },
       { id: "p2", name: "Temaki Philadélfia", desc: "Arroz, salmão, cream cheese e cebolinha", price: 38.9, available: true, image: "images/products/temaki_philadelphia.png" },
-      { id: "p3", name: "Temaki Samarão", desc: "Arroz, salmão, camarão e cream cheese", price: 41.9, available: true },
+      { id: "p3", name: "Temaki Samarão", desc: "Arroz, salmão, camarão e cream cheese", price: 41.9, available: true, image: "images/products/temaki_samarao.png" },
       { id: "p4", name: "Temaki Camarão", desc: "Arroz, camarão, cream cheese e alho poró", price: 41.9, available: true, image: "images/products/temaki_camarao.png" },
       { id: "p5", name: "Temaki Hot", desc: "Arroz, salmão e cream cheese", price: 41.9, available: true, image: "images/products/temaki_hot.png" },
       { id: "p6", name: "Temaki Bombado (sem arroz)", desc: "Salmão, cream cheese e cebolinha", price: 49.9, available: true },
@@ -50,7 +50,7 @@ let CATEGORIES = [
         id: "p12", name: "Uramaki (10 peças)", desc: "Cream cheese com salmão ou camarão (arroz por fora)", price: 33.9, available: true,
         complements: [{ title: "Tipo", type: "radio", required: true, options: ["Salmão", "Camarão"] }]
       },
-      { id: "p13", name: "Joy (8 unidades)", desc: "Arroz, cream cheese e salmão", price: 41.9, available: true },
+      { id: "p13", name: "Joy (8 unidades)", desc: "Arroz, cream cheese e salmão", price: 41.9, available: true, image: "images/products/joy_sushi.png" },
       { id: "p14", name: "Philadélfia Maçaricado (8 peças)", desc: "Salmão, cream cheese, cebolinha e crispy de alho poró", price: 35.9, available: true },
       { id: "p15", name: "Gunkan (8 unidades)", desc: "Camarão empanado, salmão maçaricado, cream cheese e molho especial", price: 47.9, available: true },
       {
@@ -216,7 +216,7 @@ let CATEGORIES = [
       { id: "pm4", name: "Pão com Presunto", desc: null, price: 7.90, available: false },
       { id: "pm5", name: "Misto Tradicional", desc: "Presunto e queijo", price: 8.90, available: true, image: "images/products/misto_quente.png" },
       { id: "pm6", name: "Misto com Ovo", desc: "Presunto, queijo e ovo", price: 10.90, available: true, image: "images/products/misto_com_ovo.png" },
-      { id: "pm7", name: "Misto Duplo", desc: "2 fatias de queijo e 2 fatias de presunto", price: 10.90, available: true },
+      { id: "pm7", name: "Misto Duplo", desc: "2 fatias de queijo e 2 fatias de presunto", price: 10.90, available: true, image: "images/products/misto_duplo.png" },
       { id: "pm8", name: "Misto Integral", desc: "Peito de peru e queijo minas", price: 10.90, available: true },
       { id: "pm9", name: "Misto Integral com Ovo", desc: "Peito de peru, queijo minas e ovo", price: 11.90, available: true },
       {
