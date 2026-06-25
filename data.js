@@ -33,38 +33,38 @@ let CATEGORIES = [
     icon: "🍣",
     products: [
       { id: "p1", name: "Temaki de Salmão", desc: "Arroz e salmão", price: 38.9, available: true, image: "images/products/temaki_salmao.webp" },
-      { id: "p2", name: "Temaki Philadélfia", desc: "Arroz, salmão, cream cheese e cebolinha", price: 38.9, available: true, image: "images/products/temaki_philadelphia.png" },
+      { id: "p2", name: "Temaki Philadelphia", desc: "Arroz, salmão, cream cheese e cebolinha", price: 38.9, available: true, image: "images/products/temaki_philadelphia.png" },
       { id: "p3", name: "Temaki Samarão", desc: "Arroz, salmão, camarão e cream cheese", price: 41.9, available: true, image: "images/products/temaki_samarao.png" },
       { id: "p4", name: "Temaki Camarão", desc: "Arroz, camarão, cream cheese e alho poró", price: 41.9, available: true, image: "images/products/temaki_camarao.png" },
       { id: "p5", name: "Temaki Hot", desc: "Arroz, salmão e cream cheese", price: 41.9, available: true, image: "images/products/temaki_hot.png" },
       { id: "p6", name: "Temaki Bombado (sem arroz)", desc: "Salmão, cream cheese e cebolinha", price: 49.9, available: true },
       { id: "p7", name: "Temaki da Casa", desc: "Arroz, salmão, cream cheese, gengibre, alho poró e pimenta japonesa", price: 46.9, available: true },
-      { id: "p8", name: "Hot Philadélfia (10 peças)", desc: "Salmão e cream cheese", price: 34.9, available: true },
-      { id: "p9", name: "Hot de Camarão (10 peças)", desc: "Camarão e cream cheese", price: 35.9, available: true },
+      { id: "p8", name: "Hot Philadelphia (10 peças)", desc: "Salmão e cream cheese", price: 34.9, available: true, image: "images/products/hot_philadelphia.png" },
+      { id: "p9", name: "Hot de Camarão (10 peças)", desc: "Camarão e cream cheese", price: 35.9, available: true, image: "images/products/hot_camarao.png" },
       { id: "p10", name: "Hot Especial (10 peças)", desc: "Salmão, camarão, cream cheese e cebolinha", price: 35.9, available: true },
       {
-        id: "p11", name: "Hossomaki (10 peças)", desc: "Cream cheese com salmão ou camarão (alga por fora)", price: 33.9, available: true,
+        id: "p11", name: "Hossomaki (10 peças)", desc: "Cream cheese com salmão ou camarão (alga por fora)", price: 33.9, available: true, image: "images/products/hossomaki.png",
         complements: [{ title: "Tipo", type: "radio", required: true, options: ["Salmão", "Camarão", "Kani", "Peixe Branco"] }]
       },
       {
-        id: "p12", name: "Uramaki (10 peças)", desc: "Cream cheese com salmão ou camarão (arroz por fora)", price: 33.9, available: true,
+        id: "p12", name: "Uramaki (10 peças)", desc: "Cream cheese com salmão ou camarão (arroz por fora)", price: 33.9, available: true, image: "images/products/uramaki.png",
         complements: [{ title: "Tipo", type: "radio", required: true, options: ["Salmão", "Camarão"] }]
       },
       { id: "p13", name: "Joy (8 unidades)", desc: "Arroz, cream cheese e salmão", price: 41.9, available: true, image: "images/products/joy_sushi.png" },
-      { id: "p14", name: "Philadélfia Maçaricado (8 peças)", desc: "Salmão, cream cheese, cebolinha e crispy de alho poró", price: 35.9, available: true },
-      { id: "p15", name: "Gunkan (8 unidades)", desc: "Camarão empanado, salmão maçaricado, cream cheese e molho especial", price: 47.9, available: true },
+      { id: "p14", name: "Philadelphia Maçaricado (8 peças)", desc: "Salmão, cream cheese, cebolinha e crispy de alho poró", price: 35.9, available: true, image: "images/products/philadelphia_macaricado.png" },
+      { id: "p15", name: "Gunkan (8 unidades)", desc: "Camarão empanado, salmão maçaricado, cream cheese e molho especial", price: 47.9, available: true, image: "images/products/gunkan_sushi.png" },
       {
         id: "p16", name: "Sashimi (10 peças)", desc: "Salmão ou Peixe branco", price: 37.9, available: true, image: "images/products/sashimi.png",
         complements: [{ title: "Tipo", type: "radio", required: true, options: ["Salmão", "Peixe Branco"] }]
       },
       { id: "p17", name: "Sashimi (20 peças)", desc: "Salmão ou Peixe branco", price: 69.9, available: false },
-      { id: "p18", name: "Combinado 16 peças", desc: "4 sashimis de salmão, 4 uramakis, 4 philadélfia, 4 califórnia", price: 55.9, available: true },
-      { id: "p19", name: "Combinado 24 peças", desc: "4 sashimis de salmão, 4 sashimis de peixe branco com limão, 4 shakimakis, 4 philadélfia, 4 califórnia, 4 joys com alho poró", price: 81.9, available: true },
-      { id: "p20", name: "Combinado 36 peças", desc: "4 sashimis de salmão, 4 sashimis de peixe branco, 3 niguiris de salmão, 3 niguiris de peixe branco, 6 philadélfia, 6 uramakis, 6 shakimakis, 4 hot philadélfia", price: 118.9, available: true, image: "images/products/combinado_36.png" },
-      { id: "p21", name: "Combinado 48 peças", desc: "8 sashimis salmão, 8 peixe branco, 6 niguiris salmão, 6 peixe branco, 4 uramakis, 4 shakimakis, 4 philadélfia, 4 hot, 4 joys", price: 153.9, available: false },
-      { id: "p22", name: "Combinado 60 Peças (somente sushi)", desc: "8 niguiris salmão, 6 peixe branco, 10 philadélfia, 10 uramakis, 10 shakimakis, 10 hot, 6 joys", price: 159.9, available: false, tag: "Não é possível a troca de peças" },
-      { id: "p23", name: "Combinado 72 peças", desc: "10 sashimis salmão, 8 peixe branco, 8 niguiris salmão, 6 peixe branco, 10 philadélfia, 10 uramakis, 10 shakimakis, 10 hot", price: 223.9, available: false },
-      { id: "p24", name: "Combinado 100 peças", desc: "18 sashimis salmão, 12 peixe branco, 8 niguiris salmão, 8 peixe branco, 10 uramakis, 10 shakimakis, 10 philadélfia, 10 hot, 5 joys alho poró, 5 joys couve, 4 joys camarão", price: 299.9, available: false },
+      { id: "p18", name: "Combinado 16 peças", desc: "4 sashimis de salmão, 4 uramakis, 4 philadelphia, 4 califórnia", price: 55.9, available: true, image: "images/products/combinado_16.png" },
+      { id: "p19", name: "Combinado 24 peças", desc: "4 sashimis de salmão, 4 sashimis de peixe branco com limão, 4 shakimakis, 4 philadelphia, 4 califórnia, 4 joys com alho poró", price: 81.9, available: true },
+      { id: "p20", name: "Combinado 36 peças", desc: "4 sashimis de salmão, 4 sashimis de peixe branco, 3 niguiris de salmão, 3 niguiris de peixe branco, 6 philadelphia, 6 uramakis, 6 shakimakis, 4 hot philadelphia", price: 118.9, available: true, image: "images/products/combinado_36.png" },
+      { id: "p21", name: "Combinado 48 peças", desc: "8 sashimis salmão, 8 peixe branco, 6 niguiris salmão, 6 peixe branco, 4 uramakis, 4 shakimakis, 4 philadelphia, 4 hot, 4 joys", price: 153.9, available: false },
+      { id: "p22", name: "Combinado 60 Peças (somente sushi)", desc: "8 niguiris salmão, 6 peixe branco, 10 philadelphia, 10 uramakis, 10 shakimakis, 10 hot, 6 joys", price: 159.9, available: false, tag: "Não é possível a troca de peças" },
+      { id: "p23", name: "Combinado 72 peças", desc: "10 sashimis salmão, 8 peixe branco, 8 niguiris salmão, 6 peixe branco, 10 philadelphia, 10 uramakis, 10 shakimakis, 10 hot", price: 223.9, available: false },
+      { id: "p24", name: "Combinado 100 peças", desc: "18 sashimis salmão, 12 peixe branco, 8 niguiris salmão, 8 peixe branco, 10 uramakis, 10 shakimakis, 10 philadelphia, 10 hot, 5 joys alho poró, 5 joys couve, 4 joys camarão", price: 299.9, available: false },
       {
         id: "p25", name: "Rolinho Primavera", desc: "Salmão, camarão, chocolate ou banana", price: 14.9, available: true, image: "images/products/rolinho_primavera.png",
         complements: [{ title: "Sabor", type: "radio", required: true, options: ["Salmão", "Camarão", "Chocolate", "Banana"] }]
@@ -76,7 +76,7 @@ let CATEGORIES = [
       { id: "p30", name: "Carpaccio de Salmão", desc: null, price: 44.9, available: true },
       { id: "p31", name: "Ceviche Fusion (Porção)", desc: "Salmão, peixe branco, camarão e chips de batata", price: 44.9, available: true },
       { id: "p32", name: "Ceviche de Salmão (Porção)", desc: "Acompanha chips de batata", price: 41.9, available: false },
-      { id: "p33", name: "Tataki de Salmão", desc: null, price: 34.9, available: true },
+      { id: "p33", name: "Tataki de Salmão", desc: null, price: 34.9, available: true, image: "images/products/tataki_salmao.png" },
     ],
     extras: [{ name: "Maionese", price: 0.10 }]
   },
