@@ -141,10 +141,10 @@ let CATEGORIES = [
     icon: "🍳",
     products: [
       { id: "o1", name: "Omelete Presunto e Muçarela", desc: null, price: 20.90, available: true, image: "images/products/omelete_presunto_queijo.png" },
-      { id: "o2", name: "Omelete Presunto, Muçarela e Azeitona", desc: null, price: 21.90, available: true },
+      { id: "o2", name: "Omelete Presunto, Muçarela e Azeitona", desc: null, price: 21.90, available: true, image: "images/products/omelete_presunto_queijo_azeitona.png" },
       { id: "o3", name: "Omelete Peito de Peru, Muçarela, Azeitona e Orégano", desc: null, price: 21.90, available: false },
       { id: "o4", name: "Omelete Queijo Coalho, Carne Seca e Orégano", desc: null, price: 21.90, available: true, image: "images/products/omelete_carne_seca_coalho.png" },
-      { id: "o5", name: "Omelete Muçarela, Tomate, Azeitona e Orégano", desc: null, price: 21.90, available: true },
+      { id: "o5", name: "Omelete Muçarela, Tomate, Azeitona e Orégano", desc: null, price: 21.90, available: true, image: "images/products/omelete_mucarela_tomate.png" },
       { id: "o6", name: "Omelete Calabresa, Bacon e Muçarela", desc: null, price: 21.90, available: true, image: "images/products/omelete_especial.png" },
     ],
     extras: [
@@ -159,7 +159,7 @@ let CATEGORIES = [
     products: [
       { id: "c1", name: "Cuscuz Manteiga", desc: null, price: 13.90, available: true, image: "images/products/cuscuz_manteiga.png" },
       { id: "c2", name: "Cuscuz Queijo Coalho com Ovo", desc: null, price: 19.90, available: true, image: "images/products/cuscuz_coalho_ovo.png" },
-      { id: "c3", name: "Cuscuz Muçarela", desc: null, price: 19.90, available: true },
+      { id: "c3", name: "Cuscuz Muçarela", desc: null, price: 19.90, available: true, image: "images/products/cuscuz_mucarela.png" },
       { id: "c4", name: "Cuscuz Muçarela com Ovo", desc: null, price: 19.90, available: true, image: "images/products/cuscuz_ovo.png" },
       { id: "c5", name: "Pamonha Sal", desc: null, price: 9.00, available: true, image: "images/products/pamonha.png" },
       { id: "c6", name: "Cuscuz Carne Seca com Muçarela", desc: null, price: 22.90, available: true, image: "images/products/cuscuz_carne_seca_mucarela.png" },
@@ -175,11 +175,11 @@ let CATEGORIES = [
     products: [
       { id: "pq1", name: "Panqueca Carne Moída", desc: null, price: 19.90, available: true, image: "images/products/panqueca_carne.png" },
       { id: "pq2", name: "Panqueca Presunto e Queijo", desc: null, price: 19.90, available: true, image: "images/products/panqueca_presunto_queijo.png" },
-      { id: "pq3", name: "Panqueca Presunto, Queijo, Tomate e Orégano", desc: null, price: 20.90, available: true },
+      { id: "pq3", name: "Panqueca Presunto, Queijo, Tomate e Orégano", desc: null, price: 20.90, available: true, image: "images/products/panqueca_presunto_queijo_tomate.png" },
       { id: "pq4", name: "Panqueca Frango e Muçarela", desc: null, price: 19.90, available: true, image: "images/products/panqueca_frango.png" },
-      { id: "pq5", name: "Panqueca Frango e Requeijão", desc: null, price: 19.90, available: true },
+      { id: "pq5", name: "Panqueca Frango e Requeijão", desc: null, price: 19.90, available: true, image: "images/products/panqueca_frango_requeijao.png" },
       { id: "pq6", name: "Panqueca Carne Seca e Muçarela", desc: null, price: 22.90, available: true, image: "images/products/panqueca_carne_seca.png" },
-      { id: "pq7", name: "Panqueca Carne Seca e Requeijão", desc: null, price: 22.90, available: true },
+      { id: "pq7", name: "Panqueca Carne Seca e Requeijão", desc: null, price: 22.90, available: true, image: "images/products/panqueca_carne_seca_requeijao.png" },
     ],
     extras: [
       { name: "Bacon", price: 3.00 }, { name: "Ketchup", price: 0.10 }, { name: "Maionese", price: 0.10 },
@@ -196,8 +196,8 @@ let CATEGORIES = [
       { id: "sd3", name: "Cheese Bacon Salada", desc: "Hambúrguer, Bacon, Queijo e Salada", price: 22.90, available: true, image: "images/products/cheese_bacon_salada.png" },
       { id: "sd4", name: "Cheese Tudo", desc: "Hambúrguer, Bacon, Queijo, Presunto, Ovo e Salada", price: 24.90, available: true, image: "images/products/cheese_tudo.png" },
       { id: "sd5", name: "Cheese Frango", desc: "Frango e Queijo", price: 19.90, available: true, image: "images/products/cheese_frango.png" },
-      { id: "sd6", name: "Cheese Frango Salada", desc: "Frango, Queijo, Bacon e Salada", price: 21.90, available: true },
-      { id: "sd7", name: "Cheese Frango Tudo", desc: "Frango, Bacon, Ovo, Presunto, Queijo e Salada", price: 23.90, available: true },
+      { id: "sd6", name: "Cheese Frango Salada", desc: "Frango, Queijo, Bacon e Salada", price: 21.90, available: true, image: "images/products/cheese_frango_salada.png" },
+      { id: "sd7", name: "Cheese Frango Tudo", desc: "Frango, Bacon, Ovo, Presunto, Queijo e Salada", price: 23.90, available: true, image: "images/products/cheese_frango_tudo.png" },
     ],
     extras: [
       { name: "Bacon", price: 3.00 }, { name: "Ketchup", price: 0.10 }, { name: "Maionese", price: 0.10 },
@@ -217,8 +217,8 @@ let CATEGORIES = [
       { id: "pm5", name: "Misto Tradicional", desc: "Presunto e queijo", price: 8.90, available: true, image: "images/products/misto_quente.png" },
       { id: "pm6", name: "Misto com Ovo", desc: "Presunto, queijo e ovo", price: 10.90, available: true, image: "images/products/misto_com_ovo.png" },
       { id: "pm7", name: "Misto Duplo", desc: "2 fatias de queijo e 2 fatias de presunto", price: 10.90, available: true, image: "images/products/misto_duplo.png" },
-      { id: "pm8", name: "Misto Integral", desc: "Peito de peru e queijo minas", price: 10.90, available: true },
-      { id: "pm9", name: "Misto Integral com Ovo", desc: "Peito de peru, queijo minas e ovo", price: 11.90, available: true },
+      { id: "pm8", name: "Misto Integral", desc: "Peito de peru e queijo minas", price: 10.90, available: true, image: "images/products/misto_integral.png" },
+      { id: "pm9", name: "Misto Integral com Ovo", desc: "Peito de peru, queijo minas e ovo", price: 11.90, available: true, image: "images/products/misto_integral_ovo.png" },
       {
         id: "pm10", name: "Queijo Quente", desc: "Muçarela ou queijo minas", price: 9.90, available: true, image: "images/products/queijo_quente.png",
         complements: [{ title: "Tipo", type: "radio", required: true, options: ["Muçarela", "Queijo Minas"] }]
@@ -247,7 +247,7 @@ let CATEGORIES = [
     icon: "🍫",
     products: [
       { id: "d1", name: "Brigadeiro", desc: null, price: 1.10, available: true, image: "images/products/brigadeiro.png" },
-      { id: "d2", name: "Bombom Grande", desc: null, price: 3.00, available: true },
+      { id: "d2", name: "Bombom Grande", desc: null, price: 3.00, available: true, image: "images/products/bombom_grande.png" },
       {
         id: "d3", name: "Fatia de Torta Doce (Trunch)", desc: null, price: 7.00, available: true, image: "images/products/torta_doce.png",
         complements: [{ title: "Sabores", type: "radio", required: true, options: ["Morango", "Ninho"] }]
