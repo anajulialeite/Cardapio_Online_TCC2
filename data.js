@@ -278,11 +278,11 @@ let CATEGORIES = [
     icon: "🧀",
     products: [
       { id: "pq1b", name: "Pão de Queijo (Embalagem com 100g)", desc: "aprox. 3 unidades", price: 3.40, available: true, image: "images/products/pao_de_queijo.png" },
-      { id: "pq2b", name: "Biscoito de Queijo (Embalagem com 100g)", desc: "aprox. 3 unidades", price: 3.40, available: true },
-      { id: "pq3b", name: "Peta de Polvilho Doce (Embalagem com 300g)", desc: null, price: 10.50, available: true },
-      { id: "pq4b", name: "Chipa (Embalagem com 250g)", desc: null, price: 9.50, available: true },
-      { id: "pq5b", name: "Pão de Queijo Congelado (Embalagem de 1kg)", desc: null, price: 23.90, available: true },
-      { id: "pq6b", name: "Biscoito de Queijo Congelado (Embalagem de 1kg)", desc: null, price: 25.90, available: true },
+      { id: "pq2b", name: "Biscoito de Queijo (Embalagem com 100g)", desc: "aprox. 3 unidades", price: 3.40, available: true, image: "images/products/biscoito_queijo.png" },
+      { id: "pq3b", name: "Peta de Polvilho Doce (Embalagem com 300g)", desc: null, price: 10.50, available: true, image: "images/products/peta_polvilho.png" },
+      { id: "pq4b", name: "Chipa (Embalagem com 250g)", desc: null, price: 9.50, available: true, image: "images/products/chipa.png" },
+      { id: "pq5b", name: "Pão de Queijo Congelado (Embalagem de 1kg)", desc: null, price: 23.90, available: true, image: "images/products/pao_queijo_congelado.png" },
+      { id: "pq6b", name: "Biscoito de Queijo Congelado (Embalagem de 1kg)", desc: null, price: 25.90, available: true, image: "images/products/biscoito_queijo_congelado.png" },
     ],
     extras: [{ name: "Maionese", price: 0.10 }]
   },
