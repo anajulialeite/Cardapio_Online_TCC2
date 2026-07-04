@@ -312,11 +312,11 @@ let CATEGORIES = [
       { id: "bb19", name: "Guaraná Antarctica 2L", desc: null, price: 11.90, available: false },
       { id: "bb20", name: "Red Bull 250 ml", desc: null, price: 12.90, available: true, image: "images/products/red_bull_250ml.png" },
       { id: "bb21", name: "Monster Energy 473ml", desc: null, price: 13.90, available: true, image: "images/products/monster_energy_473ml.png" },
-      { id: "bb22", name: "Agua Mineral com gás 500ml", desc: null, price: 3.50, available: true },
+      { id: "bb22", name: "Agua Mineral com gás 500ml", desc: null, price: 3.50, available: true, image: "images/products/agua_mineral_com_gas.png" },
       { id: "bb23", name: "Agua Mineral sem gás 500ml", desc: null, price: 3.00, available: true, image: "images/products/agua_mineral_sem_gas.png" },
       { id: "bb24", name: "Suco Natural de laranja 300ml", desc: null, price: 7.90, available: true, image: "images/products/suco_laranja.png" },
-      { id: "bb25", name: "Suco Natural de laranja 500ml", desc: null, price: 11.90, available: true },
-      { id: "bb26", name: "Suco Natural de laranja 1L", desc: null, price: 19.90, available: true },
+      { id: "bb25", name: "Suco Natural de laranja 500ml", desc: null, price: 11.90, available: true, image: "images/products/suco_laranja_500ml.png" },
+      { id: "bb26", name: "Suco Natural de laranja 1L", desc: null, price: 19.90, available: true, image: "images/products/suco_laranja_1l.png" },
       {
         id: "bb27", name: "Suco de Polpa (300ml)", desc: null, price: 7.90, available: false,
         complements: [{ title: "Sabores de Polpa", type: "radio", required: false, options: ["Graviola", "Morango", "Caju", "Acerola", "Goiaba", "Manga", "Maracujá", "Abacaxi", "Cajá"] }]
