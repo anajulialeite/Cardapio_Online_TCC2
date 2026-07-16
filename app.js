@@ -27,22 +27,8 @@ let searchQuery = '';
 // =============================================
 // INICIALIZAÇÃO
 // =============================================
-document.addEventListener('DOMContentLoaded', async () => {
-  // Tentar carregar cardápio dinâmico do servidor
-  try {
-    const response = await fetch(`${PIX_SERVER_URL}/menu`);
-    if (response.ok) {
-      const data = await response.json();
-      if (data.categories && data.pizzas) {
-        CATEGORIES = data.categories;
-        PIZZAS = data.pizzas;
-        console.log('Cardápio dinâmico carregado do servidor!');
-      }
-    }
-  } catch (error) {
-    console.warn('Não foi possível carregar o cardápio do servidor, usando fallback estático:', error);
-  }
-
+document.addEventListener('DOMContentLoaded', () => {
+  // Renderizar o cardápio imediatamente usando o fallback estático (local) do data.js
   renderStoreInfo();
   checkStoreStatus();
   renderCategoriesNav();
@@ -51,6 +37,34 @@ document.addEventListener('DOMContentLoaded', async () => {
   updateCartUI();
   createParticles();
   setupSearch();
+
+  // Carregar o cardápio dinâmico do servidor em segundo plano (SWR)
+  fetch(`${PIX_SERVER_URL}/menu`)
+    .then(response => {
+      if (response.ok) return response.json();
+    })
+    .then(data => {
+      if (data && data.categories && data.pizzas) {
+        // Comparar se os dados novos são diferentes dos dados locais atuais
+        const localDataStr = JSON.stringify({ categories: CATEGORIES, pizzas: PIZZAS });
+        const serverDataStr = JSON.stringify({ categories: data.categories, pizzas: data.pizzas });
+
+        if (localDataStr !== serverDataStr) {
+          CATEGORIES = data.categories;
+          PIZZAS = data.pizzas;
+          console.log('Cardápio dinâmico carregado do servidor e atualizado!');
+          
+          // Re-renderizar somente se houver diferenças
+          renderCategoriesNav();
+          renderAllProducts();
+        } else {
+          console.log('Cardápio dinâmico do servidor é idêntico ao local. Evitando re-renderização.');
+        }
+      }
+    })
+    .catch(error => {
+      console.warn('Não foi possível carregar o cardápio do servidor, mantendo dados locais:', error);
+    });
 });
 
 // Info do estabelecimento

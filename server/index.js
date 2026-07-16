@@ -323,77 +323,29 @@ app.get('/orders/pending', async (req, res) => {
   }
 });
 
-// GET /menu - Carrega o cardápio mesclando os dados do banco com o data.js do frontend
-app.get('/menu', async (req, res) => {
+let menuCache = null;
+
+// Helper para carregar e mesclar o cardápio (banco de dados + data.js)
+async function carregarMenu() {
+  const vm = require('vm');
+  const fs = require('fs');
+  const path = require('path');
+  const dataJsContent = fs.readFileSync(path.join(__dirname, '../data.js'), 'utf8');
+  const context = vm.createContext({});
+  const scriptToRun = dataJsContent + '\nglobalThis.CATEGORIES = CATEGORIES; globalThis.PIZZAS = PIZZAS;';
+  vm.runInContext(scriptToRun, context);
+  const { CATEGORIES, PIZZAS } = context;
+
+  let dbMenu;
   try {
-    // Ler data.js do frontend usando vm
-    const vm = require('vm');
-    const fs = require('fs');
-    const path = require('path');
-    const dataJsContent = fs.readFileSync(path.join(__dirname, '../data.js'), 'utf8');
-    const context = vm.createContext({});
-    const scriptToRun = dataJsContent + '\nglobalThis.CATEGORIES = CATEGORIES; globalThis.PIZZAS = PIZZAS;';
-    vm.runInContext(scriptToRun, context);
-    const { CATEGORIES, PIZZAS } = context;
+    dbMenu = await db.obterMenuCompleto();
+  } catch (dbErr) {
+    console.warn('Banco de dados indisponível no carregamento do menu. Usando fallback estático:', dbErr.message);
+    const fallback = getFallbackData();
 
-    let dbMenu;
-    try {
-      dbMenu = await db.obterMenuCompleto();
-    } catch (dbErr) {
-      console.warn('Banco de dados indisponível, servindo cardápio estático mesclado com cache em memória:', dbErr.message);
-      const fallback = getFallbackData();
-
-      const mergedCategories = CATEGORIES.map(cat => {
-        const mergedProducts = cat.products.map(prod => {
-          const dbProd = fallback.products.find(p => p.Id === prod.id);
-          if (dbProd) {
-            return {
-              ...prod,
-              name: dbProd.Nome,
-              desc: dbProd.Descricao,
-              price: Number(dbProd.Preco),
-              available: dbProd.Disponivel === true || dbProd.Disponivel === 1,
-              image: dbProd.ImagemUrl || prod.image,
-            };
-          }
-          return prod;
-        });
-        return {
-          ...cat,
-          products: mergedProducts
-        };
-      });
-
-      const mergedPizzas = {
-        ...PIZZAS,
-        flavors: PIZZAS.flavors.map(flavor => {
-          const dbPizza = fallback.pizzas.find(p => p.Nome === flavor.name);
-          if (dbPizza) {
-            return {
-              ...flavor,
-              desc: dbPizza.Descricao,
-              prices: {
-                brotinho: Number(dbPizza.PrecoBrotinho),
-                grande: Number(dbPizza.PrecoGrande),
-              },
-              available: dbPizza.Disponivel === true || dbPizza.Disponivel === 1,
-              image: dbPizza.ImagemUrl || flavor.image,
-            };
-          }
-          return flavor;
-        })
-      };
-
-      return res.json({
-        categories: mergedCategories,
-        pizzas: mergedPizzas
-      });
-    }
-
-    // Mesclar produtos normais do banco de dados
     const mergedCategories = CATEGORIES.map(cat => {
       const mergedProducts = cat.products.map(prod => {
-        const dbProd = dbMenu.produtos.find(p => p.Id === prod.id);
+        const dbProd = fallback.products.find(p => p.Id === prod.id);
         if (dbProd) {
           return {
             ...prod,
@@ -412,11 +364,10 @@ app.get('/menu', async (req, res) => {
       };
     });
 
-    // Mesclar sabores de pizza do banco de dados
     const mergedPizzas = {
       ...PIZZAS,
       flavors: PIZZAS.flavors.map(flavor => {
-        const dbPizza = dbMenu.pizzas.find(p => p.Nome === flavor.name);
+        const dbPizza = fallback.pizzas.find(p => p.Nome === flavor.name);
         if (dbPizza) {
           return {
             ...flavor,
@@ -433,12 +384,71 @@ app.get('/menu', async (req, res) => {
       })
     };
 
-    res.json({
+    return {
       categories: mergedCategories,
       pizzas: mergedPizzas
+    };
+  }
+
+  // Mesclar produtos normais do banco de dados
+  const mergedCategories = CATEGORIES.map(cat => {
+    const mergedProducts = cat.products.map(prod => {
+      const dbProd = dbMenu.produtos.find(p => p.Id === prod.id);
+      if (dbProd) {
+        return {
+          ...prod,
+          name: dbProd.Nome,
+          desc: dbProd.Descricao,
+          price: Number(dbProd.Preco),
+          available: dbProd.Disponivel === true || dbProd.Disponivel === 1,
+          image: dbProd.ImagemUrl || prod.image,
+        };
+      }
+      return prod;
     });
+    return {
+      ...cat,
+      products: mergedProducts
+    };
+  });
+
+  // Mesclar sabores de pizza do banco de dados
+  const mergedPizzas = {
+    ...PIZZAS,
+    flavors: PIZZAS.flavors.map(flavor => {
+      const dbPizza = dbMenu.pizzas.find(p => p.Nome === flavor.name);
+      if (dbPizza) {
+        return {
+          ...flavor,
+          desc: dbPizza.Descricao,
+          prices: {
+            brotinho: Number(dbPizza.PrecoBrotinho),
+            grande: Number(dbPizza.PrecoGrande),
+          },
+          available: dbPizza.Disponivel === true || dbPizza.Disponivel === 1,
+          image: dbPizza.ImagemUrl || flavor.image,
+        };
+      }
+      return flavor;
+    })
+  };
+
+  return {
+    categories: mergedCategories,
+    pizzas: mergedPizzas
+  };
+}
+
+// GET /menu - Retorna o cardápio mesclado a partir do cache na memória
+app.get('/menu', async (req, res) => {
+  try {
+    if (!menuCache) {
+      console.log('🔄 Menu cache miss, carregando do banco de dados...');
+      menuCache = await carregarMenu();
+    }
+    res.json(menuCache);
   } catch (error) {
-    console.warn('Erro ao carregar cardápio do banco, usando fallback local...');
+    console.warn('Erro ao carregar cardápio, usando fallback local...');
     res.status(500).json({ error: 'Erro ao carregar cardápio', details: error.message });
   }
 });
@@ -663,6 +673,13 @@ app.put('/admin/products/:id', authMiddleware, async (req, res) => {
         prod.ImagemUrl = imagemUrl || null;
       }
     }
+    // Recriar o cache de forma ativa
+    try {
+      menuCache = await carregarMenu();
+      console.log('🔄 Cache do cardápio recriado após edição de produto.');
+    } catch (cacheErr) {
+      console.error('Erro ao recriar cache do cardápio:', cacheErr);
+    }
     res.json({ id, message: 'Produto atualizado com sucesso' });
   } catch (error) {
     console.error('Erro ao atualizar produto (admin):', error);
@@ -713,6 +730,13 @@ app.put('/admin/pizzas/:name', authMiddleware, async (req, res) => {
         pizza.ImagemUrl = imagemUrl || null;
       }
     }
+    // Recriar o cache de forma ativa
+    try {
+      menuCache = await carregarMenu();
+      console.log('🔄 Cache do cardápio recriado após edição de pizza.');
+    } catch (cacheErr) {
+      console.error('Erro ao recriar cache do cardápio:', cacheErr);
+    }
     res.json({ name, message: 'Sabor de pizza atualizado com sucesso' });
   } catch (error) {
     console.error('Erro ao atualizar sabor de pizza (admin):', error);
@@ -727,7 +751,18 @@ app.listen(PORT, async () => {
   try {
     await db.getPool();
     iniciarFilaDeReenvio();
+    
+    // Aquecer o cache do cardápio na inicialização
+    console.log('🔥 Aquecendo cache do cardápio...');
+    menuCache = await carregarMenu();
+    console.log('🔥 Cache do cardápio aquecido com sucesso.');
   } catch (err) {
     console.log('Banco de dados não conectado. Pedidos via banco desabilitados.');
+    // Mesmo sem o banco, aquecer o cache usando fallback do data.js
+    try {
+      menuCache = await carregarMenu();
+    } catch (fallbackCacheErr) {
+      console.error('Erro ao aquecer cache com fallback:', fallbackCacheErr);
+    }
   }
 });
