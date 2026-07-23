@@ -1202,7 +1202,11 @@ async function sendWhatsAppOrder({ name, phone, deliveryType, address, bairro, t
   if (obs) msg += `\n${EMOJI.memo} *Obs:* ${obs}`;
 
   // 3. ABRIR WHATSAPP
-  const url = `https://wa.me/5561996773513?text=${encodeURIComponent(msg)}`;
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  const baseUrl = isMobile 
+    ? 'https://api.whatsapp.com/send' 
+    : 'https://web.whatsapp.com/send';
+  const url = `${baseUrl}?phone=5561996773513&text=${encodeURIComponent(msg)}`;
   window.open(url, '_blank');
 
   // 4. MARCAR COMO ENVIADO NO BANCO
