@@ -40,13 +40,13 @@ graph TD
 - **Controle de Horário de Funcionamento**: Status dinâmico da loja ("Aberto agora" ou "Fechado") com base em regras de horários configuradas.
 - **Integração com Mercado Pago (PIX)**: Geração de QR Code e código Copia e Cola via API oficial do Mercado Pago, com atualização automática do status de pagamento.
 - **Validação de Integridade de Transações (HMAC-SHA256)**: Assinatura de valores no backend para validação das requisições de pagamento, impedindo manipulações de preço no frontend.
-- **Fila de Reenvio de Pedidos**: Fila de tentativas gerenciada com `node-cron` que reprocessa envios pendentes em caso de falhas de comunicação.
+- **Monitoramento de Pedidos Pendentes**: rotina automatizada com node-cron que verifica pedidos pendentes, controla o número de tentativas e altera o status para erro quando o limite é atingido.
 - **Painel Administrativo**:
   - Autenticação protegida por tokens JWT.
   - Controle de pedidos pendentes, enviados e com erro.
   - Alteração de preços e controle de disponibilidade de produtos em tempo real.
   - Estatísticas operacionais (faturamento total e do dia).
-  - **Upload Estruturado de Imagens**: Gestão física de arquivos de imagens no servidor organizada por categorias (`uploads/products/` e `uploads/pizzas/`) com nomes gerados via timestamp/hash para evitar colisões e remoção automática de imagens antigas ao serem substituídas.
+  - **Upload de Imagens**: gerenciamento de imagens de produtos e sabores de pizza com Multer, armazenamento no diretório uploads/, geração de nomes únicos para evitar colisões e remoção da imagem anterior quando substituída.
 - **Banco de Dados SQL Server**: Armazenamento relacional estruturado com triggers para controle de data de atualização, persistência da coluna de imagens do cardápio (`ImagemUrl NVARCHAR(500) NULL`) nas tabelas de produtos e sabores, e índices otimizados para consultas de pedidos e produtos.
 
 ---
@@ -76,8 +76,8 @@ graph TD
 ## Diferenciais Técnicos
 
 - **Segurança da Transação**: Validação de integridade de preços via assinatura HMAC no servidor para mitigar vulnerabilidades de modificação do DOM/HTML.
-- **Performance de Carregamento (Otimização)**: Uso de imagens em formato `.webp` compactadas a menos de 150 KB associadas ao atributo `loading="lazy"` para manter a fluidez de carregamento rápido.
-- **Arquitetura Resiliente (Fallback Local)**: Sistema que carrega a versão estática e local do cardápio caso o banco de dados SQL Server esteja temporariamente indisponível (resiliência no frontend e backend).
+- **Otimização de Imagens**: uso de imagens em formato WebP e carregamento com loading="lazy" para reduzir o impacto das imagens no carregamento do cardápio.
+- **Fallback de Dados**: utilização dos dados estáticos de data.js para manter o cardápio disponível quando os dados dinâmicos da API ou do banco não puderem ser carregados.
 - **Autenticação Stateless**: Utilização de tokens JWT (JSON Web Tokens) com prazo de expiração para garantir segurança nas requisições administrativas.
 - **Consistência Relacional**: Banco de dados estruturado com chaves estrangeiras, triggers de atualização automática e chaves únicas para evitar duplicidade de cadastros.
 
@@ -182,10 +182,6 @@ Desenvolvedora responsável pela análise, modelagem, implementação, documenta
 
 <a href="https://www.linkedin.com/in/anajulialimaleite/" style="text-decoration:none" target="_blank" rel="noopener noreferrer">
     <img src="https://img.shields.io/badge/Linkedin-%231C003F?style=for-the-badge&logo=LinkedIn&logoColor=white" alt="LinkedIn"/>
-</a>
-
-<a href="https://www.instagram.com/ajcriaredesenvolver/" style="text-decoration:none" target="_blank" rel="noopener noreferrer">
-    <img src="https://img.shields.io/badge/Instagram-FF1493?style=for-the-badge&logo=instagram&logoColor=white" alt="Instagram"/>
 </a>
 
 ---
