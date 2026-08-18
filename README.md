@@ -6,185 +6,187 @@
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg" align="left" width="50" height="50"/>
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/express/express-original.svg" align="left" width="50" height="50"/>
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vscode/vscode-original.svg" align="left" width="50" height="50"/>
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/microsoftsqlserver/microsoftsqlserver-original.svg" align="left" width="50" height="50"/>
-<img src="Logo/Gemini_Generated_Image_49hozq49hozq49ho-removebg-preview.png" alt="Logo" align="left" width="50" height="50">
-<img src="Logo/AJ - Criar e desenvolver.png" alt="Logo" align="center" width="65" height="65">
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/microsoftsqlserver/microsoftsqlserver-original.svg" align="center" width="50" height="50"/>
 
-Sistema web de pedidos online desenvolvido como Trabalho de Conclusão de Curso (TCC II), voltado para restaurantes e lanchonetes.
+<br>
 
-A aplicação contempla gerenciamento de cardápio em tempo real, processamento de pagamentos PIX integrado ao Mercado Pago, painel administrativo protegido por autenticação JWT e persistência de dados em SQL Server.
+Projeto desenvolvido como Trabalho de Conclusão de Curso (TCC II) em Sistemas de Informação, com o objetivo de criar uma solução web para gerenciamento de cardápio e realização de pedidos online.
 
-O projeto evoluiu de uma proposta acadêmica para uma aplicação funcional, preparada para utilização comercial em pequenos restaurantes e lanchonetes.
+A aplicação possui cardápio responsivo, carrinho de compras, montagem de pizzas, busca de produtos, pagamento via PIX, painel administrativo e integração com banco de dados SQL Server.
 
-## Arquitetura do Sistema
+## Funcionalidades
 
-O fluxo de informações e a integração entre as diferentes partes da aplicação seguem o modelo abaixo:
-
-```mermaid
-graph TD
-    A[Frontend: HTML/CSS/JS] -->|Requisições HTTP & JWT| B[Backend API: Node.js + Express]
-    B -->|Persistência de Dados| C[(Banco de Dados: SQL Server)]
-    B -->|Geração e Validação de PIX| D[Integração: Mercado Pago]
-    A -->|Redirecionamento com Dados do Pedido| E[Notificação: WhatsApp]
-```
-
----
-
-## Principais Funcionalidades
-
-- **Cardápio Digital Interativo**: Interface responsiva para desktop e dispositivos móveis, com suporte a modo claro e modo escuro.
-- **Carrinho de Compras**: Suporte para seleção de complementos (obrigatórios e opcionais) e adicionais de produtos com cálculo dinâmico de valores.
-- **Montagem de Pizzas Fracionadas**: Interface modal para escolha de sabores fracionados, tamanhos e bordas.
-- **Imagens Opcionais nos Produtos**: Suporte a fotos de pratos e sabores de pizza em formato WebP altamente otimizado, exibidas nos cards (`96x96px` / `80x80px`), no topo do modal de detalhes, e como miniaturas (`50x50px`) no modal de montagem de pizza.
-- **Busca em Tempo Real**: Filtro instantâneo de itens do cardápio por digitação.
-- **Controle de Horário de Funcionamento**: Status dinâmico da loja ("Aberto agora" ou "Fechado") com base em regras de horários configuradas.
-- **Integração com Mercado Pago (PIX)**: Geração de QR Code e código Copia e Cola via API oficial do Mercado Pago, com atualização automática do status de pagamento.
-- **Validação de Integridade de Transações (HMAC-SHA256)**: Assinatura de valores no backend para validação das requisições de pagamento, impedindo manipulações de preço no frontend.
-- **Monitoramento de Pedidos Pendentes**: rotina automatizada com node-cron que verifica pedidos pendentes, controla o número de tentativas e altera o status para erro quando o limite é atingido.
-- **Painel Administrativo**:
-  - Autenticação protegida por tokens JWT.
-  - Controle de pedidos pendentes, enviados e com erro.
-  - Alteração de preços e controle de disponibilidade de produtos em tempo real.
-  - Estatísticas operacionais (faturamento total e do dia).
-  - **Upload de Imagens**: gerenciamento de imagens de produtos e sabores de pizza com Multer, armazenamento no diretório uploads/, geração de nomes únicos para evitar colisões e remoção da imagem anterior quando substituída.
-- **Banco de Dados SQL Server**: Armazenamento relacional estruturado com triggers para controle de data de atualização, persistência da coluna de imagens do cardápio (`ImagemUrl NVARCHAR(500) NULL`) nas tabelas de produtos e sabores, e índices otimizados para consultas de pedidos e produtos.
-
----
+- Cardápio digital responsivo para desktop e dispositivos móveis
+- Modo claro e escuro
+- Busca de produtos em tempo real
+- Carrinho de compras com cálculo automático dos valores
+- Seleção de complementos obrigatórios, opcionais e adicionais
+- Montagem de pizzas com escolha de sabores, tamanhos e bordas
+- Exibição de imagens dos produtos e sabores de pizza
+- Controle do horário de funcionamento da loja
+- Geração de pagamento PIX com QR Code e código Copia e Cola via Mercado Pago
+- Atualização do status do pagamento
+- Validação de integridade dos valores utilizando HMAC-SHA256
+- Painel administrativo protegido por autenticação JWT
+- Gerenciamento de pedidos pelo painel administrativo
+- Alteração de preços e disponibilidade dos produtos
+- Exibição de informações de faturamento
+- Upload e gerenciamento de imagens de produtos e sabores de pizza
+- Monitoramento automático de pedidos pendentes com controle de tentativas
+- Fallback de dados utilizando o arquivo `data.js` caso os dados dinâmicos não possam ser carregados
 
 ## Tecnologias Utilizadas
 
-### Frontend
+### Front-end
 
-* HTML5
-* CSS3
-* JavaScript
+- HTML5
+- CSS3
+- JavaScript
 
-### Backend
+### Back-end
 
-* Node.js
-* Express.js
+- Node.js
+- Express.js
 
 ### Banco de Dados
 
-* Microsoft SQL Server
+- Microsoft SQL Server
 
-### Integrações e Serviços
+### Integrações e Segurança
 
-* Mercado Pago
-* WhatsApp
+- Mercado Pago
+- WhatsApp
+- JWT
+- HMAC-SHA256
+- Multer
+- node-cron
 
-## Diferenciais Técnicos
+## Banco de Dados
 
-- **Segurança da Transação**: Validação de integridade de preços via assinatura HMAC no servidor para mitigar vulnerabilidades de modificação do DOM/HTML.
-- **Otimização de Imagens**: uso de imagens em formato WebP e carregamento com loading="lazy" para reduzir o impacto das imagens no carregamento do cardápio.
-- **Fallback de Dados**: utilização dos dados estáticos de data.js para manter o cardápio disponível quando os dados dinâmicos da API ou do banco não puderem ser carregados.
-- **Autenticação Stateless**: Utilização de tokens JWT (JSON Web Tokens) com prazo de expiração para garantir segurança nas requisições administrativas.
-- **Consistência Relacional**: Banco de dados estruturado com chaves estrangeiras, triggers de atualização automática e chaves únicas para evitar duplicidade de cadastros.
+O projeto utiliza SQL Server para armazenamento dos dados do cardápio e dos pedidos.
 
----
+O banco possui relacionamentos entre as tabelas, chaves estrangeiras, restrições para evitar registros duplicados, triggers para atualização automática das datas e índices para otimização das consultas.
 
 ## Estrutura do Projeto
 
-O repositório está organizado de forma simples, com o frontend na raiz e o backend em uma pasta dedicada:
+O frontend está localizado na raiz do projeto e o backend na pasta `server`.
 
-- **Raiz do projeto (Frontend)**:
-  - `index.html` / `app.js` / `style.css` - Página principal do cardápio digital do cliente.
-  - `admin.html` / `admin.js` / `admin.css` - Painel administrativo.
-  - `data.js` - Arquivo contendo as informações básicas da loja e do cardápio local (fallback).
-  - `images/products/` - Diretório contendo os arquivos de imagem de comida no formato `.webp`.
-- **`/server` (Backend Node.js & Express)**:
-  - `index.js` - Ponto de entrada do servidor Express e rotas da API.
-  - `db.js` - Conexão e queries utilizando o driver nativo (`msnodesqlv8`) ou `tedious` para o SQL Server.
-  - `auth.js` - Middleware de validação do token JWT para rotas protegidas.
-  - `token.js` - Geração e validação de tokens de segurança baseados em HMAC-SHA256.
-  - `queue.js` - Fila de reenvio de pedidos utilizando `node-cron`.
-  - `seed-db.js` - Script para criação das tabelas e importação inicial de dados diretamente do cardápio estático do frontend.
-  - `database.sql` - Arquivo de definição do esquema (schema) do banco de dados SQL Server.
-  - `package.json` - Gerenciamento de dependências de bibliotecas de terceiros.
+```text
+Raiz do projeto
+│
+├── index.html
+├── app.js
+├── style.css
+├── admin.html
+├── admin.js
+├── admin.css
+├── data.js
+│
+└── server/
+    ├── index.js
+    ├── db.js
+    ├── auth.js
+    ├── token.js
+    ├── queue.js
+    ├── seed-db.js
+    ├── database.sql
+    └── package.json
+```
 
----
+- `index.html`, `app.js` e `style.css`: interface principal do cardápio.
+- `admin.html`, `admin.js` e `admin.css`: painel administrativo.
+- `data.js`: dados utilizados como fallback.
+- `server/index.js`: servidor Express e rotas da API.
+- `server/db.js`: conexão e consultas ao SQL Server.
+- `server/auth.js`: validação da autenticação JWT.
+- `server/token.js`: geração e validação das assinaturas HMAC-SHA256.
+- `server/queue.js`: monitoramento dos pedidos pendentes.
+- `server/seed-db.js`: criação e inserção inicial dos dados.
+- `server/database.sql`: estrutura do banco de dados.
 
-## Como Executar o Projeto
+## Como Executar
 
-### 1. Requisitos Prévios
-- Node.js instalado na máquina.
-- Microsoft SQL Server em execução (localmente ou na nuvem).
+### Pré-requisitos
 
-### 2. Configurando o Banco de Dados
-1. Crie um banco de dados chamado `CardapioOnline` no seu SQL Server.
+- Node.js
+- Microsoft SQL Server
 
-### 3. Configurando o Servidor Backend
-1. Acesse o diretório `/server` e crie um arquivo chamado `.env` baseado nas seguintes variáveis:
-   ```env
-   ACCESS_TOKEN=seu_access_token_do_mercado_pago
-   PORT=3001
-   DB_SERVER=localhost\SQLEXPRESS
-   DB_DATABASE=CardapioOnline
-   DB_USER=seu_usuario_sql
-   DB_PASSWORD=sua_senha_sql
-   TOKEN_SECRET=chave_secreta_para_hmac
-   JWT_SECRET=chave_secreta_para_jwt
-   ```
-2. Instale as dependências do projeto:
-   ```bash
-   cd server
-   npm install
-   ```
-3. Inicialize as tabelas e insira os produtos iniciais a partir do arquivo `data.js` do frontend:
-   ```bash
-   node seed-db.js
-   ```
-   > Dica: Se quiser limpar tabelas antigas antes de semear, execute:
-   >
-   > `node seed-db.js --clean`
-   
-4. Inicie o servidor local Express:
-   ```bash
-   npm start
-   ```
+Clone este repositório:
 
-### 4. Executando o Frontend
-- Como o frontend é composto por arquivos estáticos (`HTML`/`CSS`/`JS`), basta abrir o arquivo `index.html` diretamente em seu navegador (ou utilizando uma extensão como o *Live Server* no VS Code).
-- O frontend identificará automaticamente se está rodando localmente (conectando ao servidor local na porta `3001`) ou se deve se comunicar com a API em produção hospedada na nuvem.
+```bash
+git clone https://github.com/anajulialeite/Cardapio_Online_TCC_II.git
+```
 
----
+Acesse a pasta do servidor:
 
-## Observação sobre Dados e LGPD
+```bash
+cd Cardapio_Online_TCC_II/server
+```
 
-Em conformidade com a Lei Geral de Proteção de Dados (LGPD – Lei nº 13.709/2018), todos os dados informados pelos usuários durante a finalização do pedido destinam-se exclusivamente à demonstração do funcionamento da plataforma. Não há compartilhamento com terceiros e os dados do cliente podem ser salvos localmente via `localStorage` de forma segura, sob a opção explícita do próprio usuário.
+Instale as dependências:
 
----
+```bash
+npm install
+```
+
+Crie um arquivo `.env` dentro da pasta `server` e configure as variáveis necessárias:
+
+```env
+ACCESS_TOKEN=seu_access_token_do_mercado_pago
+PORT=3001
+DB_SERVER=localhost\SQLEXPRESS
+DB_DATABASE=CardapioOnline
+DB_USER=seu_usuario_sql
+DB_PASSWORD=sua_senha_sql
+TOKEN_SECRET=sua_chave_hmac
+JWT_SECRET=sua_chave_jwt
+```
+
+Crie no SQL Server um banco chamado:
+
+```text
+CardapioOnline
+```
+
+Para criar as tabelas e inserir os dados iniciais:
+
+```bash
+node seed-db.js
+```
+
+Para iniciar o servidor:
+
+```bash
+npm start
+```
+
+O frontend pode ser executado abrindo o arquivo `index.html` no navegador ou utilizando uma extensão como Live Server.
 
 ## Demonstração
 
-Abaixo estão algumas capturas de tela das principais funcionalidades do sistema.
+### Página Inicial
 
-### Página Inicial (Cardápio Digital)
-
-<img src="Logo/Index.png" alt="Index" align="center" width="800" height="800">
+<img src="Logo/Index.png" alt="Página inicial do Cardápio Online" align="center" width="800">
 
 ### Carrinho de Compras
-<img src="Logo/Carrinho de compras.png" alt="Index" align="center" width="300" height="400">
 
-### Checkout PIX (QR Code & Timer)
-<img src="Logo/pix.png" alt="Index" align="center" width="250" height="300">
+<img src="Logo/Carrinho de compras.png" alt="Carrinho de compras" align="center" width="500">
+
+### Pagamento PIX
+
+<img src="Logo/pix.png" alt="Pagamento PIX" align="center" width="400">
 
 ### Painel Administrativo
-<img src="Logo/Painel Administrativo.png" alt="Index" align="center" width="800" height="800">
 
----
+<img src="Logo/Painel Administrativo.png" alt="Painel administrativo" align="center" width="800">
 
 ## Autora
 
-**Ana Júlia de Lima Aguiar Leite**
-
-Desenvolvedora responsável pela análise, modelagem, implementação, documentação e testes do projeto Cardápio Online.
+Ana Júlia de Lima Aguiar Leite
 
 <a href="https://www.linkedin.com/in/anajulialimaleite/" style="text-decoration:none" target="_blank" rel="noopener noreferrer">
     <img src="https://img.shields.io/badge/Linkedin-%231C003F?style=for-the-badge&logo=LinkedIn&logoColor=white" alt="LinkedIn"/>
 </a>
-
----
 
 ## Licença
 
