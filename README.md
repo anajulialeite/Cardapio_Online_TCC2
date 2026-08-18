@@ -161,7 +161,7 @@ Abaixo estão algumas capturas de tela das principais funcionalidades do sistema
 
 ### Página Inicial (Cardápio Digital)
 
-<img src="Logo/Index.png" alt="Index" align="center" width="300" height="300">
+<img src="Logo/Index.png" alt="Index" align="center" width="800" height="800">
 
 ### Carrinho de Compras
 <img src="Logo/Carrinho de compras.png" alt="Index" align="center" width="300" height="400">
@@ -170,7 +170,7 @@ Abaixo estão algumas capturas de tela das principais funcionalidades do sistema
 <img src="Logo/pix.png" alt="Index" align="center" width="250" height="300">
 
 ### Painel Administrativo
-<img src="Logo/Painel Administrativo.png" alt="Index" align="center" width="400" height="400">
+<img src="Logo/Painel Administrativo.png" alt="Index" align="center" width="800" height="800">
 
 ---
 
