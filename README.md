@@ -180,6 +180,10 @@ O frontend pode ser executado abrindo o arquivo `index.html` no navegador ou uti
 
 <img src="Logo/Painel Administrativo.png" alt="Painel administrativo" align="center" width="800">
 
+## Documentação e Testes
+
+[![Relatório de Testes](https://img.shields.io/badge/Documentação-Relatório%20de%20Testes-%231C003F?style=for-the-badge)](./RELAT%C3%93RIOS%20DE%20TESTES%20E%20HOMOLOGA%C3%87%C3%83O%20-%20TCC%20II.pdf)
+
 ## Autora
 
 Ana Júlia de Lima Aguiar Leite
