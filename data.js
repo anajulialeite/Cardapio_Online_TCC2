@@ -99,13 +99,19 @@ let CATEGORIES = [
       {
         id: "m1", name: "Massa 8 Ingredientes", desc: "Escolha a massa, acompanhamentos e molho", price: 33.9, available: true, image: "images/products/massa.webp",
         complements: [
-          { title: "Tipo", type: "radio", required: true, options: ["Penne", "Talharim", "Spaguetti"] },
-          { title: "Acompanhamentos", type: "checkbox", required: true, min: 1, max: 8, options: ["Frango", "Carne Moída", "Bacon", "Calabresa", "Milho", "Presunto", "Muçarela", "Ervilha", "Parmesão", "Tomate", "Alho Frito", "Azeitona", "Cebola", "Ovo de Codorna"] },
-          { title: "Molho", type: "radio", required: true, options: ["Branco", "Vermelho", "1/2 Branco e 1/2 Vermelho"] }
+          { title: "Tipo", type: "radio", required: true, options: ["Penne", "Talharim", "Spaguetti", "Linguine"] },
+          { title: "Acompanhamentos", type: "checkbox", required: true, min: 1, max: 8, options: ["Frango", "Carne Moída", "Bacon", "Calabresa", "Milho", "Presunto", "Muçarela", "Ervilha", "Parmesão", "Tomate", "Alho Frito", "Azeitona", "Cebola", "Ovo de Codorna", "Champignon"] },
+          { title: "Molho", type: "radio", required: true, options: ["Branco", "Vermelho", "1/2 Branco e 1/2 Vermelho", "Molho de Ervas com Vinho Branco"] }
         ]
       },
     ],
-    extras: [{ name: "Maionese", price: 0.10 }, { name: "Queijo", price: 3.00 }]
+    extras: [
+      { name: "Alho Frito", price: 3.00 }, { name: "Azeitona", price: 3.00 }, { name: "Bacon", price: 3.00 },
+      { name: "Calabresa", price: 3.00 }, { name: "Carne Moída", price: 3.00 }, { name: "Cebola", price: 3.00 },
+      { name: "Champignon", price: 3.00 }, { name: "Ervilha", price: 3.00 }, { name: "Frango", price: 3.00 },
+      { name: "Milho", price: 3.00 }, { name: "Muçarela", price: 3.00 }, { name: "Ovo de Codorna", price: 3.00 },
+      { name: "Parmesão", price: 3.00 }, { name: "Presunto", price: 3.00 }, { name: "Tomate", price: 3.00 }
+    ]
   },
   {
     id: "salgados",
