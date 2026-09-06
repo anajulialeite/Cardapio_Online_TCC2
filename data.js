@@ -103,7 +103,7 @@ let CATEGORIES = [
           { title: "Acompanhamentos", type: "checkbox", required: true, min: 1, max: 8, options: ["Frango", "Carne Moída", "Bacon", "Calabresa", "Milho", "Presunto", "Muçarela", "Ervilha", "Parmesão", "Tomate", "Alho Frito", "Azeitona", "Cebola", "Ovo de Codorna", "Champignon"] },
           { title: "Molho", type: "radio", required: true, options: ["Branco", "Vermelho", "1/2 Branco e 1/2 Vermelho", "Molho de Ervas com Vinho Branco"] },
           { title: "Condimentos", type: "checkbox", required: false, options: ["Pimenta calabresa", "Pimenta preta", "Lemon Pepper", "Sal", "Coentro", "Cebolinha", "Salsinha"] },
-          { title: "Óleo", type: "checkbox", required: false, options: ["Azeite", "Manteiga"] }
+          { title: "Óleo", type: "radio", required: true, options: ["Azeite", "Manteiga"] }
         ]
       },
     ],
