@@ -261,7 +261,7 @@ let CATEGORIES = [
       { id: "d2", name: "Bombom Grande", desc: null, price: 3.00, available: true, image: "images/products/bombom_grande.webp" },
       {
         id: "d3", name: "Fatia de Torta Doce (Trunch)", desc: null, price: 7.00, available: true, image: "images/products/torta_doce.webp",
-        complements: [{ title: "Sabores", type: "radio", required: true, options: ["Morango", "Ninho"] }]
+        complements: [{ title: "Sabores", type: "radio", required: true, options: ["Morango", "Ninho", "Limão", "Chocolate", "Abacaxi", "Beijinho de Coco", "Chocolate Branco", "Prestígio"] }]
       },
     ],
     extras: []
