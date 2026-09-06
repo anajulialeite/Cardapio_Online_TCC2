@@ -112,7 +112,8 @@ let CATEGORIES = [
       { name: "Calabresa", price: 3.00 }, { name: "Carne Moída", price: 3.00 }, { name: "Cebola", price: 3.00 },
       { name: "Champignon", price: 3.00 }, { name: "Ervilha", price: 3.00 }, { name: "Frango", price: 3.00 },
       { name: "Milho", price: 3.00 }, { name: "Muçarela", price: 3.00 }, { name: "Ovo de Codorna", price: 3.00 },
-      { name: "Parmesão", price: 3.00 }, { name: "Presunto", price: 3.00 }, { name: "Tomate", price: 3.00 }
+      { name: "Parmesão", price: 3.00 }, { name: "Presunto", price: 3.00 }, { name: "Tomate", price: 3.00 },
+      { name: "Torrada (separado)", price: 3.00 }
     ]
   },
   {
