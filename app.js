@@ -408,12 +408,13 @@ function openProductModal(productId, categoryId) {
   }
 
   // Extras
-  if (category.extras && category.extras.length > 0) {
+  const productExtras = product.extras !== undefined ? product.extras : category.extras;
+  if (productExtras && productExtras.length > 0) {
     const extrasDiv = document.createElement('div');
     extrasDiv.className = 'extras-section';
     extrasDiv.innerHTML = `
       <h3 class="extras-section__title">Adicionais</h3>
-      ${category.extras.map((ext, ei) => `
+      ${productExtras.map((ext, ei) => `
         <label class="complement-option">
           <input type="checkbox" name="extra" value="${ext.name}" data-price="${ext.price}">
           <span class="complement-option__label">${ext.name}</span>

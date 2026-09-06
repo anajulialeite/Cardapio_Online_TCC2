@@ -89,7 +89,7 @@ let CATEGORIES = [
       { id: "p32", name: "Ceviche de Salmão (Porção)", desc: "Acompanha chips de batata", price: 41.9, available: false },
       { id: "p33", name: "Tataki de Salmão", desc: null, price: 34.9, available: true, image: "images/products/tataki_salmao.webp" },
     ],
-    extras: [{ name: "Maionese", price: 0.10 }]
+    extras: [{ name: "Molho Teriyaki", price: 2.00 }, { name: "Molho Shoyu", price: 1.00 }]
   },
   {
     id: "massas",
@@ -137,7 +137,7 @@ let CATEGORIES = [
       { id: "t8", name: "Tapioca Presunto, Queijo, Tomate e Orégano", desc: null, price: 21.90, available: true, image: "images/products/tapioca_presunto_queijo_tomate.webp" },
       { id: "t9", name: "Tapioca Carne Seca e Muçarela", desc: null, price: 21.90, available: true, image: "images/products/tapioca_carne_seca.webp" },
       { id: "t10", name: "Tapioca Carne Seca e Requeijão", desc: null, price: 21.90, available: true, image: "images/products/tapioca_carne_seca_requeijao.webp" },
-      { id: "t11", name: "Tapioca Banana, Muçarela, Açúcar e Canela", desc: null, price: 20.90, available: true, image: "images/products/tapioca_banana_canela.webp" },
+      { id: "t11", name: "Tapioca Banana, Muçarela, Açúcar e Canela", desc: null, price: 20.90, available: true, image: "images/products/tapioca_banana_canela.webp", extras: [{ name: "Banana", price: 3.00 }, { name: "Queijo", price: 3.00 }] },
       { id: "t12", name: "Tapioca com carne de panela", desc: null, price: 21.90, available: true, tag: "Novidade", image: "images/products/tapioca_carne_panela.webp" },
     ],
     extras: [
@@ -250,7 +250,7 @@ let CATEGORIES = [
       { id: "b4", name: "Bolo Mesclado und.", desc: null, price: 14.00, available: false },
       { id: "b5", name: "Bolo de Limão c/ Cobertura und.", desc: null, price: 18.00, available: true, image: "images/products/bolo_limao.webp" },
     ],
-    extras: [{ name: "Maionese", price: 0.10 }]
+    extras: []
   },
   {
     id: "docinhos",
@@ -264,7 +264,7 @@ let CATEGORIES = [
         complements: [{ title: "Sabores", type: "radio", required: true, options: ["Morango", "Ninho"] }]
       },
     ],
-    extras: [{ name: "Maionese", price: 0.10 }]
+    extras: []
   },
   {
     id: "pao-frances",
@@ -295,7 +295,7 @@ let CATEGORIES = [
       { id: "pq5b", name: "Pão de Queijo Congelado (Embalagem de 1kg)", desc: null, price: 23.90, available: true, image: "images/products/pao_queijo_congelado.webp" },
       { id: "pq6b", name: "Biscoito de Queijo Congelado (Embalagem de 1kg)", desc: null, price: 25.90, available: true, image: "images/products/biscoito_queijo_congelado.webp" },
     ],
-    extras: [{ name: "Maionese", price: 0.10 }]
+    extras: []
   },
   {
     id: "bebidas",
